@@ -1,0 +1,9 @@
+# Extensions installed through pi rather than vendored in extensions/.
+# Replay on a new machine:  xargs -a extensions.txt -r -L1 pi install
+#
+# One spec per line, in the form pi install accepts:
+#   npm:some-extension
+#   git:https://github.com/user/repo
+#
+# Lines starting with # are ignored by the xargs line above only if you strip
+# them first; simplest is to keep this file to real specs and notes in the header.
