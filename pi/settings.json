@@ -1,4 +1,9 @@
 {
+  "lastChangelogVersion": "0.82.1",
+  "theme": "light",
+  "defaultProvider": "openrouter",
+  "defaultModel": "deepseek/deepseek-v4-flash",
+  "defaultThinkingLevel": "high",
   "packages": [
     "npm:@bacnh85/pi-fff",
     "npm:@jqwn/pi-ask-user-question",
