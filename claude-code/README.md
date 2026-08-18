@@ -20,6 +20,29 @@ resolves against the file containing it, which is a symlink into this repo — s
 a relative path would be ambiguous. Note that importing does not save context:
 imported files load at launch regardless.
 
+## Attribution
+
+`attribution.pr` is blanked so Claude Code stops appending a "Generated with
+Claude Code" footer to pull request bodies.
+
+`attribution.commit` is deliberately left unset. It governs the
+`Co-Authored-By: Claude` trailer, which the git convention in `CLAUDE.md`
+*wants* on commits — blanking it would remove the credit line, not just the
+marketing one. Set `"commit": ""` only if you change that convention.
+
+The older `includeCoAuthoredBy` setting is deprecated in favour of this one, and
+the two conflict if both are set. Use `attribution` alone.
+
+Two caveats worth knowing:
+
+- The setting needs Claude Code v2.0.62 or later, and there is an open report
+  (anthropics/claude-code#18253) of it not being honoured in some versions. If a
+  footer still appears, that is the bug, not a misconfiguration.
+- It governs Claude Code the CLI. Pull requests opened from a Claude Code *web
+  or remote* session go through a server-side GitHub integration that appends
+  its own footer, which a repo-level setting does not reach. For those, the
+  reliable answer is to have the agent push the branch and open the PR yourself.
+
 ## settings.json vs settings.local.json
 
 Claude Code writes machine-local permission grants into `settings.local.json`.
