@@ -21,7 +21,7 @@ revision.
 
 | Skill | Status | Upstream | Pinned | Checked | License |
 |---|---|---|---|---|---|
-| `unslop` | vendored (trimmed) | [MohamedAbdallah-14/unslop](https://github.com/MohamedAbdallah-14/unslop) `skills/unslop/SKILL.md` | `5af59d9` | 2026-05-05 | MIT |
+| `unslop` | reference | [MohamedAbdallah-14/unslop](https://github.com/MohamedAbdallah-14/unslop) `skills/unslop/SKILL.md` | grabbed on demand | — | MIT |
 | `research-paper-writing` | adapted port | [NousResearch/hermes-agent](https://github.com/NousResearch/hermes-agent) `skills/research/research-paper-writing/` | `5598215` (v1.1.0) | 2026-08-08 | MIT |
 | `deslop` | adapted | [rohitg00/pro-workflow](https://github.com/rohitg00/pro-workflow) `deslop`; [tmdgusya/engineering-discipline](https://github.com/tmdgusya/engineering-discipline) `clean-ai-slop` | `7f7209d`, `137dead` | 2026-07-18, 2026-07-03 | none declared |
 | `ponytail` | reference | npm [`@dietrichgebert/ponytail`](https://www.npmjs.com/package/@dietrichgebert/ponytail) (GitHub: [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail)) | `4.9.0` | — | MIT |
@@ -35,19 +35,13 @@ Claude Code.
 
 ## unslop
 
-Humanize-LLM-output skill. Vendored as
-`shared/skills/unslop/SKILL.md` (single file, like `deslop`), with references
-to the upstream project's own CLI and hooks trimmed.
+Humanize-LLM-output skill. **Not vendored** — grabbed on demand from upstream,
+which is a single file needing no adaptation:
 
 ```sh
-# Check for updates
-git ls-remote https://github.com/MohamedAbdallah-14/unslop HEAD
-# Compare against pinned 5af59d9. New commit? Then:
-
-# Refresh
-curl -sL "https://raw.githubusercontent.com/MohamedAbdallah-14/unslop/<sha>/skills/unslop/SKILL.md" -o /tmp/unslop-new.md
-diff shared/skills/unslop/SKILL.md /tmp/unslop-new.md
-# re-apply the trims, update the pinned SHA in the footer, commit
+# Claude Code (any machine, when wanted)
+npx skills add MohamedAbdallah-14/unslop -g -a claude-code
+# or manual: clone https://github.com/MohamedAbdallah-14/unslop and copy skills/unslop/
 ```
 
 ## research-paper-writing
