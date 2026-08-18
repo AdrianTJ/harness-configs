@@ -3,6 +3,7 @@
 .credentials.json
 auth.json
 credentials.json
+models.json
 *.local.json
 settings.local.json
 session.json

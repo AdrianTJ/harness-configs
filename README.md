@@ -66,7 +66,7 @@ a `shared/` folder worth having:
 | Instructions file | `AGENTS.md` | `CLAUDE.md` | `AGENTS.md` | `AGENTS.md` |
 | Skills (`SKILL.md`) | ✓ | ✓ | — | — |
 | Prompt templates | `prompts/` | `commands/` | `prompts/` | `command/` |
-| Extensions | `extensions/` | plugins | — | `plugin/` |
+| Extensions | `extensions/` + `packages[]` | plugins | — | `plugin/` |
 | Subagents | via extension | `agents/` | — | `agent/` |
 
 So: **instructions** are one file linked five ways, **skills** are shared
@@ -83,7 +83,7 @@ directory itself, which is what lets `shared/skills/` and `pi/skills/` both feed
 Every harness keeps credentials and state next to its config. None of it is
 linked or committed:
 
-- pi: `sessions/`, `trust.json`, `git/`, `npm/`
+- pi: `sessions/`, `trust.json`, `auth.json`, `models.json`, `git/`, `npm/`
 - Claude Code: `.credentials.json`, `history.jsonl`, `projects/`, `settings.local.json`
 - codex: `auth.json`, `sessions/`
 - herdr: `session.json`, `herdr.log`, `plugins/`, and `~/.herdr/worktrees/`
