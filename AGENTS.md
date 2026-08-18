@@ -25,7 +25,7 @@ made is a line in it. `install.sh` does nothing that isn't declared there.
 | `codex/` | `~/.codex/` | `codex` |
 | `opencode/` | `$XDG_CONFIG_HOME/opencode/` | `opencode` |
 | `herdr/` | `$XDG_CONFIG_HOME/herdr/` | `herdr` |
-| `agents/` (store) | `~/.agents/skills/` | none — read natively by opencode, Gemini CLI, Cursor, Codex; written by `npx skills` |
+| `agents/` (store) | `~/.agents/skills/` | none — read natively by opencode (verified); documented alias for Gemini CLI; written by `npx skills` |
 | `shared/` | into all of the above | — |
 | `templates/` | copied into projects, never linked | — |
 
