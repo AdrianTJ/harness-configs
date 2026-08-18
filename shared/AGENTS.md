@@ -1,23 +1,29 @@
-# Global agent instructions
+# Global instructions
 
-This file is the single source of truth for global instructions across every
-harness. pi, codex, and opencode read it as `AGENTS.md`; Claude Code reads the
-same file through a `CLAUDE.md` symlink.
+Applies everywhere, in every repo. Project-level `AGENTS.md` files layer on top
+of this and win where they conflict.
 
-Keep it harness-neutral. Anything that only makes sense to one harness --
-tool names, slash commands, permission syntax -- belongs in that harness's own
-folder, not here.
+Keep this file harness-neutral and short. Anything true of only one harness goes
+in that harness's own folder — see `claude-code/CLAUDE.md` for the pattern.
 
-<!-- Replace everything below with your actual instructions. -->
+## Git
 
-## Style
+Author every commit to me:
 
--
+```
+Adrian Tame <31286933+AdrianTJ@users.noreply.github.com>
+```
 
-## Conventions
+Use that GitHub noreply address, never a personal email — it must not land in a
+public repo.
 
--
+Branch names take a conventional prefix (`feat/`, `bug/`, `chore/`, `docs/`)
+followed by a short kebab-case description. **No model or vendor name in a
+branch name, and no generated suffix.** Some harnesses default to names like
+`claude/<topic>-<hash>`; rename before pushing.
 
-## Things to avoid
-
--
+```
+feat/multi-harness-repo-structure     good
+chore/rotate-herdr-sounds             good
+claude/multi-harness-structure-ehxq   wrong: vendor name, generated suffix
+```
