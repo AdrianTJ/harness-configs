@@ -25,6 +25,7 @@ made is a line in it. `install.sh` does nothing that isn't declared there.
 | `codex/` | `~/.codex/` | `codex` |
 | `opencode/` | `$XDG_CONFIG_HOME/opencode/` | `opencode` |
 | `herdr/` | `$XDG_CONFIG_HOME/herdr/` | `herdr` |
+| `agents/` (store) | `~/.agents/skills/` | none — read natively by opencode, Gemini CLI, Cursor, Codex; written by `npx skills` |
 | `shared/` | into all of the above | — |
 | `templates/` | copied into projects, never linked | — |
 
@@ -43,6 +44,9 @@ done
 
 **Do not install missing harnesses.** This repo manages configuration only.
 If one the user wants is missing, tell them and let them decide.
+
+The `agents` store is the exception: it has no binary, links unconditionally,
+and is safe on any machine.
 
 ### 2. Preview, then link
 
@@ -102,6 +106,22 @@ symlinks into this repo — so the hooks land in tracked files. Run `git diff`
 afterwards and commit what they added.
 
 **claude-code, codex, opencode** — nothing beyond linking, other than auth.
+
+**agents (store)** — the shared skills land in `~/.agents/skills/` via the
+manifest. For additional skills that need no adaptation, the ecosystem tool is
+the Vercel skills CLI; it writes into the same store and symlinks pi and Claude
+Code itself:
+
+```sh
+npx skills add <owner>/<repo> --skill <name> -g -a pi -a claude-code -a opencode
+npx skills check -g     # drift check against the tree-SHA pin
+```
+
+Anything this repo adapts or pins itself goes through `SOURCES.md` instead.
+One machine gotcha: the CLI keeps its global state under
+`$XDG_STATE_HOME/skills/`, so if the machine exports `XDG_STATE_HOME` into an
+app directory, `npx skills update` state dies with the app — fix the env before
+relying on it.
 
 ### 4. Verify
 
