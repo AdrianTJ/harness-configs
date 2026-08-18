@@ -1,0 +1,28 @@
+# Never let harness state or credentials into this repo. If a harness ever
+# writes into a directory linked from here, these patterns catch it.
+.credentials.json
+auth.json
+credentials.json
+models.json
+*.local.json
+settings.local.json
+session.json
+sessions/
+herdr.log
+herdr.sock
+trust.json
+history.jsonl
+*.log
+
+# herdr installs plugins itself; the ledger is herdr/plugins.txt
+herdr/plugins/
+
+# Extension/plugin build output
+node_modules/
+dist/
+*.tsbuildinfo
+
+# Backups install.sh moves aside
+*.bak-*
+
+.DS_Store
