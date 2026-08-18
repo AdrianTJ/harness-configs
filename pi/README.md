@@ -50,6 +50,10 @@ them. Pin any package you need to hold still.
 | `npm:pi-tasks` | Evidence-gated task plans that survive compaction and crashes, resumable via `/task-resume`. |
 | `npm:pi-web-access` | Web search and fetch, plus GitHub clone, PDF extraction, and YouTube. Defaults to Exa with no API key. |
 
+Which of these ship skills (ponytail and pi-subagents do; the rest are
+extensions only) is recorded in `SOURCES.md` under "pi package skills" — check
+there before assuming a package's skills are accounted for.
+
 Two are worth knowing more about:
 
 **ponytail is cross-harness.** The same npm package carries a `pi` manifest key

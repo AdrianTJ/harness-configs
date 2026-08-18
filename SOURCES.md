@@ -25,6 +25,7 @@ revision.
 | `research-paper-writing` | adapted port | [NousResearch/hermes-agent](https://github.com/NousResearch/hermes-agent) `skills/research/research-paper-writing/` | `5598215` (v1.1.0) | 2026-08-08 | MIT |
 | `deslop` | adapted | [rohitg00/pro-workflow](https://github.com/rohitg00/pro-workflow) `deslop`; [tmdgusya/engineering-discipline](https://github.com/tmdgusya/engineering-discipline) `clean-ai-slop` | `7f7209d`, `137dead` | 2026-07-18, 2026-07-03 | none declared |
 | `ponytail` | reference | npm [`@dietrichgebert/ponytail`](https://www.npmjs.com/package/@dietrichgebert/ponytail) (GitHub: [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail)) | `4.9.0` | — | MIT |
+| `pi-subagents` | reference | npm [`pi-subagents`](https://www.npmjs.com/package/pi-subagents) (GitHub: [nicobailon/pi-subagents](https://github.com/nicobailon/pi-subagents)) | `0.51.0` | — | MIT |
 | `harness-configs` | local | none — authored for this repo | — | — | — |
 
 `harness-configs` is the only skill with no upstream. Everything else should be
@@ -78,6 +79,30 @@ git ls-remote https://github.com/tmdgusya/engineering-discipline HEAD  # pinned 
 # New commits? Review the upstream diffs, re-apply anything worth keeping, commit.
 ```
 
+## pi package skills
+
+Sweep of every package declared in `pi/settings.json` `packages[]` (2026-08-18),
+and what it ships. Skills reach pi from exactly two of them; the rest are
+extensions only. All are `reference` — the declaration is tracked in
+`pi/settings.json`, the bytes are re-fetched per machine.
+
+| Package | Version | Ships | Source |
+|---|---|---|---|
+| `npm:@dietrichgebert/ponytail` | 4.9.0 | 6 skills (`ponytail`, `-audit`, `-debt`, `-gain`, `-help`, `-review`), pi extension, opencode plugin | [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail) |
+| `npm:pi-subagents` | 0.51.0 | 1 skill (`pi-subagents`), 5 prompts | [nicobailon/pi-subagents](https://github.com/nicobailon/pi-subagents) |
+| `npm:@bacnh85/pi-fff` | 0.7.9 | extension | [bacnh85/pi-extensions](https://github.com/bacnh85/pi-extensions) |
+| `npm:@jqwn/pi-ask-user-question` | 0.2.0 | extension | [jqwn/pi-ask-user-question](https://github.com/jqwn/pi-ask-user-question) |
+| `npm:@narumitw/pi-btw` | 0.54.1 | extension | [narumiruna/pi-extensions](https://github.com/narumiruna/pi-extensions) |
+| `npm:pi-tasks` | 0.2.3 | extension | [nczz/pi-tasks](https://github.com/nczz/pi-tasks) |
+| `npm:pi-web-access` | 0.24.0 | extension | [nicobailon/pi-web-access](https://github.com/nicobailon/pi-web-access) |
+
+Check per package: `npm view <name> version`. Bump by editing `pi/settings.json`;
+pi installs the new version on startup.
+
+The other skills pi sees — `deslop`, `harness-configs`, `research-paper-writing`
+— are linked from `shared/skills/` (entries above). `pi/skills/` (local,
+currently empty) is for pi-only skills authored here.
+
 ## ponytail
 
 "Lazy senior dev" mode. **Not vendored** — it ships as an npm package that
@@ -96,6 +121,17 @@ npm view @dietrichgebert/ponytail version   # current upstream, compare against 
 
 The unpacked package also carries a `SKILL.md` for pi. If you want it visible
 to Claude Code too, either vendor it here or accept pi-only.
+
+## pi-subagents
+
+Delegation for pi — subagents, foreground or background. Ships one skill
+(`pi-subagents`) and five prompts, declared in `pi/settings.json` →
+`packages[]`.
+
+```sh
+npm view pi-subagents version   # current upstream, compare against 0.51.0
+# Bump by editing pi/settings.json; pi installs the new version on startup.
+```
 
 ## harness-configs
 
