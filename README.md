@@ -10,6 +10,8 @@ harness-configs/
 ├── install.sh          symlink manager
 ├── links.conf          the manifest install.sh reads — the source of truth
 │
+├── AGENTS.md           runbook for an agent installing this (CLAUDE.md imports it)
+│
 ├── shared/             consumed by more than one harness, no translation needed
 │   ├── AGENTS.md         global instructions (Claude Code reads it as CLAUDE.md)
 │   ├── skills/           Agent Skills standard — pi and Claude Code both take these
@@ -26,6 +28,12 @@ harness-configs/
 
 Each harness folder has its own README with the exact path mapping and the
 harness-specific gotchas.
+
+Agents get their own runbook: [`AGENTS.md`](AGENTS.md) at the repo root has the
+ordered install procedure, per-harness post-link steps, and the credential rules.
+Any harness that opens this repo reads it automatically. The same guidance ships
+as the `harness-configs` skill in `shared/skills/` for use from other machines
+and other repos, once configs are installed.
 
 ## Install
 
