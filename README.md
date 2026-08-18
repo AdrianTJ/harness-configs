@@ -91,9 +91,12 @@ directory itself, which is what lets `shared/skills/` and `pi/skills/` both feed
 
 ## The ecosystem store (`~/.agents/`)
 
-`~/.agents/skills/` is the emerging cross-harness standard for skills: opencode,
-Gemini CLI, Cursor and Codex read it natively, and the Vercel skills CLI
-(`npx skills`) installs and version-tracks skills there. This repo links
+`~/.agents/skills/` is the emerging cross-harness standard for skills. opencode
+reads it natively (verified with `opencode debug skill`), and Gemini CLI treats
+it as a documented alias for `~/.gemini/skills/`. Other tools are converging on
+it but not all of them are there — Cursor's skills are project-scoped and Codex
+CLI documents `~/.codex/skills/`. The Vercel skills CLI (`npx skills`) installs
+and version-tracks skills in the store. This repo links
 `shared/skills/` into it, so every store-reading harness sees the same skills as
 pi and Claude Code without extra wiring.
 

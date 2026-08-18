@@ -29,7 +29,6 @@ rather than remembered. For GitHub sources that is the full commit SHA
 | Skill | Status | Upstream | resolved_commit | Checked | License |
 |---|---|---|---|---|---|
 | `unslop` | reference | [MohamedAbdallah-14/unslop](https://github.com/MohamedAbdallah-14/unslop) `skills/unslop/SKILL.md` | grabbed on demand | — | MIT |
-| `research-paper-writing` | adapted port | [NousResearch/hermes-agent](https://github.com/NousResearch/hermes-agent) `skills/research/research-paper-writing/` | `5598215…` (v1.1.0) | 2026-08-08 | MIT |
 | `deslop` | adapted | [rohitg00/pro-workflow](https://github.com/rohitg00/pro-workflow) `deslop`; [tmdgusya/engineering-discipline](https://github.com/tmdgusya/engineering-discipline) `clean-ai-slop` | `7f7209d…`, `137dead…` | 2026-07-18, 2026-07-03 | none declared |
 | `ponytail` | reference | npm [`@dietrichgebert/ponytail`](https://www.npmjs.com/package/@dietrichgebert/ponytail) (GitHub: [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail)) | `4.9.0` | — | MIT |
 | `pi-subagents` | reference | npm [`pi-subagents`](https://www.npmjs.com/package/pi-subagents) (GitHub: [nicobailon/pi-subagents](https://github.com/nicobailon/pi-subagents)) | `0.51.0` | — | MIT |
@@ -52,25 +51,6 @@ npx skills add MohamedAbdallah-14/unslop -g -a claude-code
 # or manual: clone https://github.com/MohamedAbdallah-14/unslop and copy skills/unslop/
 ```
 
-## research-paper-writing
-
-Full ML-paper pipeline (experiment design → submission) with LaTeX templates.
-Ported into `shared/skills/research-paper-writing/` with the Hermes tool
-dialect translated to harness-neutral equivalents (see its footer and
-`references/sources.md` for the upstream history).
-
-```sh
-# Check for updates
-curl -s "https://api.github.com/repos/NousResearch/hermes-agent/commits?path=skills/research/research-paper-writing/SKILL.md&per_page=1" \
-  | python3 -c "import json,sys; c=json.load(sys.stdin)[0]; print(c['sha'], c['commit']['committer']['date'])"
-# Compare against resolved_commit 5598215. New commit? Then:
-
-# Refresh
-git clone --depth 1 https://github.com/NousResearch/hermes-agent /tmp/hermes-agent
-diff -r /tmp/hermes-agent/skills/research/research-paper-writing shared/skills/research-paper-writing
-# re-apply the port (frontmatter, Agent Collaboration Patterns section, reference trims),
-# update the resolved_commit in the footer, commit
-```
 
 ## deslop
 
@@ -106,8 +86,8 @@ extensions only. All are `reference` — the declaration is tracked in
 Check per package: `npm view <name> version`. Bump by editing `pi/settings.json`;
 pi installs the new version on startup.
 
-The other skills pi sees — `deslop`, `harness-configs`, `research-paper-writing`
-— are linked from `shared/skills/` (entries above). `pi/skills/` (local,
+The other skills pi sees — `deslop` and `harness-configs` — are linked from
+`shared/skills/` (entries above). `pi/skills/` (local,
 currently empty) is for pi-only skills authored here.
 
 ## ponytail
