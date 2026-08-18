@@ -17,13 +17,20 @@ fetch into a scratch dir and `diff` against the vendored copy before touching
 anything, then follow the attribution footer in the skill to note the new
 revision.
 
+**Pin format.** The `resolved_commit` column mirrors the lock file that Sentry's
+dotagents (`agents.lock`) and the Vercel skills CLI (`.skill-lock.json`) both
+write: the exact upstream revision the content was taken from, machine-checkable
+rather than remembered. For GitHub sources that is the full commit SHA
+(`git ls-remote <url> <ref>` verifies it); for npm packages it is the version
+(`npm view <name> version`). Anything newer than the pin means a refresh is due.
+
 ## Summary
 
-| Skill | Status | Upstream | Pinned | Checked | License |
+| Skill | Status | Upstream | resolved_commit | Checked | License |
 |---|---|---|---|---|---|
 | `unslop` | reference | [MohamedAbdallah-14/unslop](https://github.com/MohamedAbdallah-14/unslop) `skills/unslop/SKILL.md` | grabbed on demand | — | MIT |
-| `research-paper-writing` | adapted port | [NousResearch/hermes-agent](https://github.com/NousResearch/hermes-agent) `skills/research/research-paper-writing/` | `5598215` (v1.1.0) | 2026-08-08 | MIT |
-| `deslop` | adapted | [rohitg00/pro-workflow](https://github.com/rohitg00/pro-workflow) `deslop`; [tmdgusya/engineering-discipline](https://github.com/tmdgusya/engineering-discipline) `clean-ai-slop` | `7f7209d`, `137dead` | 2026-07-18, 2026-07-03 | none declared |
+| `research-paper-writing` | adapted port | [NousResearch/hermes-agent](https://github.com/NousResearch/hermes-agent) `skills/research/research-paper-writing/` | `5598215…` (v1.1.0) | 2026-08-08 | MIT |
+| `deslop` | adapted | [rohitg00/pro-workflow](https://github.com/rohitg00/pro-workflow) `deslop`; [tmdgusya/engineering-discipline](https://github.com/tmdgusya/engineering-discipline) `clean-ai-slop` | `7f7209d…`, `137dead…` | 2026-07-18, 2026-07-03 | none declared |
 | `ponytail` | reference | npm [`@dietrichgebert/ponytail`](https://www.npmjs.com/package/@dietrichgebert/ponytail) (GitHub: [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail)) | `4.9.0` | — | MIT |
 | `pi-subagents` | reference | npm [`pi-subagents`](https://www.npmjs.com/package/pi-subagents) (GitHub: [nicobailon/pi-subagents](https://github.com/nicobailon/pi-subagents)) | `0.51.0` | — | MIT |
 | `harness-configs` | local | none — authored for this repo | — | — | — |
@@ -56,13 +63,13 @@ dialect translated to harness-neutral equivalents (see its footer and
 # Check for updates
 curl -s "https://api.github.com/repos/NousResearch/hermes-agent/commits?path=skills/research/research-paper-writing/SKILL.md&per_page=1" \
   | python3 -c "import json,sys; c=json.load(sys.stdin)[0]; print(c['sha'], c['commit']['committer']['date'])"
-# Compare against pinned 5598215. New commit? Then:
+# Compare against resolved_commit 5598215. New commit? Then:
 
 # Refresh
 git clone --depth 1 https://github.com/NousResearch/hermes-agent /tmp/hermes-agent
 diff -r /tmp/hermes-agent/skills/research/research-paper-writing shared/skills/research-paper-writing
 # re-apply the port (frontmatter, Agent Collaboration Patterns section, reference trims),
-# update the pinned SHA in the footer, commit
+# update the resolved_commit in the footer, commit
 ```
 
 ## deslop
@@ -74,8 +81,8 @@ Neither upstream declares a license — the adaptation is original enough to
 stand alone, but re-distribution of verbatim upstream text is unlicensed.
 
 ```sh
-git ls-remote https://github.com/rohitg00/pro-workflow HEAD        # pinned 7f7209d
-git ls-remote https://github.com/tmdgusya/engineering-discipline HEAD  # pinned 137dead
+git ls-remote https://github.com/rohitg00/pro-workflow HEAD        # resolved_commit 7f7209d
+git ls-remote https://github.com/tmdgusya/engineering-discipline HEAD  # resolved_commit 137dead
 # New commits? Review the upstream diffs, re-apply anything worth keeping, commit.
 ```
 
@@ -146,7 +153,8 @@ edit in place. Do not check for updates — it *is* the source.
   without a row in the summary table is the same mistake as a symlink without
   a `links.conf` line.
 - **Pin what you fetch.** Record the exact commit (or version) and date you
-  took, in this file *and* in the skill's footer.
+  took, in this file *and* in the skill's footer — the `resolved_commit`
+  convention, checkable with `git ls-remote` / `npm view`.
 - **Record license state.** Skills with no declared license (`deslop`'s
   upstreams) are usable but not redistributable verbatim — say so.
 - **Refresh in place.** Diff before copying, re-apply the adaptation, update
