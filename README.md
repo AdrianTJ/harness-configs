@@ -14,7 +14,7 @@ harness-configs/
 ├── AGENTS.md           runbook for an agent installing this (CLAUDE.md imports it)
 │
 ├── shared/             consumed by more than one harness, no translation needed
-│   ├── AGENTS.md         global instructions (Claude Code reads it as CLAUDE.md)
+│   ├── AGENTS.md         global instructions (Claude Code imports it)
 │   ├── skills/           Agent Skills standard — pi, Claude Code, and the
 │   │                     ~/.agents store (opencode etc.) all take these
 │   └── prompts/          portable prompt templates
@@ -73,7 +73,7 @@ a `shared/` folder worth having:
 
 | | pi | Claude Code | codex | opencode |
 |---|---|---|---|---|
-| Instructions file | `AGENTS.md` | `CLAUDE.md` | `AGENTS.md` | `AGENTS.md` |
+| Instructions file | `AGENTS.md` | `CLAUDE.md` (imports it) | `AGENTS.md` | `AGENTS.md` |
 | Skills (`SKILL.md`) | ✓ | ✓ | — | ✓ via `~/.agents/` |
 | Prompt templates | `prompts/` | `commands/` | `prompts/` | `command/` |
 | Extensions | `extensions/` + `packages[]` | plugins | — | `plugin/` |
