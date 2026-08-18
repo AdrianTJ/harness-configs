@@ -1,0 +1,11 @@
+{
+  "packages": [
+    "npm:@bacnh85/pi-fff",
+    "npm:@jqwn/pi-ask-user-question",
+    "npm:@narumitw/pi-btw",
+    "npm:@dietrichgebert/ponytail",
+    "npm:pi-subagents",
+    "npm:pi-tasks",
+    "npm:pi-web-access"
+  ]
+}
