@@ -64,7 +64,11 @@ wanted() {
 
 say() { # status colour, target, note
   local colour="$1" label="$2" target="$3" note="${4:-}"
-  printf '  %s%-9s%s %s' "$colour" "$label" "$C_OFF" "${target/#$HOME/\~}"
+  # Shorten $HOME to ~ without pattern-substitution replacement, which keeps the
+  # backslash literally on bash 3.2 (still the default /bin/bash on macOS).
+  local shown="$target"
+  [[ "$shown" == "$HOME"/* ]] && shown="~${shown#"$HOME"}"
+  printf '  %s%-9s%s %s' "$colour" "$label" "$C_OFF" "$shown"
   [[ -n "$note" ]] && printf ' %s(%s)%s' "$C_DIM" "$note" "$C_OFF"
   printf '\n'
 }
