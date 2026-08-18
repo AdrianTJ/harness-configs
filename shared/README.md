@@ -24,6 +24,11 @@ shared/skills/my-skill/
 takes skills, so a harness-only skill can still live in `pi/skills/` or
 `claude-code/skills/` without conflict.
 
+Skills that come from outside this repo are vendored or referenced through the
+ledger in [`SOURCES.md`](../SOURCES.md) at the repo root — every vendored
+skill records its upstream, pinned revision, and refresh procedure there and in
+its own attribution footer. Check it before adding or updating a skill.
+
 ## Prompts vs commands
 
 Prompt templates are markdown that expands on `/name`. The bodies are portable;
