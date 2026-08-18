@@ -128,21 +128,17 @@ written to real files, and the later `install.sh` run moves those aside as
 
 Follow these on every commit and branch in this repo.
 
-**Authorship.** The work is authored by the repo owner; Claude commits and is
-credited as co-author. Set the author explicitly, since the harness's own git
-identity is Claude:
+**Authorship.** All work in this repo is the owner's; every commit carries only
+their identity — author *and* committer. Set both explicitly, since the
+harness's own git identity is Claude:
 
 ```sh
-GIT_COMMITTER_NAME="Claude" GIT_COMMITTER_EMAIL="noreply@anthropic.com" \
+GIT_COMMITTER_NAME="Adrian Tame" GIT_COMMITTER_EMAIL="31286933+AdrianTJ@users.noreply.github.com" \
 git commit --author="Adrian Tame <31286933+AdrianTJ@users.noreply.github.com>" -m "..."
 ```
 
 Use the GitHub noreply address, matching the existing history, so a personal
-email never lands in a public repo. End the message with the co-author trailer:
-
-```
-Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
-```
+email never lands in a public repo. No co-author trailers.
 
 **Branch names.** Conventional prefixes — `feat/`, `bug/`, `chore/`, `docs/` —
 followed by a short kebab-case description. Never put an agent's name in a
@@ -158,7 +154,7 @@ claude/multi-harness-structure-ehxq   wrong: agent name, generated suffix
 **Verify before pushing:**
 
 ```sh
-git log --format='%h  A:%an  |  C:%cn' main..HEAD   # author you, committer Claude
+git log --format='%h  A:%an  |  C:%cn' main..HEAD   # author you, committer you
 git branch --show-current                           # feat/, bug/, chore/, docs/
 ```
 
