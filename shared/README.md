@@ -6,7 +6,7 @@ needs translating per harness, it does not belong here.
 | Path | Consumed by | Notes |
 |---|---|---|
 | `AGENTS.md` | pi, codex, opencode (as `AGENTS.md`); Claude Code (as `CLAUDE.md`) | One file, five links. |
-| `skills/` | pi (`~/.pi/agent/skills`), Claude Code (`~/.claude/skills`), the store (`~/.agents/skills`) | The Agent Skills standard, so a `SKILL.md` directory drops into each unchanged. The store is read natively by opencode, Gemini CLI, Cursor and Codex. |
+| `skills/` | pi (`~/.pi/agent/skills`), Claude Code (`~/.claude/skills`), the store (`~/.agents/skills`) | The Agent Skills standard, so a `SKILL.md` directory drops into each unchanged. The store is read natively by opencode (verified here) and Gemini CLI (documented alias). |
 | `prompts/` | pi (`~/.pi/agent/prompts`), codex (`~/.codex/prompts`) | Both expand markdown files as `/name`. |
 
 ## Skills
