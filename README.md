@@ -9,12 +9,14 @@ One folder per harness, mirroring that harness's real config directory, plus a
 harness-configs/
 ├── install.sh          symlink manager
 ├── links.conf          the manifest install.sh reads — the source of truth
+├── SOURCES.md          the ledger of where vendored skills are fetched from
 │
 ├── AGENTS.md           runbook for an agent installing this (CLAUDE.md imports it)
 │
 ├── shared/             consumed by more than one harness, no translation needed
 │   ├── AGENTS.md         global instructions (Claude Code reads it as CLAUDE.md)
-│   ├── skills/           Agent Skills standard — pi and Claude Code both take these
+│   ├── skills/           Agent Skills standard — pi, Claude Code, and the
+│   │                     ~/.agents store (opencode etc.) all take these
 │   └── prompts/          portable prompt templates
 │
 ├── pi/                 → ~/.pi/agent/
@@ -72,19 +74,44 @@ a `shared/` folder worth having:
 | | pi | Claude Code | codex | opencode |
 |---|---|---|---|---|
 | Instructions file | `AGENTS.md` | `CLAUDE.md` | `AGENTS.md` | `AGENTS.md` |
-| Skills (`SKILL.md`) | ✓ | ✓ | — | — |
+| Skills (`SKILL.md`) | ✓ | ✓ | — | ✓ via `~/.agents/` |
 | Prompt templates | `prompts/` | `commands/` | `prompts/` | `command/` |
 | Extensions | `extensions/` + `packages[]` | plugins | — | `plugin/` |
 | Subagents | via extension | `agents/` | — | `agent/` |
 
 So: **instructions** are one file linked five ways, **skills** are shared
-between pi and Claude Code unchanged, and **prompt bodies** are shared where the
-frontmatter allows — anything needing harness-specific frontmatter gets a thin
-wrapper in that harness's own folder instead.
+between pi, Claude Code, and the `~/.agents/` store unchanged, and **prompt
+bodies** are shared where the frontmatter allows — anything needing
+harness-specific frontmatter gets a thin wrapper in that harness's own folder
+instead.
 
 `merge` entries in the manifest link directory *contents* rather than the
 directory itself, which is what lets `shared/skills/` and `pi/skills/` both feed
 `~/.pi/agent/skills/` without either one shadowing the other.
+
+## The ecosystem store (`~/.agents/`)
+
+`~/.agents/skills/` is the emerging cross-harness standard for skills: opencode,
+Gemini CLI, Cursor and Codex read it natively, and the Vercel skills CLI
+(`npx skills`) installs and version-tracks skills there. This repo links
+`shared/skills/` into it, so every store-reading harness sees the same skills as
+pi and Claude Code without extra wiring.
+
+For skills that need no adaptation, the ecosystem answer is the CLI rather than
+vendoring:
+
+```sh
+npx skills add <owner>/<repo> --skill <name> -g -a pi -a claude-code -a opencode
+```
+
+It materializes the skill into `~/.agents/skills/`, symlinks pi and Claude Code,
+and records a tree-SHA pin for `npx skills check`. Anything this repo adapts or
+pins itself is tracked in [`SOURCES.md`](SOURCES.md) instead.
+
+One machine-level gotcha: the CLI stores its global state under
+`$XDG_STATE_HOME/skills/`. If something on the machine exports `XDG_STATE_HOME`
+into an app directory (some desktop apps do), that state lands there and dies
+with the app — fix the environment before relying on `npx skills update`.
 
 ## What is deliberately not tracked
 
