@@ -9,6 +9,7 @@ One folder per harness, mirroring that harness's real config directory, plus a
 harness-configs/
 ├── install.sh          symlink manager
 ├── links.conf          the manifest install.sh reads — the source of truth
+├── SOURCES.md          the ledger of where vendored skills are fetched from
 │
 ├── AGENTS.md           runbook for an agent installing this (CLAUDE.md imports it)
 │

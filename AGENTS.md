@@ -184,5 +184,11 @@ git branch --show-current                           # feat/, bug/, chore/, docs/
    directory's contents into a shared target).
 3. `./install.sh --dry-run`, check the target path, then `./install.sh`.
 
+**Skills that come from upstream get a `SOURCES.md` entry too.** If the file is
+vendored from another repo or package, record its upstream, pinned revision,
+and refresh procedure in `SOURCES.md` and put a short attribution footer in
+the file itself. A skill without a source entry is a config change made
+without its manifest line.
+
 Each harness folder has its own README with that harness's exact path mapping
 and gotchas. Read the relevant one before changing its config.

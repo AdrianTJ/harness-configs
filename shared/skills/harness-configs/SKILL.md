@@ -52,5 +52,11 @@ next install. Check with `ls -l` whether you're looking at a symlink.
 symlink; `install.sh` does nothing that isn't declared there. A new file in a
 harness folder does nothing until its manifest line exists.
 
+**A skill from outside this repo needs a source entry.** `SOURCES.md` at the
+repo root is the ledger of upstream sources, pinned revisions, and refresh
+procedures for every vendored or referenced skill. Check it (and the skill's
+attribution footer) before updating a skill, and add an entry when vendoring a
+new one.
+
 Never commit credentials. `auth.json`, `models.json`, `.credentials.json`,
 `settings.local.json`, and session files are deliberately unlinked and gitignored.
