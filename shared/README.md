@@ -6,7 +6,7 @@ needs translating per harness, it does not belong here.
 | Path | Consumed by | Notes |
 |---|---|---|
 | `AGENTS.md` | pi, codex, opencode (as `AGENTS.md`); Claude Code (as `CLAUDE.md`) | One file, five links. |
-| `skills/` | pi (`~/.pi/agent/skills`), Claude Code (`~/.claude/skills`) | Both implement the Agent Skills standard, so a `SKILL.md` directory drops into either unchanged. |
+| `skills/` | pi (`~/.pi/agent/skills`), Claude Code (`~/.claude/skills`), the store (`~/.agents/skills`) | The Agent Skills standard, so a `SKILL.md` directory drops into each unchanged. The store is read natively by opencode, Gemini CLI, Cursor and Codex. |
 | `prompts/` | pi (`~/.pi/agent/prompts`), codex (`~/.codex/prompts`) | Both expand markdown files as `/name`. |
 
 ## Skills
@@ -23,6 +23,11 @@ shared/skills/my-skill/
 `install.sh` links each skill directory individually into every harness that
 takes skills, so a harness-only skill can still live in `pi/skills/` or
 `claude-code/skills/` without conflict.
+
+Skills that come from outside this repo are vendored or referenced through the
+ledger in [`SOURCES.md`](../SOURCES.md) at the repo root — every vendored
+skill records its upstream, pinned revision, and refresh procedure there and in
+its own attribution footer. Check it before adding or updating a skill.
 
 ## Prompts vs commands
 
