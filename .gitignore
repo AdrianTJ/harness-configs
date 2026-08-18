@@ -7,9 +7,14 @@ credentials.json
 settings.local.json
 session.json
 sessions/
+herdr.log
+herdr.sock
 trust.json
 history.jsonl
 *.log
+
+# herdr installs plugins itself; the ledger is herdr/plugins.txt
+herdr/plugins/
 
 # Extension/plugin build output
 node_modules/

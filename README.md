@@ -44,6 +44,18 @@ so a first run on a populated machine is recoverable.
 Entries whose source doesn't exist yet are skipped rather than failing, so the
 manifest can describe the full intended surface while you fill it in.
 
+## herdr writes into the others
+
+herdr is not just a sixth folder. `herdr integration install <agent>` installs
+hooks into pi's, Claude Code's, codex's, and opencode's own config directories —
+the ones this repo symlinks. So those hooks land in tracked files and version
+themselves for free.
+
+The ordering matters: **link first, integrate second.** Run `./install.sh`, then
+`herdr integration install <agent>`, then commit the diff. Do it the other way
+round and the hooks go into real files that `install.sh` will later move aside as
+`.bak-*` backups.
+
 ## How the sharing works
 
 The harnesses have converged more than their docs suggest, which is what makes
@@ -74,7 +86,7 @@ linked or committed:
 - pi: `sessions/`, `trust.json`, `git/`, `npm/`
 - Claude Code: `.credentials.json`, `history.jsonl`, `projects/`, `settings.local.json`
 - codex: `auth.json`, `sessions/`
-- herdr: `session.json`, `herdr.log`
+- herdr: `session.json`, `herdr.log`, `plugins/`, and `~/.herdr/worktrees/`
 
 This is why the manifest links individual files and subdirectories rather than
 whole config roots. Linking `~/.claude` or `~/.pi/agent` wholesale would pull
