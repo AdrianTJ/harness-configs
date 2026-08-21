@@ -82,6 +82,14 @@ Auth is *not* handled here by design: pi writes credentials to
 it for glue too small or too personal to publish. Anything from npm or git belongs
 in `packages` instead.
 
+It also holds extensions that other tools write into `~/.pi/agent/extensions/`,
+captured so they survive a machine rebuild: `herdr-agent-state.ts` comes from
+`herdr integration install pi`, and the three `orca-*.ts` files (marked
+`@orca-managed-pi-extension`) are written by the Orca terminal app. If one of
+those tools rewrites its file, the edit lands here through the symlink — commit
+it. If a tool replaces the file wholesale, the symlink is gone and the next
+`./install.sh` run will surface it; move the new real file back here and re-link.
+
 ## Not linked
 
 `sessions/`, `trust.json`, `auth.json`, `models.json` (which can carry custom
