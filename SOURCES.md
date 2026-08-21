@@ -76,7 +76,7 @@ extensions only. All are `reference` — the declaration is tracked in
 | Package | Version | Ships | Source |
 |---|---|---|---|
 | `npm:@dietrichgebert/ponytail` | 4.9.0 | 6 skills (`ponytail`, `-audit`, `-debt`, `-gain`, `-help`, `-review`), pi extension, opencode plugin | [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail) |
-| `npm:pi-subagents` | 0.51.0 | 1 skill (`pi-subagents`), 5 prompts | [nicobailon/pi-subagents](https://github.com/nicobailon/pi-subagents) |
+| `npm:pi-subagents` | 0.51.0 | 2 skills (`pi-subagents`, `council-mode`), 5 prompts | [nicobailon/pi-subagents](https://github.com/nicobailon/pi-subagents) |
 | `npm:@bacnh85/pi-fff` | 0.7.9 | extension | [bacnh85/pi-extensions](https://github.com/bacnh85/pi-extensions) |
 | `npm:@jqwn/pi-ask-user-question` | 0.2.0 | extension | [jqwn/pi-ask-user-question](https://github.com/jqwn/pi-ask-user-question) |
 | `npm:@narumitw/pi-btw` | 0.54.1 | extension | [narumiruna/pi-extensions](https://github.com/narumiruna/pi-extensions) |
@@ -111,9 +111,11 @@ to Claude Code too, either vendor it here or accept pi-only.
 
 ## pi-subagents
 
-Delegation for pi — subagents, foreground or background. Ships one skill
-(`pi-subagents`) and five prompts, declared in `pi/settings.json` →
-`packages[]`.
+Delegation for pi — subagents, foreground or background. Ships two skills
+(`pi-subagents` and `council-mode`) and five prompts, declared in
+`pi/settings.json` → `packages[]`. `council-mode` is the one that looks
+orphaned in pi's startup skill list — it lives in the package at
+`npm/node_modules/pi-subagents/skills/council-mode`, so leave it there.
 
 ```sh
 npm view pi-subagents version   # current upstream, compare against 0.51.0
