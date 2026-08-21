@@ -101,9 +101,34 @@ herdr integration install codex
 herdr integration install opencode
 ```
 
-These write hooks into the *other* harnesses' config directories, which are now
-symlinks into this repo — so the hooks land in tracked files. Run `git diff`
-afterwards and commit what they added.
+These write hooks into the *other* harnesses' config directories. Whether a hook
+lands in a tracked file depends on what it writes:
+
+- **Edits to a file this repo already links** (`claude-code/settings.json`, say)
+  go through the symlink into the repo, and `git diff` shows them. Commit them.
+- **A brand-new file in a directory this repo links with `merge`** does *not*.
+  `merge` links a directory's *contents*, so if the repo-side directory is empty,
+  nothing is linked and the target stays a real directory. herdr's file lands
+  there untracked and `git diff` shows nothing.
+
+The second case is the common one for pi: `herdr integration install pi` writes
+`~/.pi/agent/extensions/herdr-agent-state.ts`, and `pi/extensions/` starts empty.
+
+So after running the integrations, check the target directories directly rather
+than trusting `git status`:
+
+```sh
+ls -la ~/.pi/agent/extensions/ ~/.claude/  # real files here are untracked
+```
+
+Move anything real into the matching repo folder, then re-link so it becomes a
+tracked symlink:
+
+```sh
+mv ~/.pi/agent/extensions/*.ts pi/extensions/
+./install.sh --harness pi
+git status                                 # now it shows up
+```
 
 **claude-code, codex, opencode** — nothing beyond linking, other than auth.
 

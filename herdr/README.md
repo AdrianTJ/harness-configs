@@ -49,9 +49,17 @@ directory, for pi, claude, codex, opencode, and others. That's what lets herdr
 report accurate agent state and resume sessions
 (`[session] resume_agents_on_restore`).
 
-Those config directories are symlinked to this repo, so the hooks herdr writes
-land in tracked files — `claude-code/settings.json`, `pi/settings.json`, and so
-on — and show up as a normal diff.
+Where those hooks land depends on what herdr writes. An edit to a file this repo
+already links — `claude-code/settings.json`, `pi/settings.json` — goes through
+the symlink and shows up as a normal diff. But a *new* file written into a
+directory linked with `merge` does not: `merge` links a directory's contents, so
+an empty repo-side directory means nothing is linked and the target is a plain
+directory. The file lands there untracked.
+
+That is what happens with pi. `herdr integration install pi` writes
+`~/.pi/agent/extensions/herdr-agent-state.ts`, and `pi/extensions/` starts empty,
+so the hook is invisible to `git status`. Move it into `pi/extensions/` and
+re-run `./install.sh --harness pi` to capture it.
 
 **Run `install.sh` first, then the integrations.** In that order the hooks are
 captured in git and deploy to every machine automatically. In the other order
