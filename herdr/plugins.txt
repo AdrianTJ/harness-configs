@@ -1,7 +1,0 @@
-# herdr plugins installed into ~/.config/herdr/plugins/ (not tracked in git).
-# This file is the ledger so a new machine can be rebuilt; record one plugin
-# per line with enough detail to reinstall it, plus any manual glue step.
-#
-# Example:
-#   vim-herdr-navigation   # tmux-navigator port; also copy its editor script
-#                          # into ~/.config/nvim/after/plugin/

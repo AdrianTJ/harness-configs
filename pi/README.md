@@ -29,7 +29,7 @@ pi remove npm:some-extension    # drop it
 ```
 
 The downloaded code lands in `~/.pi/agent/npm/` and `~/.pi/agent/git/`, which are
-deliberately **not** linked or tracked — same call as herdr's `plugins/`. Only the
+deliberately **not** linked or tracked. Only the
 declaration is version-controlled; the bytes are re-fetched per machine.
 
 Specs accept `npm:pkg`, `npm:@scope/pkg@1.2.3`, `git:github.com/user/repo@v1`, and
@@ -82,13 +82,9 @@ Auth is *not* handled here by design: pi writes credentials to
 it for glue too small or too personal to publish. Anything from npm or git belongs
 in `packages` instead.
 
-It also holds extensions that other tools write into `~/.pi/agent/extensions/`,
-captured so they survive a machine rebuild: `herdr-agent-state.ts` comes from
-`herdr integration install pi`, and the three `orca-*.ts` files (marked
-`@orca-managed-pi-extension`) are written by the Orca terminal app. If one of
-those tools rewrites its file, the edit lands here through the symlink — commit
-it. If a tool replaces the file wholesale, the symlink is gone and the next
-`./install.sh` run will surface it; move the new real file back here and re-link.
+If an external tool ever writes an extension of its own into
+`~/.pi/agent/extensions/`, it lands there as a real untracked file — capture it
+by moving it here and re-linking, or remove it if the tool isn't wanted.
 
 ## Not linked
 

@@ -11,7 +11,7 @@ silently discards work.
 
 ## What this repo is
 
-Configs for five agent harnesses, symlinked into their real config directories
+Configs for four agent harnesses, symlinked into their real config directories
 from one git repo. One folder per harness mirroring that harness's actual config
 layout, plus `shared/` for what more than one harness reads verbatim.
 
@@ -24,7 +24,6 @@ made is a line in it. `install.sh` does nothing that isn't declared there.
 | `claude-code/` | `~/.claude/` | `claude` |
 | `codex/` | `~/.codex/` | `codex` |
 | `opencode/` | `$XDG_CONFIG_HOME/opencode/` | `opencode` |
-| `herdr/` | `$XDG_CONFIG_HOME/herdr/` | `herdr` |
 | `agents/` (store) | `~/.agents/skills/` | none — read natively by opencode (verified); documented alias for Gemini CLI; written by `npx skills` |
 | `shared/` | into all of the above | — |
 | `templates/` | copied into projects, never linked | — |
@@ -37,7 +36,7 @@ Find out which harnesses are actually present. Only link the ones that are —
 linking a harness that isn't installed just creates empty config directories.
 
 ```sh
-for h in pi claude codex opencode herdr; do
+for h in pi claude codex opencode; do
   printf '%-10s %s\n' "$h" "$(command -v "$h" || echo 'not installed')"
 done
 ```
@@ -92,45 +91,15 @@ pi update --extensions
 Auth is separate and never tracked: `/login` inside pi, or a provider API key.
 pi writes credentials to `~/.pi/agent/auth.json` at `0600`.
 
-**herdr** — install its integrations, and only after linking:
-
-```sh
-herdr integration install pi
-herdr integration install claude
-herdr integration install codex
-herdr integration install opencode
-```
-
-These write hooks into the *other* harnesses' config directories. Whether a hook
-lands in a tracked file depends on what it writes:
-
-- **Edits to a file this repo already links** (`claude-code/settings.json`, say)
-  go through the symlink into the repo, and `git diff` shows them. Commit them.
-- **A brand-new file in a directory this repo links with `merge`** does *not*.
-  `merge` links a directory's *contents*, so if the repo-side directory is empty,
-  nothing is linked and the target stays a real directory. herdr's file lands
-  there untracked and `git diff` shows nothing.
-
-The second case is the common one for pi: `herdr integration install pi` writes
-`~/.pi/agent/extensions/herdr-agent-state.ts`, and `pi/extensions/` starts empty.
-
-So after running the integrations, check the target directories directly rather
-than trusting `git status`:
-
-```sh
-ls -la ~/.pi/agent/extensions/ ~/.claude/  # real files here are untracked
-```
-
-Move anything real into the matching repo folder, then re-link so it becomes a
-tracked symlink:
-
-```sh
-mv ~/.pi/agent/extensions/*.ts pi/extensions/
-./install.sh --harness pi
-git status                                 # now it shows up
-```
-
 **claude-code, codex, opencode** — nothing beyond linking, other than auth.
+
+One capture gotcha applies to any external tool that writes into a linked
+config directory: an **edit to a file this repo already links** goes through the
+symlink and shows in `git diff`, but a **brand-new file in a directory linked
+with `merge`** does not — `merge` links a directory's *contents*, so an empty
+repo-side directory links nothing and the target stays a real directory. After
+any tool writes config for you, check the target directories directly, move
+real files into the matching repo folder, and re-link.
 
 **agents (store)** — the shared skills land in `~/.agents/skills/` via the
 manifest. For additional skills that need no adaptation, the ecosystem tool is
@@ -162,13 +131,6 @@ picked up:
 git status --porcelain | grep -Ei 'auth|credential|\.local\.|session' || echo clean
 ```
 
-## Order matters in exactly one place
-
-**Link before running herdr integrations.** In that order the hooks herdr writes
-land in repo-tracked files and version themselves. In the reverse order they get
-written to real files, and the later `install.sh` run moves those aside as
-`.bak-*` — the integration appears to have silently vanished.
-
 ## Git conventions
 
 Follow these on every commit and branch in this repo.
@@ -196,7 +158,7 @@ to branch names like `claude/<topic>-<hash>`; rename before pushing.
 
 ```
 feat/multi-harness-repo-structure     good
-chore/rotate-herdr-sounds             good
+chore/prune-pi-extensions             good
 claude/multi-harness-structure-ehxq   wrong: agent name, generated suffix
 ```
 
