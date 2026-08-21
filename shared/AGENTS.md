@@ -24,6 +24,6 @@ branch name, and no generated suffix.** Some harnesses default to names like
 
 ```
 feat/multi-harness-repo-structure     good
-chore/rotate-herdr-sounds             good
+chore/prune-pi-extensions             good
 claude/multi-harness-structure-ehxq   wrong: vendor name, generated suffix
 ```

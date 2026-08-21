@@ -1,13 +1,13 @@
 ---
 name: harness-configs
-description: Install, sync, update, or repair the user's agent harness configs (pi, Claude Code, codex, opencode, herdr) from their harness-configs repo. Use when asked to set up harness configuration on a machine, deploy or re-link configs, add a config file to the repo, check whether configs are correctly linked, or undo the linking. Also use when a harness config file appears to be a symlink and the user wants to change it.
+description: Install, sync, update, or repair the user's agent harness configs (pi, Claude Code, codex, opencode) from their harness-configs repo. Use when asked to set up harness configuration on a machine, deploy or re-link configs, add a config file to the repo, check whether configs are correctly linked, or undo the linking. Also use when a harness config file appears to be a symlink and the user wants to change it.
 ---
 
 # harness-configs
 
 The user keeps every harness's configuration in one git repo and symlinks it into
 each harness's real config directory. Config files under `~/.pi/agent/`,
-`~/.claude/`, `~/.codex/`, `~/.config/opencode/`, and `~/.config/herdr/` are
+`~/.claude/`, `~/.codex/`, and `~/.config/opencode/` are
 therefore **symlinks into that repo** — editing them edits the repo, and the
 change should be committed.
 
@@ -16,7 +16,7 @@ change should be committed.
 If configs are already installed, any linked file points back to it:
 
 ```sh
-for probe in ~/.claude/CLAUDE.md ~/.pi/agent/AGENTS.md ~/.config/herdr/config.toml; do
+for probe in ~/.claude/CLAUDE.md ~/.pi/agent/AGENTS.md ~/.codex/AGENTS.md; do
   [ -L "$probe" ] && { cd "$(dirname "$(readlink "$probe")")"; break; }
 done
 git rev-parse --show-toplevel
