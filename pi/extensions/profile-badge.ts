@@ -14,5 +14,4 @@ export default function (pi: ExtensionAPI) {
 	pi.on("session_start", (_event, ctx) => {
 		ctx.ui.setStatus("profile", `[${name}]`);
 	});
-	pi.on("session_shutdown", () => {});
 }
