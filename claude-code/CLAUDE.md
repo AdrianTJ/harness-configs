@@ -2,7 +2,7 @@
 
 # Claude Code
 
-The import above is the harness-neutral half, shared with pi, codex, and
+The import above is the harness-neutral half, shared with pi, omp, codex, and
 opencode. Everything below is Claude-specific and applies only here.
 
 ## Git
