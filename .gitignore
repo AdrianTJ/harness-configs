@@ -17,7 +17,9 @@ node_modules/
 dist/
 *.tsbuildinfo
 
-# Backups install.sh moves aside
+# Backups — install.sh moves files aside as *.bak-<timestamp>, and tools like
+# Orca write plain *.bak next to files they rewrite.
 *.bak-*
+*.bak
 
 .DS_Store

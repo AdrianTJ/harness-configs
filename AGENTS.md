@@ -21,6 +21,7 @@ made is a line in it. `install.sh` does nothing that isn't declared there.
 | Folder | Deploys to | Harness binary |
 |---|---|---|
 | `pi/` | `~/.pi/agent/` | `pi` |
+| `omp/` | `~/.omp/agent/` | `omp` |
 | `claude-code/` | `~/.claude/` | `claude` |
 | `codex/` | `~/.codex/` | `codex` |
 | `opencode/` | `$XDG_CONFIG_HOME/opencode/` | `opencode` |
@@ -36,7 +37,7 @@ Find out which harnesses are actually present. Only link the ones that are —
 linking a harness that isn't installed just creates empty config directories.
 
 ```sh
-for h in pi claude codex opencode; do
+for h in pi omp claude codex opencode; do
   printf '%-10s %s\n' "$h" "$(command -v "$h" || echo 'not installed')"
 done
 ```
@@ -90,6 +91,8 @@ pi update --extensions
 
 Auth is separate and never tracked: `/login` inside pi, or a provider API key.
 pi writes credentials to `~/.pi/agent/auth.json` at `0600`.
+
+**omp** — a pi fork; nothing beyond linking. Auth is its own, never tracked.
 
 **claude-code, codex, opencode** — nothing beyond linking, other than auth.
 

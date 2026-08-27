@@ -20,6 +20,7 @@ harness-configs/
 │   └── prompts/          portable prompt templates
 │
 ├── pi/                 → ~/.pi/agent/
+├── omp/                → ~/.omp/agent/
 ├── claude-code/        → ~/.claude/
 ├── codex/              → ~/.codex/
 ├── opencode/           → $XDG_CONFIG_HOME/opencode/
@@ -58,12 +59,12 @@ manifest can describe the full intended surface while you fill it in.
 The harnesses have converged more than their docs suggest, which is what makes
 a `shared/` folder worth having:
 
-| | pi | Claude Code | codex | opencode |
-|---|---|---|---|---|
-| Instructions file | `AGENTS.md` | `CLAUDE.md` (imports it) | `AGENTS.md` | `AGENTS.md` |
-| Skills (`SKILL.md`) | ✓ | ✓ | — | ✓ via `~/.agents/` |
-| Prompt templates | `prompts/` | `commands/` | `prompts/` | `command/` |
-| Extensions | `extensions/` + `packages[]` | plugins | — | `plugin/` |
+| | pi | omp | Claude Code | codex | opencode |
+|---|---|---|---|---|---|
+| Instructions file | `AGENTS.md` | `AGENTS.md` | `CLAUDE.md` (imports it) | `AGENTS.md` | `AGENTS.md` |
+| Skills (`SKILL.md`) | ✓ | ✓ | ✓ | — | ✓ via `~/.agents/` |
+| Prompt templates | `prompts/` | — | `commands/` | `prompts/` | `command/` |
+| Extensions | `extensions/` + `packages[]` | `extensions/` | plugins | — | `plugin/` |
 | Subagents | via extension | `agents/` | — | `agent/` |
 
 So: **instructions** are one file linked four ways, **skills** are shared

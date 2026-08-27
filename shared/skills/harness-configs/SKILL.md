@@ -1,13 +1,13 @@
 ---
 name: harness-configs
-description: Install, sync, update, or repair the user's agent harness configs (pi, Claude Code, codex, opencode) from their harness-configs repo. Use when asked to set up harness configuration on a machine, deploy or re-link configs, add a config file to the repo, check whether configs are correctly linked, or undo the linking. Also use when a harness config file appears to be a symlink and the user wants to change it.
+description: Install, sync, update, or repair the user's agent harness configs (pi, omp, Claude Code, codex, opencode) from their harness-configs repo. Use when asked to set up harness configuration on a machine, deploy or re-link configs, add a config file to the repo, check whether configs are correctly linked, or undo the linking. Also use when a harness config file appears to be a symlink and the user wants to change it.
 ---
 
 # harness-configs
 
 The user keeps every harness's configuration in one git repo and symlinks it into
 each harness's real config directory. Config files under `~/.pi/agent/`,
-`~/.claude/`, `~/.codex/`, and `~/.config/opencode/` are
+`~/.omp/agent/`, `~/.claude/`, `~/.codex/`, and `~/.config/opencode/` are
 therefore **symlinks into that repo** — editing them edits the repo, and the
 change should be committed.
 
