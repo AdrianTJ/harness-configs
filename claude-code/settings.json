@@ -4,6 +4,8 @@
   "theme": "auto",
   "agentPushNotifEnabled": true,
   "attribution": {
-    "pr": ""
+    "commit": "",
+    "pr": "",
+    "sessionUrl": false
   }
 }
