@@ -1,11 +1,12 @@
 {
-  "model": "sonnet",
-  "effortLevel": "high",
-  "theme": "auto",
-  "agentPushNotifEnabled": true,
   "attribution": {
-    "commit": "",
     "pr": "",
+    "commit": "",
     "sessionUrl": false
-  }
+  },
+  "model": "opus[1m]",
+  "agentPushNotifEnabled": true,
+  "effortLevel": "high",
+  "skipDangerousModePermissionPrompt": true,
+  "theme": "auto"
 }
