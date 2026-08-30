@@ -9,3 +9,5 @@ theme:
 setupVersion: 2
 dev: 
   autoqaConsent: granted
+browser: 
+  relay: true
