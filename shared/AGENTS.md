@@ -1,11 +1,3 @@
-# Global instructions
-
-Applies everywhere, in every repo. Project-level `AGENTS.md` files layer on top
-of this and win where they conflict.
-
-Keep this file harness-neutral and short. Anything true of only one harness goes
-in that harness's own folder — see `claude-code/CLAUDE.md` for the pattern.
-
 ## Git
 
 Author every commit to me:
