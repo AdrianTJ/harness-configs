@@ -30,6 +30,8 @@ rather than remembered. For GitHub sources that is the full commit SHA
 |---|---|---|---|---|---|
 | `unslop` | reference | [MohamedAbdallah-14/unslop](https://github.com/MohamedAbdallah-14/unslop) `skills/unslop/SKILL.md` | grabbed on demand | — | MIT |
 | `deslop` | adapted | [rohitg00/pro-workflow](https://github.com/rohitg00/pro-workflow) `deslop`; [tmdgusya/engineering-discipline](https://github.com/tmdgusya/engineering-discipline) `clean-ai-slop` | `7f7209d…`, `137dead…` | 2026-07-18, 2026-07-03 | none declared |
+| `bro-what` | vendored | [eukosh/bro-skills](https://github.com/eukosh/bro-skills) `skills/bro-what/SKILL.md` | `08d2e07…` | 2026-08-30 | MIT |
+| `bro-shorter` | vendored | [eukosh/bro-skills](https://github.com/eukosh/bro-skills) `skills/bro-shorter/SKILL.md` | `08d2e07…` | 2026-08-30 | MIT |
 | `ponytail` | reference | npm [`@dietrichgebert/ponytail`](https://www.npmjs.com/package/@dietrichgebert/ponytail) (GitHub: [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail)) | `4.9.0` | — | MIT |
 | `pi-subagents` | reference | npm [`pi-subagents`](https://www.npmjs.com/package/pi-subagents) (GitHub: [nicobailon/pi-subagents](https://github.com/nicobailon/pi-subagents)) | `0.51.0` | — | MIT |
 | `harness-configs` | local | none — authored for this repo | — | — | — |
@@ -64,6 +66,21 @@ stand alone, but re-distribution of verbatim upstream text is unlicensed.
 git ls-remote https://github.com/rohitg00/pro-workflow HEAD        # resolved_commit 7f7209d
 git ls-remote https://github.com/tmdgusya/engineering-discipline HEAD  # resolved_commit 137dead
 # New commits? Review the upstream diffs, re-apply anything worth keeping, commit.
+```
+
+
+## bro-what & bro-shorter
+
+"Explain that again like a human" skills from [eukosh/bro-skills](https://github.com/eukosh/bro-skills):
+`bro-what` re-explains the last message plainly, `bro-shorter` compresses it.
+Both are user-invoked only (`disable-model-invocation: true`), re-say without
+re-answering, and are vendored verbatim (MIT) into `shared/skills/` — one
+`SKILL.md` each. Upstream also ships an `agents/openai.yaml` per skill for
+Codex's dialect; not vendored, since no linked target here feeds Codex skills.
+
+```sh
+git ls-remote https://github.com/eukosh/bro-skills refs/heads/main   # resolved_commit 08d2e07
+# New commits? Diff upstream SKILL.md against the vendored copy, re-copy, update pin + footer.
 ```
 
 ## pi package skills
