@@ -34,6 +34,7 @@ rather than remembered. For GitHub sources that is the full commit SHA
 | `bro-shorter` | vendored | [eukosh/bro-skills](https://github.com/eukosh/bro-skills) `skills/bro-shorter/SKILL.md` | `08d2e07…` | 2026-08-30 | MIT |
 | `ponytail` | reference | npm [`@dietrichgebert/ponytail`](https://www.npmjs.com/package/@dietrichgebert/ponytail) (GitHub: [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail)) | `4.9.0` | — | MIT |
 | `pi-subagents` | reference | npm [`pi-subagents`](https://www.npmjs.com/package/pi-subagents) (GitHub: [nicobailon/pi-subagents](https://github.com/nicobailon/pi-subagents)) | `0.51.0` | — | MIT |
+| `brainstorming` | adapted | [obra/superpowers](https://github.com/obra/superpowers) `skills/brainstorming/SKILL.md` | `b36e0829…` | 2026-09-03 | MIT |
 | `harness-configs` | local | none — authored for this repo | — | — | — |
 
 `harness-configs` is the only skill with no upstream. Everything else should be
@@ -89,6 +90,30 @@ git ls-remote https://github.com/eukosh/bro-skills refs/heads/main   # resolved_
 Decision: Codex stays without a skills target — no manifest entry feeds
 Codex skills, so the `openai.yaml` dialect ships upstream stay unvendored.
 Revisit if Codex CLI documents a skills directory worth linking.
+
+## brainstorming
+
+Superpowers' design-before-code discipline, ported as **user-invoked
+commands, not a skill** — deliberate, per the no-bloat rule: one TDD
+doctrine (mattpocock `tdd`, installed via CLI below) and no competing
+auto-triggers. Lives in four wrappers with one shared adapted body:
+
+- `claude-code/commands/brainstorming.md` (`description` + `argument-hint`, `$ARGUMENTS`)
+- `pi/prompts/brainstorming.md` (`description` + `argument-hint`, invocation text)
+- `opencode/command/brainstorming.md` (`description`, `$ARGUMENTS`)
+- `codex/prompts/brainstorming.md` (frontmatter-free; codex prompt format unverified)
+
+Adaptation vs upstream: visual-companion section cut (needs plugin
+assets), writing-plans references replaced with the project's normal
+planning workflow, spec path `docs/superpowers/specs/` → `docs/specs/`.
+The sibling skills the source name-checks (`superpowers:test-driven-development`,
+`superpowers:verification-before-completion`) are intentionally absent —
+mattpocock `tdd` covers that ground.
+
+```sh
+git ls-remote https://github.com/obra/superpowers HEAD   # resolved_commit b36e0829
+# New commits? Diff upstream skills/brainstorming/SKILL.md against a wrapper, re-apply the adaptation to all four, update pin + footers.
+```
 
 ## pi package skills
 
