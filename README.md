@@ -65,7 +65,7 @@ a `shared/` folder worth having:
 | Skills (`SKILL.md`) | ✓ | ✓ | ✓ | — | ✓ via `~/.agents/` |
 | Prompt templates | `prompts/` | — | `commands/` | `prompts/` | `command/` |
 | Extensions | `extensions/` + `packages[]` | `extensions/` | plugins | — | `plugin/` |
-| Subagents | via extension | `agents/` | — | `agent/` |
+| Subagents | via extension | — | `agents/` | — | `agent/` |
 
 So: **instructions** are one file linked four ways, **skills** are shared
 between pi, Claude Code, and the `~/.agents/` store unchanged, and **prompt

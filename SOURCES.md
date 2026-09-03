@@ -53,6 +53,9 @@ npx skills add MohamedAbdallah-14/unslop -g -a claude-code
 # or manual: clone https://github.com/MohamedAbdallah-14/unslop and copy skills/unslop/
 ```
 
+Decision: stays reference-only. Nothing in the manifest consumes it, so it
+is installed on demand per machine, never vendored here.
+
 
 ## deslop
 
@@ -82,6 +85,10 @@ Codex's dialect; not vendored, since no linked target here feeds Codex skills.
 git ls-remote https://github.com/eukosh/bro-skills refs/heads/main   # resolved_commit 08d2e07
 # New commits? Diff upstream SKILL.md against the vendored copy, re-copy, update pin + footer.
 ```
+
+Decision: Codex stays without a skills target — no manifest entry feeds
+Codex skills, so the `openai.yaml` dialect ships upstream stay unvendored.
+Revisit if Codex CLI documents a skills directory worth linking.
 
 ## pi package skills
 
