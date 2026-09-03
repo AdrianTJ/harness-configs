@@ -13,3 +13,12 @@ Config root: `~/.codex/`.
 ## Not linked
 
 `auth.json` holds credentials. `sessions/` and `log/` are runtime state.
+
+## config.toml
+
+`~/.codex/config.toml` on a machine with the ChatGPT desktop app is owned by
+that app: marketplaces, versioned plugin paths, injected MCP servers, and
+per-project trust entries. Vendoring it would churn on every app update — and
+replacing the live file would break the app — so `codex/config.toml` stays
+unpopulated here until there is a standalone-CLI machine to author a minimal
+portable config for (model, approval mode, sandbox).
