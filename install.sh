@@ -15,7 +15,7 @@ REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 MANIFEST="$REPO_DIR/links.conf"
 : "${XDG_CONFIG_HOME:="$HOME/.config"}"
 
-ACTION=install
+ACTION="install"
 DRY_RUN=0
 FILTERS=()
 STAMP="$(date +%Y%m%d%H%M%S)"
@@ -33,17 +33,17 @@ usage() { sed -n '2,12p' "${BASH_SOURCE[0]}" | sed 's/^# \{0,1\}//'; }
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --dry-run|-n) DRY_RUN=1 ;;
-    --status)     ACTION=status ;;
-    --unlink)     ACTION=unlink ;;
-    --harness)    [[ $# -ge 2 ]] || { echo "--harness needs a value" >&2; exit 2; }
+    --status)     ACTION="status" ;;
+    --unlink)     ACTION="unlink" ;;
+    --harness)    [[ $# -ge 2 ]] || { echo "${C_ERR}--harness needs a value${C_OFF}" >&2; exit 2; }
                   FILTERS+=("$2"); shift ;;
     -h|--help)    usage; exit 0 ;;
-    *)            echo "unknown argument: $1" >&2; usage >&2; exit 2 ;;
+    *)            echo "${C_ERR}unknown argument: $1${C_OFF}" >&2; usage >&2; exit 2 ;;
   esac
   shift
 done
 
-[[ -f "$MANIFEST" ]] || { echo "manifest not found: $MANIFEST" >&2; exit 1; }
+[[ -f "$MANIFEST" ]] || { echo "${C_ERR}manifest not found: $MANIFEST${C_OFF}" >&2; exit 1; }
 
 # Reject --harness values that match nothing in the manifest, so a typo
 # doesn't silently link nothing.
@@ -55,7 +55,7 @@ if [[ ${#FILTERS[@]} -gt 0 ]]; then
   done < "$MANIFEST"
   for f in "${FILTERS[@]}"; do
     case "$known" in *" $f "*) ;; *)
-      echo "unknown harness: $f (known:${known% })" >&2; exit 2 ;;
+      echo "${C_ERR}unknown harness: $f${C_OFF} (known:${known% })" >&2; exit 2 ;;
     esac
   done
 fi
@@ -199,7 +199,7 @@ process() { # harness, mode, source, target
       fi
       eval "$restore_glob" ;;
     *)
-      echo "unknown mode '$mode' in manifest" >&2; exit 1 ;;
+      echo "${C_ERR}unknown mode '$mode' in manifest${C_OFF}" >&2; exit 1 ;;
   esac
 }
 
