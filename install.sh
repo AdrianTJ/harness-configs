@@ -45,6 +45,21 @@ done
 
 [[ -f "$MANIFEST" ]] || { echo "manifest not found: $MANIFEST" >&2; exit 1; }
 
+# Reject --harness values that match nothing in the manifest, so a typo
+# doesn't silently link nothing.
+if [[ ${#FILTERS[@]} -gt 0 ]]; then
+  known=" "
+  while read -r harness _rest; do
+    [[ -z "${harness:-}" || "$harness" == \#* ]] && continue
+    case "$known" in *" $harness "*) ;; *) known+="$harness ";; esac
+  done < "$MANIFEST"
+  for f in "${FILTERS[@]}"; do
+    case "$known" in *" $f "*) ;; *)
+      echo "unknown harness: $f (known:${known% })" >&2; exit 2 ;;
+    esac
+  done
+fi
+
 # Expand only $HOME and $XDG_CONFIG_HOME -- no eval, so a stray backtick or
 # $(...) in the manifest stays inert text.
 expand() {
@@ -142,34 +157,47 @@ process() { # harness, mode, source, target
     link)
       link_one "$src" "$tgt" ;;
     merge)
+      # The globs below must see dotfiles and expand to nothing in empty
+      # directories. Save and restore the flags so callers see no change
+      # (`shopt -p` exits 1 when either flag is unset, hence `|| true`
+      # under `set -e`).
+      local restore_glob; restore_glob="$(shopt -p dotglob nullglob || true)"
+      shopt -s dotglob nullglob
       # Unlink sweeps the target directory instead of the source, so links whose
       # source has since been renamed or removed still get cleaned up.
       if [[ "$ACTION" == unlink ]]; then
-        [[ -d "$tgt" ]] || return 0
-        local existing
-        for existing in "$tgt"/*; do
-          [[ -L "$existing" ]] && unlink_one "$existing"
-        done
-        return 0
+        if [[ -d "$tgt" ]]; then
+          local existing
+          for existing in "$tgt"/*; do
+            [[ -L "$existing" ]] && unlink_one "$existing"
+          done
+          # Drop the directory if sweeping emptied it. rmdir only removes
+          # empty directories, so pre-existing content is never touched.
+          rmdir "$tgt" 2>/dev/null || true
+        fi
+        eval "$restore_glob"; return 0
       fi
 
       if [[ ! -d "$src" ]]; then
         n_skipped=$(( n_skipped + 1 ))
-        say "$C_DIM" "skip" "$tgt/" "$3 not here yet"; return 0
+        say "$C_DIM" "skip" "$tgt/" "$3 not here yet"
+        eval "$restore_glob"; return 0
       fi
       local found=0 entry
       for entry in "$src"/*; do
         [[ -e "$entry" ]] || continue
         local base; base="$(basename "$entry")"
-        # Skeleton markers and per-folder docs are not content to deploy.
-        [[ "$base" == "README.md" || "$base" == ".gitkeep" ]] && continue
+        # Skeleton markers, per-folder docs, and macOS metadata are not
+        # content to deploy.
+        [[ "$base" == "README.md" || "$base" == ".gitkeep" || "$base" == ".DS_Store" ]] && continue
         found=1
         link_one "$entry" "$tgt/$base"
       done
       if (( ! found )); then
         n_skipped=$(( n_skipped + 1 ))
         say "$C_DIM" "skip" "$tgt/" "$3 is empty"
-      fi ;;
+      fi
+      eval "$restore_glob" ;;
     *)
       echo "unknown mode '$mode' in manifest" >&2; exit 1 ;;
   esac
