@@ -18,3 +18,10 @@ uses `agent/`, `command/`, and `plugin/` where Claude Code uses `agents/` and
 Commands are not shared from `shared/prompts/` because opencode expects its own
 frontmatter. If you want to reuse a shared prompt body, add a thin wrapper file
 under `command/` here.
+
+## Not linked
+
+Sessions, auth, and app-managed plugin files (currently herdr's state plugin
+under `plugins/`) are opencode's own and stay untracked — same rule as pi's
+and omp's app-managed extensions. The plugin *declaration* lives in
+`opencode.json`; the installed bytes stay local.

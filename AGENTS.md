@@ -11,12 +11,15 @@ silently discards work.
 
 ## What this repo is
 
-Configs for four agent harnesses, symlinked into their real config directories
+Configs for five agent harnesses, symlinked into their real config directories
 from one git repo. One folder per harness mirroring that harness's actual config
 layout, plus `shared/` for what more than one harness reads verbatim.
 
 `links.conf` is the manifest and the source of truth: every symlink that gets
 made is a line in it. `install.sh` does nothing that isn't declared there.
+
+`shared/` files deploy verbatim to every harness, so keep them harness-neutral
+and short — anything true of only one harness belongs in that harness's folder.
 
 | Folder | Deploys to | Harness binary |
 |---|---|---|

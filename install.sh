@@ -15,7 +15,7 @@ REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 MANIFEST="$REPO_DIR/links.conf"
 : "${XDG_CONFIG_HOME:="$HOME/.config"}"
 
-ACTION=install
+ACTION="install"
 DRY_RUN=0
 FILTERS=()
 STAMP="$(date +%Y%m%d%H%M%S)"
@@ -33,17 +33,32 @@ usage() { sed -n '2,12p' "${BASH_SOURCE[0]}" | sed 's/^# \{0,1\}//'; }
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --dry-run|-n) DRY_RUN=1 ;;
-    --status)     ACTION=status ;;
-    --unlink)     ACTION=unlink ;;
-    --harness)    [[ $# -ge 2 ]] || { echo "--harness needs a value" >&2; exit 2; }
+    --status)     ACTION="status" ;;
+    --unlink)     ACTION="unlink" ;;
+    --harness)    [[ $# -ge 2 ]] || { echo "${C_ERR}--harness needs a value${C_OFF}" >&2; exit 2; }
                   FILTERS+=("$2"); shift ;;
     -h|--help)    usage; exit 0 ;;
-    *)            echo "unknown argument: $1" >&2; usage >&2; exit 2 ;;
+    *)            echo "${C_ERR}unknown argument: $1${C_OFF}" >&2; usage >&2; exit 2 ;;
   esac
   shift
 done
 
-[[ -f "$MANIFEST" ]] || { echo "manifest not found: $MANIFEST" >&2; exit 1; }
+[[ -f "$MANIFEST" ]] || { echo "${C_ERR}manifest not found: $MANIFEST${C_OFF}" >&2; exit 1; }
+
+# Reject --harness values that match nothing in the manifest, so a typo
+# doesn't silently link nothing.
+if [[ ${#FILTERS[@]} -gt 0 ]]; then
+  known=" "
+  while read -r harness _rest; do
+    [[ -z "${harness:-}" || "$harness" == \#* ]] && continue
+    case "$known" in *" $harness "*) ;; *) known+="$harness ";; esac
+  done < "$MANIFEST"
+  for f in "${FILTERS[@]}"; do
+    case "$known" in *" $f "*) ;; *)
+      echo "${C_ERR}unknown harness: $f${C_OFF} (known:${known% })" >&2; exit 2 ;;
+    esac
+  done
+fi
 
 # Expand only $HOME and $XDG_CONFIG_HOME -- no eval, so a stray backtick or
 # $(...) in the manifest stays inert text.
@@ -142,36 +157,49 @@ process() { # harness, mode, source, target
     link)
       link_one "$src" "$tgt" ;;
     merge)
+      # The globs below must see dotfiles and expand to nothing in empty
+      # directories. Save and restore the flags so callers see no change
+      # (`shopt -p` exits 1 when either flag is unset, hence `|| true`
+      # under `set -e`).
+      local restore_glob; restore_glob="$(shopt -p dotglob nullglob || true)"
+      shopt -s dotglob nullglob
       # Unlink sweeps the target directory instead of the source, so links whose
       # source has since been renamed or removed still get cleaned up.
       if [[ "$ACTION" == unlink ]]; then
-        [[ -d "$tgt" ]] || return 0
-        local existing
-        for existing in "$tgt"/*; do
-          [[ -L "$existing" ]] && unlink_one "$existing"
-        done
-        return 0
+        if [[ -d "$tgt" ]]; then
+          local existing
+          for existing in "$tgt"/*; do
+            [[ -L "$existing" ]] && unlink_one "$existing"
+          done
+          # Drop the directory if sweeping emptied it. rmdir only removes
+          # empty directories, so pre-existing content is never touched.
+          rmdir "$tgt" 2>/dev/null || true
+        fi
+        eval "$restore_glob"; return 0
       fi
 
       if [[ ! -d "$src" ]]; then
         n_skipped=$(( n_skipped + 1 ))
-        say "$C_DIM" "skip" "$tgt/" "$3 not here yet"; return 0
+        say "$C_DIM" "skip" "$tgt/" "$3 not here yet"
+        eval "$restore_glob"; return 0
       fi
       local found=0 entry
       for entry in "$src"/*; do
         [[ -e "$entry" ]] || continue
         local base; base="$(basename "$entry")"
-        # Skeleton markers and per-folder docs are not content to deploy.
-        [[ "$base" == "README.md" || "$base" == ".gitkeep" ]] && continue
+        # Skeleton markers, per-folder docs, and macOS metadata are not
+        # content to deploy.
+        [[ "$base" == "README.md" || "$base" == ".gitkeep" || "$base" == ".DS_Store" ]] && continue
         found=1
         link_one "$entry" "$tgt/$base"
       done
       if (( ! found )); then
         n_skipped=$(( n_skipped + 1 ))
         say "$C_DIM" "skip" "$tgt/" "$3 is empty"
-      fi ;;
+      fi
+      eval "$restore_glob" ;;
     *)
-      echo "unknown mode '$mode' in manifest" >&2; exit 1 ;;
+      echo "${C_ERR}unknown mode '$mode' in manifest${C_OFF}" >&2; exit 1 ;;
   esac
 }
 
