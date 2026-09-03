@@ -22,13 +22,13 @@ imported files load at launch regardless.
 
 ## Attribution
 
-`attribution.pr` is blanked so Claude Code stops appending a "Generated with
-Claude Code" footer to pull request bodies.
+`attribution.pr` and `attribution.commit` are both blanked so Claude Code stops
+appending its "Generated with Claude Code" footer to pull request bodies and
+commit messages.
 
-`attribution.commit` is deliberately left unset. It governs the
-`Co-Authored-By: Claude` trailer, which the git convention in `CLAUDE.md`
-*wants* on commits — blanking it would remove the credit line, not just the
-marketing one. Set `"commit": ""` only if you change that convention.
+This only governs what Claude Code appends on its own. The `Co-Authored-By`
+trailer convention in `CLAUDE.md` is unaffected — that trailer is passed
+explicitly in the commit command, not auto-appended.
 
 The older `includeCoAuthoredBy` setting is deprecated in favour of this one, and
 the two conflict if both are set. Use `attribution` alone.
@@ -48,6 +48,23 @@ Two caveats worth knowing:
 Claude Code writes machine-local permission grants into `settings.local.json`.
 That file is gitignored and never linked — keep the durable, portable rules in
 `settings.json` here and let the local file stay local.
+
+## Hooks
+
+The `SessionStart` hook reports the session to the herdr app. Only the settings
+line is tracked here; the script itself (`~/.claude/hooks/herdr-agent-state.sh`)
+is herdr-managed, regenerates on reinstall, and is never linked or committed.
+It exits silently when herdr isn't running, so the line is harmless on machines
+without it.
+
+The command is written in `$HOME` form so it works on any machine. herdr's
+installer writes an absolute path — if a reinstall rewrites the line that way,
+re-apply the portable form when the diff shows up.
+
+## Permissions
+
+`skipDangerousModePermissionPrompt` is set, so dangerous-mode runs don't prompt.
+Delete the line if you want the prompt back.
 
 ## Not linked
 
