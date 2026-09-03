@@ -7,8 +7,8 @@ project and free to diverge, not silently changed when you edit this repo.
 `install.sh` ignores this directory entirely.
 
 ```sh
-# drop the default template into a project
-cp -R ~/harness-configs/templates/default/. /path/to/project/
+# drop the default template into a project (from the repo root)
+cp -R templates/default/. /path/to/project/
 ```
 
 ## default/

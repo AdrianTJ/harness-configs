@@ -11,7 +11,7 @@ silently discards work.
 
 ## What this repo is
 
-Configs for four agent harnesses, symlinked into their real config directories
+Configs for five agent harnesses, symlinked into their real config directories
 from one git repo. One folder per harness mirroring that harness's actual config
 layout, plus `shared/` for what more than one harness reads verbatim.
 
