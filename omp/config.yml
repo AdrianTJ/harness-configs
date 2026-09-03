@@ -1,13 +1,13 @@
-modelRoles: 
+modelRoles:
   default: opencode-go/glm-5.3-flash:high
 symbolPreset: nerd
-composer: 
+composer:
   shape: box
-theme: 
+theme:
   dark: titanium
   light: light
 setupVersion: 2
-dev: 
+dev:
   autoqaConsent: granted
-browser: 
+browser:
   relay: true
