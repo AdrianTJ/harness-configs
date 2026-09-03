@@ -115,7 +115,8 @@ two places here:
 
 - `pi/settings.json` → `packages[]` (`npm:@dietrichgebert/ponytail`, deliberately
   unpinned — see `pi/README.md`)
-- `opencode/opencode.json` → plugin entry (once that file is populated)
+- `opencode/opencode.json` → `plugin[]` (`@dietrichgebert/ponytail`, the exact
+  form from the package README's OpenCode section)
 
 ```sh
 npm view @dietrichgebert/ponytail version   # current upstream, compare against 4.9.0
