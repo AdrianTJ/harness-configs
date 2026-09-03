@@ -1,9 +1,13 @@
 {
-  "model": "sonnet",
-  "effortLevel": "high",
-  "theme": "auto",
-  "agentPushNotifEnabled": true,
   "attribution": {
-    "pr": ""
-  }
+    "pr": "",
+    "commit": "",
+    "sessionUrl": false
+  },
+  "model": "opus[1m]",
+  "agentPushNotifEnabled": true,
+  "effortLevel": "high",
+  "skipDangerousModePermissionPrompt": true,
+  "theme": "auto",
+  "hooks": {"SessionStart":[{"matcher":"*","hooks":[{"type":"command","command":"bash \"$HOME/.claude/hooks/herdr-agent-state.sh\" session","timeout":10}]}]}
 }
