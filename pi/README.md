@@ -46,12 +46,12 @@ them. Pin any package you need to hold still.
 | `npm:@jqwn/pi-ask-user-question` | `ask_user_question` — multi-question TUI dialogs with options, descriptions, and previews, so the model asks instead of guessing. |
 | `npm:@narumitw/pi-btw` | `/btw` side-question thread, answered in an ephemeral UI without polluting the main conversation. |
 | `npm:@dietrichgebert/ponytail` | "Lazy senior dev" mode — YAGNI ladder, stdlib-first, shortest diff. Ships an extension *and* skills. |
-| `npm:pi-subagents` | Delegation to child agents, foreground or background. pi ships without subagents by design; this adds them. |
+| `npm:pi-subagents-lite` | Delegation to child agents, foreground or background, with steering, continuation, and worktrees — schema-first, three tools, minimal token overhead. |
 | `npm:pi-tasks` | Evidence-gated task plans that survive compaction and crashes, resumable via `/task-resume`. |
-| `npm:pi-web-access` | Web search and fetch, plus GitHub clone, PDF extraction, and YouTube. Defaults to Exa with no API key. |
+| `npm:pi-web-lite` | Lean web access: `web_search` (Exa/Tavily/Brave/Doubao) and `fetch`. No curator UI, video, or GitHub-clone extras — `gh` CLI and `pdftotext` cover those. |
 
-Which of these ship skills (ponytail and pi-subagents do; the rest are
-extensions only) is recorded in `SOURCES.md` under "pi package skills" — check
+Which of these ship skills (ponytail does; the rest are extensions only) is
+recorded in `SOURCES.md` under "pi package skills" — check
 there before assuming a package's skills are accounted for.
 
 Two are worth knowing more about:
@@ -60,9 +60,11 @@ Two are worth knowing more about:
 (extension + skills) and an `.opencode/` plugin. So when you set up opencode, it's
 the same package declared a second way — not a second tool to learn.
 
-**pi-web-access needs no key by default.** It works out of the box through Exa.
-If you later switch it to Brave, Tavily, or Parallel, those keys belong in the
-environment or `auth.json`, never in `settings.json` — that file is tracked.
+**pi-web-lite needs one search key.** Unlike the pi-web-access it replaced, it
+has no keyless default: put at least one Exa/Brave/Tavily/Doubao key in
+`~/.pi/web-search.json` (its only config file). That path is machine-local and
+never tracked — keys belong there or in the environment, never in
+`settings.json`.
 
 ## First run on a new machine
 
