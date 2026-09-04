@@ -33,7 +33,6 @@ rather than remembered. For GitHub sources that is the full commit SHA
 | `bro-what` | vendored | [eukosh/bro-skills](https://github.com/eukosh/bro-skills) `skills/bro-what/SKILL.md` | `08d2e07…` | 2026-08-30 | MIT |
 | `bro-shorter` | vendored | [eukosh/bro-skills](https://github.com/eukosh/bro-skills) `skills/bro-shorter/SKILL.md` | `08d2e07…` | 2026-08-30 | MIT |
 | `ponytail` | reference | npm [`@dietrichgebert/ponytail`](https://www.npmjs.com/package/@dietrichgebert/ponytail) (GitHub: [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail)) | `4.9.0` | — | MIT |
-| `pi-subagents` | reference | npm [`pi-subagents`](https://www.npmjs.com/package/pi-subagents) (GitHub: [nicobailon/pi-subagents](https://github.com/nicobailon/pi-subagents)) | `0.51.0` | — | MIT |
 | `brainstorming` | adapted | [obra/superpowers](https://github.com/obra/superpowers) `skills/brainstorming/SKILL.md` | `b36e0829…` | 2026-09-03 | MIT |
 | `docs-freshness` | local | none — authored for this repo | — | — | — |
 | `harness-configs` | local | none — authored for this repo | — | — | — |
@@ -118,20 +117,21 @@ git ls-remote https://github.com/obra/superpowers HEAD   # resolved_commit b36e0
 
 ## pi package skills
 
-Sweep of every package declared in `pi/settings.json` `packages[]` (2026-08-18),
-and what it ships. Skills reach pi from exactly two of them; the rest are
-extensions only. All are `reference` — the declaration is tracked in
-`pi/settings.json`, the bytes are re-fetched per machine.
+Sweep of every package declared in `pi/settings.json` `packages[]` (latest
+2026-09-03), and what it ships. Skills reach pi from exactly one of them
+(ponytail); the rest are extensions only. All are `reference` — the
+declaration is tracked in `pi/settings.json`, the bytes are re-fetched per
+machine.
 
 | Package | Version | Ships | Source |
 |---|---|---|---|
 | `npm:@dietrichgebert/ponytail` | 4.9.0 | 6 skills (`ponytail`, `-audit`, `-debt`, `-gain`, `-help`, `-review`), pi extension, opencode plugin | [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail) |
-| `npm:pi-subagents` | 0.51.0 | 2 skills (`pi-subagents`, `council-mode`), 5 prompts | [nicobailon/pi-subagents](https://github.com/nicobailon/pi-subagents) |
+| `npm:pi-subagents-lite` | 1.13.0 | extension | [AlexParamonov/pi-subagents-lite](https://github.com/AlexParamonov/pi-subagents-lite) |
 | `npm:@bacnh85/pi-fff` | 0.7.9 | extension | [bacnh85/pi-extensions](https://github.com/bacnh85/pi-extensions) |
 | `npm:@jqwn/pi-ask-user-question` | 0.2.0 | extension | [jqwn/pi-ask-user-question](https://github.com/jqwn/pi-ask-user-question) |
 | `npm:@narumitw/pi-btw` | 0.54.1 | extension | [narumiruna/pi-extensions](https://github.com/narumiruna/pi-extensions) |
 | `npm:pi-tasks` | 0.2.3 | extension | [nczz/pi-tasks](https://github.com/nczz/pi-tasks) |
-| `npm:pi-web-access` | 0.24.0 | extension | [nicobailon/pi-web-access](https://github.com/nicobailon/pi-web-access) |
+| `npm:pi-web-lite` | 0.1.6 | extension | [smithyyang/pi-web-lite](https://github.com/smithyyang/pi-web-lite) |
 
 Check per package: `npm view <name> version`. Bump by editing `pi/settings.json`;
 pi installs the new version on startup.
@@ -160,16 +160,19 @@ npm view @dietrichgebert/ponytail version   # current upstream, compare against 
 The unpacked package also carries a `SKILL.md` for pi. If you want it visible
 to Claude Code too, either vendor it here or accept pi-only.
 
-## pi-subagents
+## pi-subagents-lite
 
-Delegation for pi — subagents, foreground or background. Ships two skills
-(`pi-subagents` and `council-mode`) and five prompts, declared in
-`pi/settings.json` → `packages[]`. `council-mode` is the one that looks
-orphaned in pi's startup skill list — it lives in the package at
-`npm/node_modules/pi-subagents/skills/council-mode`, so leave it there.
+Delegation for pi — subagents, foreground or background, with steering,
+continuation, worktrees, and an `/agents` management menu. Swapped in for
+`pi-subagents` (2026-09-03): schema-first with three tools and no tool
+descriptions, against a measured extension layer of ~16.7k of pi's ~22.5k
+resident tokens. What the swap gives up: council-mode, saved workflows,
+missions, and the two skills + five prompts the old package shipped (its
+`council-mode` skill was the one that looked orphaned in pi's startup skill
+list). Custom agents are plain `.md` files in `~/.pi/agent/agents/`.
 
 ```sh
-npm view pi-subagents version   # current upstream, compare against 0.51.0
+npm view pi-subagents-lite version   # current upstream, compare against 1.13.0
 # Bump by editing pi/settings.json; pi installs the new version on startup.
 ```
 
