@@ -2,6 +2,8 @@
  * profile-badge — shows the active pi-profile name in the footer status bar.
  * Installed per profile via settings.json "extensions"; reads the env var the
  * pi-profile wrapper sets, so it stays quiet when pi runs without a profile.
+ *
+ * Vendored from AdrianTJ/pi-profiles `extensions/profile-badge.ts` @ 2ecdf87 (2026-09-06).
  */
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 
