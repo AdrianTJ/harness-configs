@@ -61,6 +61,17 @@ The command is written in `$HOME` form so it works on any machine. herdr's
 installer writes an absolute path — if a reinstall rewrites the line that way,
 re-apply the portable form when the diff shows up.
 
+### Orca agent-hooks
+
+The Orca terminal injects its own cross-platform agent hooks into
+`SessionStart`, `PreToolUse`, and `UserPromptSubmit` on launch, including a
+generated PowerShell fallback for Windows. Because this repo links
+`settings.json`, that shows up as an uncommitted `git status` change here.
+Treat it as known app-managed drift: leave it uncommitted, don't revert it from
+the repo side (that would strip the hooks from the live config), and re-apply
+the herdr and git-guardrails lines by hand if an Orca update ever clobbers
+them.
+
 ## Permissions
 
 `skipDangerousModePermissionPrompt` is set, so dangerous-mode runs don't prompt.
