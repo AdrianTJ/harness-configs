@@ -36,6 +36,7 @@ rather than remembered. For GitHub sources that is the full commit SHA
 | `brainstorming` | adapted | [obra/superpowers](https://github.com/obra/superpowers) `skills/brainstorming/SKILL.md` | `b36e0829…` | 2026-09-03 | MIT |
 | `docs-freshness` | local | none — authored for this repo | — | — | — |
 | `harness-configs` | local | none — authored for this repo | — | — | — |
+| `profile-badge` | vendored | [AdrianTJ/pi-profiles](https://github.com/AdrianTJ/pi-profiles) `extensions/profile-badge.ts` | `2ecdf87…` | 2026-09-06 | Apache-2.0 |
 
 `harness-configs` and `docs-freshness` have no upstream. Everything else should be
 re-checked periodically, and always before a significant upgrade of pi or
@@ -180,6 +181,19 @@ npm view pi-subagents-lite version   # current upstream, compare against 1.13.0
 
 Local skill for operating this repo (install/sync/repair runbook). No upstream;
 edit in place. Do not check for updates — it *is* the source.
+
+## profile-badge
+
+Footer extension showing the active pi-profile name. Vendored verbatim from
+[AdrianTJ/pi-profiles](https://github.com/AdrianTJ/pi-profiles)
+`extensions/profile-badge.ts` into `pi/extensions/` (linked to
+`~/.pi/agent/extensions/`), so the base config shows `[name]` when launched
+via the wrapper and stays quiet otherwise.
+
+```sh
+git ls-remote https://github.com/AdrianTJ/pi-profiles HEAD   # resolved_commit 2ecdf87
+# New commits? Diff upstream extensions/profile-badge.ts against pi/extensions/profile-badge.ts, re-copy, update pin + footer.
+```
 
 ---
 
