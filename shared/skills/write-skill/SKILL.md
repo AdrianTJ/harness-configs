@@ -69,7 +69,4 @@ verified with `./install.sh --status`.
 
 ---
 
-Ported from `AdrianTJ/agentic_engineering` (`.ruler/skills/general/write-skill`,
-as of `71ae28e`) and adapted to this repo's layout: placement, ledger, and
-`skill-creator`-via-ecosystem-store steps are harness-configs-specific. The
-canonical home is now here.
+Local skill; canonical home is this repo.

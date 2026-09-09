@@ -37,13 +37,14 @@ rather than remembered. For GitHub sources that is the full commit SHA
 | `docs-freshness` | local | none — authored for this repo | — | — | — |
 | `harness-configs` | local | none — authored for this repo | — | — | — |
 | `profile-badge` | vendored | [AdrianTJ/pi-profiles](https://github.com/AdrianTJ/pi-profiles) `extensions/profile-badge.ts` | `2ecdf87…` | 2026-09-06 | Apache-2.0 |
-| `write-skill` | adapted | [AdrianTJ/agentic_engineering](https://github.com/AdrianTJ/agentic_engineering) `.ruler/skills/general/write-skill/SKILL.md` | `71ae28e…` | 2026-09-08 | none declared |
+| `write-skill` | local | originally agentic_engineering; canonical home here | — | 2026-09-08 | — |
 | `skill-creator` | reference | [anthropics/skills](https://github.com/anthropics/skills) `skills/skill-creator/SKILL.md` | via `npx skills` | — | Apache-2.0 |
-| `validate-results` | adapted | [AdrianTJ/agentic_engineering](https://github.com/AdrianTJ/agentic_engineering) `.ruler/skills/general/validate-results/` | `87cb891…` | 2026-09-09 | none declared |
-| `log-decision` | adapted | [AdrianTJ/agentic_engineering](https://github.com/AdrianTJ/agentic_engineering) `.ruler/skills/general/log-decision/` | `87cb891…` | 2026-09-09 | none declared |
-| `sync-docs` | adapted | [AdrianTJ/agentic_engineering](https://github.com/AdrianTJ/agentic_engineering) `.ruler/skills/general/sync-docs/` | `87cb891…` | 2026-09-09 | none declared |
+| `validate-results` | local | originally agentic_engineering; canonical home here | — | 2026-09-09 | — |
+| `log-decision` | local | originally agentic_engineering; canonical home here | — | 2026-09-09 | — |
+| `sync-docs` | local | originally agentic_engineering; canonical home here | — | 2026-09-09 | — |
 
-`harness-configs` and `docs-freshness` have no upstream. Everything else should be
+`harness-configs`, `docs-freshness`, `write-skill`, `validate-results`,
+`log-decision`, and `sync-docs` are local — no upstream. Everything else should be
 re-checked periodically, and always before a significant upgrade of pi or
 Claude Code.
 
@@ -178,7 +179,7 @@ missions, and the two skills + five prompts the old package shipped (its
 list). Custom agents are plain `.md` files in `~/.pi/agent/agents/`.
 
 ```sh
-npm view pi-subagents-lite version   # current upstream, compare against 1.13.0
+npm view pi-subagents-lite version   # current upstream, compare against 1.13.1
 # Bump by editing pi/settings.json; pi installs the new version on startup.
 ```
 
@@ -202,19 +203,10 @@ git ls-remote https://github.com/AdrianTJ/pi-profiles HEAD   # resolved_commit 2
 
 ## write-skill
 
-Houses-style skill for authoring skills. Ported from
-[AdrianTJ/agentic_engineering](https://github.com/AdrianTJ/agentic_engineering)
-`.ruler/skills/general/write-skill/` into `shared/skills/write-skill/` and
-adapted to this repo's layout (placement, ledger, and install steps); the
-canonical home is now here. Evals ported alongside into `evals/evals.json`,
-with one added assertion covering the `SOURCES.md` ledger step this repo
-requires. Upstream declares no license — usable, not redistributable verbatim.
-
-```sh
-# agentic_engineering is curriculum-only now; no refresh expected.
-# If it ever revives: diff upstream .ruler/skills/general/write-skill/SKILL.md
-# against shared/skills/write-skill/SKILL.md, re-apply, update pin + footer.
-```
+House-style skill for authoring skills. Originally from agentic_engineering;
+canonical home is this repo — edit in place, no upstream refresh. Evals in
+`evals/evals.json`, with one assertion covering the `SOURCES.md` ledger step
+this repo requires.
 
 ## skill-creator
 
@@ -230,16 +222,9 @@ the drafting process; this entry records where it comes from.
 
 ## validate-results, log-decision, sync-docs
 
-General-purpose working skills, ported with evals from
-[AdrianTJ/agentic_engineering](https://github.com/AdrianTJ/agentic_engineering)
-`.ruler/skills/general/` into `shared/skills/` — trace every figure to its
-source, append-only decision log, docs-vs-code audit. Verbatim ports; no
-adaptation needed. Upstream declares no license — usable, not redistributable
-verbatim.
-
-```sh
-# agentic_engineering is curriculum-only now; no refresh expected.
-```
+General-purpose working skills — trace every figure to its source, append-only
+decision log, docs-vs-code audit. Originally from agentic_engineering;
+canonical home is this repo — edit in place, no upstream refresh.
 
 ---
 

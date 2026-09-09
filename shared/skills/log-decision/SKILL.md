@@ -44,5 +44,4 @@ confirmation of what was logged.
 
 ---
 
-Ported from `AdrianTJ/agentic_engineering` (`.ruler/skills/general/log-decision`,
-as of `87cb891`) with evals. No harness-configs-specific adaptation needed.
+Local skill; canonical home is this repo.

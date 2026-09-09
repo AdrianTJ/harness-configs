@@ -49,5 +49,4 @@ undocumented decisions flagged for the user.
 
 ---
 
-Ported from `AdrianTJ/agentic_engineering` (`.ruler/skills/general/sync-docs`,
-as of `87cb891`) with evals. No harness-configs-specific adaptation needed.
+Local skill; canonical home is this repo.

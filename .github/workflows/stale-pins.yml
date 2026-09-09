@@ -1,0 +1,22 @@
+name: upstream-staleness
+
+# Report-only: fails with a STALE list when a SOURCES.md pin moved upstream.
+# Refreshing is a human job (re-apply adaptations per SOURCES.md Rules),
+# so this workflow never writes anything — the red run is the notification.
+on:
+  schedule:
+    - cron: '0 9 * * 1'   # Mondays 09:00 UTC
+  workflow_dispatch:
+
+jobs:
+  staleness:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: check pins against upstream
+        run: bash scripts/check-upstream.sh

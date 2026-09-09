@@ -26,8 +26,7 @@ Each skill ships at least one eval in `evals/evals.json` beside its `SKILL.md`:
 a realistic request written as a user would say it (never naming the skill),
 an `expected_output` sketch, and `assertions` a reviewer can check against a
 response. Evals are behavioral checks, not tests — run them by eye when a
-skill changes. Ported from `agentic_engineering`'s `.ruler/skills/*/evals/`
-convention; see `write-skill/evals/evals.json` for the shape.
+skill changes. See `write-skill/evals/evals.json` for the shape.
 
 Assert behavior a reader could check, not phrasing — "dry-runs the fan-out
 before executing" survives a rewording of the skill, "the reply contains
