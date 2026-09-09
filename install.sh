@@ -220,8 +220,9 @@ while read -r harness mode src tgt _rest; do
   process "$harness" "$mode" "$src" "$tgt"
 done < "$MANIFEST"
 
-printf '\n%s linked, %s already ok, %s skipped, %s need attention' \
-  "$n_linked" "$n_ok" "$n_skipped" "$n_conflict"
+if [[ "$ACTION" == "status" ]]; then linked_label="would link"; else linked_label="linked"; fi
+printf '\n%s %s, %s already ok, %s skipped, %s need attention' \
+  "$n_linked" "$linked_label" "$n_ok" "$n_skipped" "$n_conflict"
 [[ "$ACTION" == unlink ]] && printf ', %s removed' "$n_removed"
 printf '\n'
 
