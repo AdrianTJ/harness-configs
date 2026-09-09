@@ -6,6 +6,7 @@ Config root: `~/.pi/agent/` (project-level equivalent: `.pi/` in a repo).
 |---|---|---|
 | `settings.json` | `~/.pi/agent/settings.json` | All settings, including the `packages` list below. |
 | `keybindings.json` | `~/.pi/agent/keybindings.json` | Key overrides. |
+| `nolo.json` | `~/.pi/agent/nolo.json` | Approval-gate defaults (scope-writes guard, yolo shortcut). Inert unless pi-nolo is installed. |
 | `APPEND_SYSTEM.md` | `~/.pi/agent/APPEND_SYSTEM.md` | Appended to the system prompt. (`SYSTEM.md` *replaces* it — use with care.) |
 | `extensions/` | `~/.pi/agent/extensions/` | Locally-authored extensions, auto-discovered as `*.ts` or `*/index.ts`. |
 | `themes/` | `~/.pi/agent/themes/` | Custom themes, hot-reloaded. |
