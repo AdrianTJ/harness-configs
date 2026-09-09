@@ -1,0 +1,15 @@
+{
+  "skill_name": "log-decision",
+  "evals": [
+    {
+      "id": "decision-log-append-only",
+      "name": "appends a new entry, never edits history",
+      "prompt": "We just decided to drop the gRPC migration after burning a week on it \u2014 sticking with REST for the internal API. Log this decision.",
+      "expected_output": "Appends a new sequentially-numbered DEC entry capturing the context, decision, and consequences.",
+      "assertions": [
+        "The response appends a new sequentially numbered entry (DEC-NNN format).",
+        "The response does not rewrite or delete any existing entry."
+      ]
+    }
+  ]
+}

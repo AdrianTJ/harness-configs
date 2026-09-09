@@ -39,6 +39,9 @@ rather than remembered. For GitHub sources that is the full commit SHA
 | `profile-badge` | vendored | [AdrianTJ/pi-profiles](https://github.com/AdrianTJ/pi-profiles) `extensions/profile-badge.ts` | `2ecdf87…` | 2026-09-06 | Apache-2.0 |
 | `write-skill` | adapted | [AdrianTJ/agentic_engineering](https://github.com/AdrianTJ/agentic_engineering) `.ruler/skills/general/write-skill/SKILL.md` | `71ae28e…` | 2026-09-08 | none declared |
 | `skill-creator` | reference | [anthropics/skills](https://github.com/anthropics/skills) `skills/skill-creator/SKILL.md` | via `npx skills` | — | Apache-2.0 |
+| `validate-results` | adapted | [AdrianTJ/agentic_engineering](https://github.com/AdrianTJ/agentic_engineering) `.ruler/skills/general/validate-results/` | `87cb891…` | 2026-09-09 | none declared |
+| `log-decision` | adapted | [AdrianTJ/agentic_engineering](https://github.com/AdrianTJ/agentic_engineering) `.ruler/skills/general/log-decision/` | `87cb891…` | 2026-09-09 | none declared |
+| `sync-docs` | adapted | [AdrianTJ/agentic_engineering](https://github.com/AdrianTJ/agentic_engineering) `.ruler/skills/general/sync-docs/` | `87cb891…` | 2026-09-09 | none declared |
 
 `harness-configs` and `docs-freshness` have no upstream. Everything else should be
 re-checked periodically, and always before a significant upgrade of pi or
@@ -224,6 +227,19 @@ npx skills add anthropics/skills --skill skill-creator -g -a pi -a claude-code -
 
 Decision: stays reference-only, like `unslop`. `write-skill` defers to it for
 the drafting process; this entry records where it comes from.
+
+## validate-results, log-decision, sync-docs
+
+General-purpose working skills, ported with evals from
+[AdrianTJ/agentic_engineering](https://github.com/AdrianTJ/agentic_engineering)
+`.ruler/skills/general/` into `shared/skills/` — trace every figure to its
+source, append-only decision log, docs-vs-code audit. Verbatim ports; no
+adaptation needed. Upstream declares no license — usable, not redistributable
+verbatim.
+
+```sh
+# agentic_engineering is curriculum-only now; no refresh expected.
+```
 
 ---
 

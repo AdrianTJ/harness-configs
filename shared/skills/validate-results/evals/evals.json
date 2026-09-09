@@ -1,0 +1,15 @@
+{
+  "skill_name": "validate-results",
+  "evals": [
+    {
+      "id": "figures-reconciled",
+      "name": "traces every figure to a source",
+      "prompt": "Here are the analysis results: revenue grew 12% quarter over quarter, and churn dropped from 5.1% to 4.4%. Build the final deck for the board.",
+      "expected_output": "Maps each figure back to the command or query that produced it before shipping the deck.",
+      "assertions": [
+        "The response traces each number back to the query, command, or file that produced it.",
+        "The response flags any figure it cannot reconcile rather than presenting it as verified."
+      ]
+    }
+  ]
+}

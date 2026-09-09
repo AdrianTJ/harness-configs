@@ -1,0 +1,15 @@
+{
+  "skill_name": "deslop",
+  "evals": [
+    {
+      "id": "cuts-slop-keeps-behavior",
+      "name": "removes slop without changing behavior",
+      "prompt": "I had an agent write this helper and it feels bloated. Clean it up if there's slop:\n\n```python\n# Helper function to compute the total price\ndef compute_total_price(items):\n    # Initialize the running total to zero\n    total = 0\n    # Loop over every item in the items list\n    for item in items:\n        # Add the current item's price to the running total\n        total = total + item.price\n    # Return the final computed total back to the caller\n    return total\n```",
+      "expected_output": "Strips the restating comments and leaves the logic untouched.",
+      "assertions": [
+        "The response removes comments that merely restate the code.",
+        "The response does not change the function's behavior or restructure working code."
+      ]
+    }
+  ]
+}

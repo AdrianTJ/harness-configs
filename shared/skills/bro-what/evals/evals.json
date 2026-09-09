@@ -1,0 +1,15 @@
+{
+  "skill_name": "bro-what",
+  "evals": [
+    {
+      "id": "re-explains-not-re-answers",
+      "name": "re-explains the last message without new content",
+      "prompt": "bro what?",
+      "expected_output": "Re-explains the previous message more simply, with facts intact and no new answers.",
+      "assertions": [
+        "The response re-explains prior content rather than answering a new question.",
+        "Every path, command, number, and name from the original carries over unchanged."
+      ]
+    }
+  ]
+}

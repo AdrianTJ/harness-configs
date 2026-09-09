@@ -1,0 +1,15 @@
+{
+  "skill_name": "harness-configs",
+  "evals": [
+    {
+      "id": "dry-run-before-link",
+      "name": "previews before linking on a new machine",
+      "prompt": "I just got a new laptop with pi and Claude Code installed. Set up my agent configs on it.",
+      "expected_output": "Runs the install runbook in order: preflight, dry-run, link, post-link steps, credential check.",
+      "assertions": [
+        "The response runs ./install.sh --dry-run and reads the output before linking anything.",
+        "The response verifies no credential file is staged before committing anything the install produced."
+      ]
+    }
+  ]
+}

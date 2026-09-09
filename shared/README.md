@@ -35,6 +35,8 @@ before executing" survives a rewording of the skill, "the reply contains
 several assertions here came from bugs found by actually running the skills.
 `skill_name` must match the skill's directory, `id` unique within the file.
 Fixtures go in `evals/files/`, paths relative to the skill dir.
+`scripts/validate-skills.py` checks every skill structurally (spec-conforming
+frontmatter, well-formed evals) — run it before committing, CI runs it too.
 
 `install.sh` links each skill directory individually into every harness that
 takes skills, so a harness-only skill can still live in `pi/skills/` or

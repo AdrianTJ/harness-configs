@@ -1,0 +1,15 @@
+{
+  "skill_name": "bro-shorter",
+  "evals": [
+    {
+      "id": "compresses-keeps-facts",
+      "name": "shortens while keeping every actionable fact",
+      "prompt": "That's way too long, give me the short version.",
+      "expected_output": "A compressed rewrite where every fact, step, caveat, and warning survives verbatim.",
+      "assertions": [
+        "The response is shorter than the original message.",
+        "Every number, path, command, caveat, and warning from the original survives."
+      ]
+    }
+  ]
+}
