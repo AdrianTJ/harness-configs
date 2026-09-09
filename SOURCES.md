@@ -124,7 +124,7 @@ git ls-remote https://github.com/obra/superpowers HEAD   # resolved_commit b36e0
 ## pi package skills
 
 Sweep of every package declared in `pi/settings.json` `packages[]` (latest
-2026-09-03), and what it ships. Skills reach pi from exactly one of them
+2026-09-09), and what it ships. Skills reach pi from exactly one of them
 (ponytail); the rest are extensions only. All are `reference` — the
 declaration is tracked in `pi/settings.json`, the bytes are re-fetched per
 machine.
@@ -132,11 +132,11 @@ machine.
 | Package | Version | Ships | Source |
 |---|---|---|---|
 | `npm:@dietrichgebert/ponytail` | 4.9.0 | 6 skills (`ponytail`, `-audit`, `-debt`, `-gain`, `-help`, `-review`), pi extension, opencode plugin | [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail) |
-| `npm:pi-subagents-lite` | 1.13.0 | extension | [AlexParamonov/pi-subagents-lite](https://github.com/AlexParamonov/pi-subagents-lite) |
-| `npm:@bacnh85/pi-fff` | 0.7.9 | extension | [bacnh85/pi-extensions](https://github.com/bacnh85/pi-extensions) |
+| `npm:pi-subagents-lite` | 1.13.1 | extension | [AlexParamonov/pi-subagents-lite](https://github.com/AlexParamonov/pi-subagents-lite) |
+| `npm:@bacnh85/pi-fff` | 0.8.0 | extension | [bacnh85/pi-extensions](https://github.com/bacnh85/pi-extensions) |
 | `npm:@jqwn/pi-ask-user-question` | 0.2.0 | extension | [jqwn/pi-ask-user-question](https://github.com/jqwn/pi-ask-user-question) |
-| `npm:@narumitw/pi-btw` | 0.54.1 | extension | [narumiruna/pi-extensions](https://github.com/narumiruna/pi-extensions) |
-| `npm:pi-tasks` | 0.2.3 | extension | [nczz/pi-tasks](https://github.com/nczz/pi-tasks) |
+| `npm:@narumitw/pi-btw` | 0.58.1 | extension | [narumiruna/pi-extensions](https://github.com/narumiruna/pi-extensions) |
+| `npm:pi-tasks` | 0.2.7 | extension | [nczz/pi-tasks](https://github.com/nczz/pi-tasks) |
 | `npm:pi-web-lite` | 0.1.6 | extension | [smithyyang/pi-web-lite](https://github.com/smithyyang/pi-web-lite) |
 
 Check per package: `npm view <name> version`. Bump by editing `pi/settings.json`;
