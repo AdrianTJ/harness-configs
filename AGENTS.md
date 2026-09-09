@@ -141,21 +141,16 @@ git status --porcelain | grep -Ei 'auth|credential|\.local\.|session' || echo cl
 
 Follow these on every commit and branch in this repo.
 
-**Authorship.** The work is authored by the repo owner; Claude commits and is
-credited as co-author. Set the author explicitly, since the harness's own git
-identity is Claude:
+**Authorship.** All commits are authored by the repo owner, with no
+co-author trailers and no alternate committer identity. Set the author
+explicitly, since a harness's own git identity may differ:
 
 ```sh
-GIT_COMMITTER_NAME="Claude" GIT_COMMITTER_EMAIL="noreply@anthropic.com" \
 git commit --author="Adrian Tame <31286933+AdrianTJ@users.noreply.github.com>" -m "..."
 ```
 
 Use the GitHub noreply address, matching the existing history, so a personal
-email never lands in a public repo. End the message with the co-author trailer:
-
-```
-Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
-```
+email never lands in a public repo. Do not add `Co-Authored-By` trailers.
 
 **Branch names.** Conventional prefixes — `feat/`, `bug/`, `chore/`, `docs/` —
 followed by a short kebab-case description. Never put an agent's name in a
