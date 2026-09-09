@@ -29,6 +29,13 @@ response. Evals are behavioral checks, not tests — run them by eye when a
 skill changes. Ported from `agentic_engineering`'s `.ruler/skills/*/evals/`
 convention; see `write-skill/evals/evals.json` for the shape.
 
+Assert behavior a reader could check, not phrasing — "dry-runs the fan-out
+before executing" survives a rewording of the skill, "the reply contains
+`--dry-run`" does not. Prefer stating the failure you're guarding against;
+several assertions here came from bugs found by actually running the skills.
+`skill_name` must match the skill's directory, `id` unique within the file.
+Fixtures go in `evals/files/`, paths relative to the skill dir.
+
 `install.sh` links each skill directory individually into every harness that
 takes skills, so a harness-only skill can still live in `pi/skills/` or
 `claude-code/skills/` without conflict.
