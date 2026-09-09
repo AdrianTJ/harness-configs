@@ -37,6 +37,8 @@ rather than remembered. For GitHub sources that is the full commit SHA
 | `docs-freshness` | local | none — authored for this repo | — | — | — |
 | `harness-configs` | local | none — authored for this repo | — | — | — |
 | `profile-badge` | vendored | [AdrianTJ/pi-profiles](https://github.com/AdrianTJ/pi-profiles) `extensions/profile-badge.ts` | `2ecdf87…` | 2026-09-06 | Apache-2.0 |
+| `write-skill` | adapted | [AdrianTJ/agentic_engineering](https://github.com/AdrianTJ/agentic_engineering) `.ruler/skills/general/write-skill/SKILL.md` | `71ae28e…` | 2026-09-08 | none declared |
+| `skill-creator` | reference | [anthropics/skills](https://github.com/anthropics/skills) `skills/skill-creator/SKILL.md` | via `npx skills` | — | Apache-2.0 |
 
 `harness-configs` and `docs-freshness` have no upstream. Everything else should be
 re-checked periodically, and always before a significant upgrade of pi or
@@ -194,6 +196,34 @@ via the wrapper and stays quiet otherwise.
 git ls-remote https://github.com/AdrianTJ/pi-profiles HEAD   # resolved_commit 2ecdf87
 # New commits? Diff upstream extensions/profile-badge.ts against pi/extensions/profile-badge.ts, re-copy, update pin + footer.
 ```
+
+## write-skill
+
+Houses-style skill for authoring skills. Ported from
+[AdrianTJ/agentic_engineering](https://github.com/AdrianTJ/agentic_engineering)
+`.ruler/skills/general/write-skill/` into `shared/skills/write-skill/` and
+adapted to this repo's layout (placement, ledger, and install steps); the
+canonical home is now here. Evals ported alongside into `evals/evals.json`,
+with one added assertion covering the `SOURCES.md` ledger step this repo
+requires. Upstream declares no license — usable, not redistributable verbatim.
+
+```sh
+# agentic_engineering is curriculum-only now; no refresh expected.
+# If it ever revives: diff upstream .ruler/skills/general/write-skill/SKILL.md
+# against shared/skills/write-skill/SKILL.md, re-apply, update pin + footer.
+```
+
+## skill-creator
+
+Anthropic's skill-authoring skill (interview → draft → benchmark). **Not
+vendored** — installed per machine from upstream, which needs no adaptation:
+
+```sh
+npx skills add anthropics/skills --skill skill-creator -g -a pi -a claude-code -a opencode
+```
+
+Decision: stays reference-only, like `unslop`. `write-skill` defers to it for
+the drafting process; this entry records where it comes from.
 
 ---
 

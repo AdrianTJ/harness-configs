@@ -1,0 +1,27 @@
+{
+  "skill_name": "write-skill",
+  "evals": [
+    {
+      "id": "new-skill-follows-conventions",
+      "name": "follows the house conventions",
+      "prompt": "Add a new shared skill for profiling slow shell pipelines.",
+      "expected_output": "Creates a spec-conforming SKILL.md in the right place with a what-and-when description, plus evals and a SOURCES.md row.",
+      "assertions": [
+        "The new skill has frontmatter whose name matches its directory name.",
+        "The description says both what the skill does and when to use it.",
+        "The response adds evals for the new skill.",
+        "The response records the new skill in SOURCES.md."
+      ]
+    },
+    {
+      "id": "defers-to-skill-creator",
+      "name": "defers authoring process to skill-creator",
+      "prompt": "I want to add a new skill to this repo for summarizing changelogs. Walk me through creating it properly.",
+      "expected_output": "Uses skill-creator's interview and benchmark process for the content, while placing the result per this repo's layout.",
+      "assertions": [
+        "The response defers the authoring and benchmarking process to the skill-creator skill.",
+        "The response still places the result according to this repo's own layout conventions."
+      ]
+    }
+  ]
+}

@@ -20,6 +20,15 @@ shared/skills/my-skill/
 └── scripts/
 ```
 
+## Skill evals
+
+Each skill ships at least one eval in `evals/evals.json` beside its `SKILL.md`:
+a realistic request written as a user would say it (never naming the skill),
+an `expected_output` sketch, and `assertions` a reviewer can check against a
+response. Evals are behavioral checks, not tests — run them by eye when a
+skill changes. Ported from `agentic_engineering`'s `.ruler/skills/*/evals/`
+convention; see `write-skill/evals/evals.json` for the shape.
+
 `install.sh` links each skill directory individually into every harness that
 takes skills, so a harness-only skill can still live in `pi/skills/` or
 `claude-code/skills/` without conflict.
