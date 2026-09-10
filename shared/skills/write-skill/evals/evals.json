@@ -4,7 +4,7 @@
     {
       "id": "new-skill-follows-conventions",
       "name": "follows the house conventions",
-      "prompt": "Add a new shared skill for profiling slow shell pipelines.",
+      "prompt": "Add a new shared skill for profiling slow shell pipelines. Create the SKILL.md file, its evals, and the SOURCES.md row now — do not describe what you would do, do it.",
       "expected_output": "Creates a spec-conforming SKILL.md in the right place with a what-and-when description, plus evals and a SOURCES.md row.",
       "assertions": [
         "The new skill has frontmatter whose name matches its directory name.",

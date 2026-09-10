@@ -4,11 +4,11 @@
     {
       "id": "compresses-keeps-facts",
       "name": "shortens while keeping every actionable fact",
-      "prompt": "That's way too long, give me the short version.",
-      "expected_output": "A compressed rewrite where every fact, step, caveat, and warning survives verbatim.",
+      "prompt": "You just sent me this and it's way too long: \"Okay so here's the full picture on the deploy. First, the migration: run `psql $DATABASE_URL -f migrations/014_backfill.sql`, which takes roughly 12 minutes on the 4.2M-row users table — do NOT run it during peak hours, that's a hard requirement, not a suggestion. Second, the feature flag `billing-v2` stays OFF in production until finance signs off; the sign-off doc is at `/docs/finance/billing-v2.md`. Third, after the migration, restart the workers with `systemctl restart render-worker`, then watch `/var/log/render-worker.log` for the string READY — if you don't see READY within 90 seconds, roll back with `./scripts/rollback.sh 014`. Total downtime window is about 15 minutes.\" Give me the short version.",
+      "expected_output": "A compressed rewrite where every command, number, path, and the peak-hours caveat survives verbatim.",
       "assertions": [
         "The response is shorter than the original message.",
-        "Every number, path, command, caveat, and warning from the original survives."
+        "Every command, number, path, and the no-peak-hours caveat from the original survives."
       ]
     }
   ]

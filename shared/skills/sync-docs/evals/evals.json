@@ -4,8 +4,9 @@
     {
       "id": "prune-not-append",
       "name": "prunes stale content rather than only appending",
-      "prompt": "It's been a few weeks since the architecture doc was touched and we've rebuilt a good chunk of the system since. Sync the docs.",
-      "expected_output": "Corrects and removes content that no longer matches the code, instead of appending new text alongside stale text.",
+      "prompt": "Sync the docs in this directory.",
+      "files": ["evals/files/calc.py", "evals/files/README.md"],
+      "expected_output": "Updates README.md to cover subtract and multiply, instead of appending alongside the stale addition-only text.",
       "assertions": [
         "The response corrects or removes stale content rather than only adding new text.",
         "The response reports what changed per document."

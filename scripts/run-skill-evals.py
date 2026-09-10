@@ -17,6 +17,7 @@ NEVER in CI. Writes gitignored eval-runs/iteration-N/; prints the rollup.
 import json
 import os
 import re
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -89,6 +90,13 @@ def grade(prompt, assertions, out_a, out_b, workdir, prof_env):
             return verdict, last
     raise RuntimeError(f"judge verdict unparseable after retry; output tail: {last[-300:]}")
 
+def repo_snapshot():
+    """Working-tree status; the tripwire compares it per rep."""
+    p = subprocess.run(["git", "status", "--porcelain"], capture_output=True,
+                       text=True, cwd=REPO)
+    return p.stdout
+
+
 
 def load_evals(skill):
     spec = json.loads((REPO / "shared" / "skills" / skill / "evals" / "evals.json").read_text())
@@ -110,21 +118,40 @@ def main():
     subprocess.run(["pi-profile", "create", "eval"], check=True, capture_output=True,
                    env=env)
     prof_env = dict(os.environ, PI_CODING_AGENT_DIR=str(Path(trit) / "profiles" / "eval"))
-    workdir = Path(trit) / "work"
-    workdir.mkdir()
-
+    base_work = Path(trit) / "work"
+    base_work.mkdir()
     # Isolate skill discovery: the profile dir may gain skills later; --no-skills
     # keeps both arms clean and the WITH arm adds exactly one skill.
     it = REPO / "eval-runs" / "iteration-1"
     results, errors, calls = {}, [], 0
+    clean_tree = repo_snapshot()
     for skill, reps in plan:
-        skill_dir = REPO / "shared" / "skills" / skill
+        # Copy the skill into temp: the model must never see a repo path.
+        # (A with-arm run once derived the repo root from an absolute --skill
+        # path and wrote a new skill into the live tree.)
+        skill_stage = Path(trit) / "skills" / skill
+        if skill_stage.exists():
+            shutil.rmtree(skill_stage)
+        shutil.copytree(REPO / "shared" / "skills" / skill, skill_stage)
+        skill_dir = skill_stage
         for ev in load_evals(skill):
             key = f"{skill}/{ev['id']}"
             rep_results = []
             for rep in range(1, reps + 1):
                 d = it / skill / ev["id"] / f"rep{rep}"
                 d.mkdir(parents=True, exist_ok=True)
+                # Fresh cwd per rep: side effects (created logs, edited docs)
+                # never leak across reps, and fixtures start clean.
+                workdir = base_work / f"rep{rep}"
+                if workdir.exists():
+                    shutil.rmtree(workdir)
+                workdir.mkdir(parents=True)
+                for rel in ev.get("files") or []:
+                    src = skill_dir / rel
+                    if not src.exists():
+                        raise RuntimeError(f"fixture missing: {rel}")
+                    dest = workdir / Path(rel).name
+                    dest.write_bytes(src.read_bytes())
                 try:
                     with_out = run_pi(["--no-skills", "--skill", str(skill_dir), ev["prompt"]],
                                       workdir, prof_env)
@@ -143,6 +170,10 @@ def main():
                     calls += 1
                     (d / "judge.txt").write_text(judge_out)
                     with_pass, without_pass = (a, b) if a_is_with else (b, a)
+                    if repo_snapshot() != clean_tree:
+                        raise RuntimeError(
+                            "SANDBOX BREACH: repo tree changed during rep "
+                            "(see git status); rep invalid, inspect before continuing")
                     rep_results.append({"with": with_pass, "without": without_pass,
                                         "n": len(ev["assertions"])})
                     print(f"OK   {key} rep{rep}: with={with_pass} without={without_pass}")
