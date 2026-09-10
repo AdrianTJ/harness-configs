@@ -9,21 +9,27 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
 
       - name: Install shellcheck
         run: sudo apt-get update -qq && sudo apt-get install -y -qq shellcheck
 
       - name: shellcheck
-        run: shellcheck -S warning install.sh scripts/check-manifest.sh
+        run: shellcheck -S warning install.sh scripts/check-manifest.sh scripts/check-skill-refs.sh scripts/check-upstream.sh
 
       - name: syntax
-        run: bash -n install.sh && bash -n scripts/check-manifest.sh
+        run: bash -n install.sh && bash -n scripts/check-manifest.sh && bash -n scripts/check-skill-refs.sh && bash -n scripts/check-upstream.sh
 
       - name: manifest structure
         run: bash scripts/check-manifest.sh
 
       - name: skills and evals structure
         run: python3 scripts/validate-skills.py
+
+      - name: spec conformance (skills-ref)
+        run: bash scripts/check-skill-refs.sh
 
       - name: install smoke test
         run: ./install.sh --dry-run && ./install.sh --status
