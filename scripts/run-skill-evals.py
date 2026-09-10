@@ -126,15 +126,28 @@ def main():
     results, errors, calls = {}, [], 0
     clean_tree = repo_snapshot()
     for skill, reps in plan:
-        # Copy the skill into temp: the model must never see a repo path.
+        evals = load_evals(skill)
+        # Stage skills into temp: the model must never see a repo path.
         # (A with-arm run once derived the repo root from an absolute --skill
         # path and wrote a new skill into the live tree.)
-        skill_stage = Path(trit) / "skills" / skill
-        if skill_stage.exists():
-            shutil.rmtree(skill_stage)
-        shutil.copytree(REPO / "shared" / "skills" / skill, skill_stage)
-        skill_dir = skill_stage
-        for ev in load_evals(skill):
+        # Extra skills an eval needs alongside the skill under test (e.g. one
+        # the eval asserts deferral to) resolve here, never vendored.
+        loads = [skill] + sorted({x for ev in evals for x in ev.get("also_load", [])})
+        load_flags, skill_dir = [], None
+        for name in loads:
+            for root in (REPO / "shared" / "skills", Path.home() / ".agents" / "skills"):
+                if (root / name).is_dir():
+                    dest = Path(trit) / "skills" / name
+                    if dest.exists():
+                        shutil.rmtree(dest)
+                    shutil.copytree(root / name, dest)
+                    load_flags += ["--skill", str(dest)]
+                    if name == skill:
+                        skill_dir = dest
+                    break
+            else:
+                raise RuntimeError(f"also_load skill not found: {name}")
+        for ev in evals:
             key = f"{skill}/{ev['id']}"
             rep_results = []
             for rep in range(1, reps + 1):
@@ -153,7 +166,7 @@ def main():
                     dest = workdir / Path(rel).name
                     dest.write_bytes(src.read_bytes())
                 try:
-                    with_out = run_pi(["--no-skills", "--skill", str(skill_dir), ev["prompt"]],
+                    with_out = run_pi(["--no-skills", *load_flags, ev["prompt"]],
                                       workdir, prof_env)
                     calls += 1
                     without_out = run_pi(["--no-skills", ev["prompt"]], workdir, prof_env)

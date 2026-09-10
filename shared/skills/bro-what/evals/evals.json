@@ -4,7 +4,7 @@
     {
       "id": "re-explains-not-re-answers",
       "name": "re-explains the last message without new content",
-      "prompt": "You just told me this: \"TLS renewal is fully automated via the systemd timer that shells out to certbot with the nginx authenticator against example.com — run `sudo certbot renew --nginx -d example.com` by hand if it ever lapses, confirm the vhost in `/etc/nginx/sites-enabled/app.conf` still points at the live cert, then `sudo nginx -s reload`. Whole thing costs $0, takes about 5 minutes, next expiry 2026-11-02.\" Honestly — bro, what?",
+      "prompt": "You just told me this: \"TLS renewal is automatic via the systemd timer, which runs `sudo certbot renew` twice daily from the saved lineage \u2014 no flags needed on renew. If it ever lapses, reissue with `sudo certbot --nginx -d example.com`, confirm the vhost in `/etc/nginx/sites-enabled/app.conf` still points at the live cert in `/etc/letsencrypt/live/example.com/`, then `sudo nginx -s reload`. Whole thing costs $0, takes about 5 minutes, next expiry 2026-11-02.\" Honestly \u2014 bro, what?",
       "expected_output": "Re-explains the cert renewal plainly, with every command, path, number, and date intact and no new answers.",
       "assertions": [
         "The response re-explains the cert renewal rather than answering a new question.",
