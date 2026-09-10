@@ -11,5 +11,15 @@
         "The response flags any figure it cannot reconcile rather than presenting it as verified."
       ]
     }
+  ],
+  "trigger_probes": [
+    {
+      "id": "fires-on-board-numbers",
+      "prompt": "Q3 numbers are in: revenue up 12% quarter over quarter, churn down from 5.1% to 4.4%. Put together the board summary.",
+      "fingerprints": [
+        "trace table",
+        "reconcile"
+      ]
+    }
   ]
 }

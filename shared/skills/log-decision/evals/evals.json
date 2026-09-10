@@ -11,5 +11,15 @@
         "The response does not rewrite or delete any existing entry."
       ]
     }
+  ],
+  "trigger_probes": [
+    {
+      "id": "fires-on-killed-migration",
+      "prompt": "We just killed the Jenkins CI after last night's outage \u2014 moving everything to GitHub Actions. Make a note of it.",
+      "fingerprints": [
+        "DEC-",
+        "superseded"
+      ]
+    }
   ]
 }

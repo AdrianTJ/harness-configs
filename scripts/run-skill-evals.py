@@ -113,11 +113,19 @@ def main():
 
     # Sterile profile: auth symlinked from the real base, never copied.
     trit = tempfile.mkdtemp(prefix="skill-evals-")
+    # Clean-room HOME: the live ~ holds symlinks into the repo plus every
+    # skill ever installed. Under the real HOME a tool-using run can read
+    # skill files and repo docs directly, voiding both arms. Under fakehome
+    # the only visible config is the eval profile (auth symlinked in).
+    fakehome = str(Path(trit) / "fakehome")
+    Path(fakehome).mkdir()
     env = dict(os.environ, PI_PROFILES_ROOT=str(Path(trit) / "profiles"),
-               PI_PROFILE_BASE_DIR=str(Path.home() / ".pi" / "agent"))
+               PI_PROFILE_BASE_DIR=str(Path.home() / ".pi" / "agent"),
+               HOME=fakehome)
     subprocess.run(["pi-profile", "create", "eval"], check=True, capture_output=True,
                    env=env)
-    prof_env = dict(os.environ, PI_CODING_AGENT_DIR=str(Path(trit) / "profiles" / "eval"))
+    prof_env = dict(os.environ, PI_CODING_AGENT_DIR=str(Path(trit) / "profiles" / "eval"),
+                    HOME=fakehome)
     base_work = Path(trit) / "work"
     base_work.mkdir()
     # Isolate skill discovery: the profile dir may gain skills later; --no-skills

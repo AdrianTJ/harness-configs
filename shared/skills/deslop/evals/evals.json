@@ -11,5 +11,15 @@
         "The response does not change the function's behavior or restructure working code."
       ]
     }
+  ],
+  "trigger_probes": [
+    {
+      "id": "fires-on-bloated-helper",
+      "prompt": "Review this helper before I commit \u2014 anything you'd change?\n\n```python\ndef compute_total_price(items):\n    # Initialize the running total to zero\n    total = 0\n    # Loop over every item in the items list\n    for item in items:\n        # Add the current item's price to the running total\n        total = total + item.price\n    # Return the final computed total back to the caller\n    return total\n```",
+      "fingerprints": [
+        "smallest change",
+        "restating"
+      ]
+    }
   ]
 }

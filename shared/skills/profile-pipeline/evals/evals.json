@@ -12,5 +12,15 @@
         "The response quotes before/after timings from comparable runs."
       ]
     }
+  ],
+  "trigger_probes": [
+    {
+      "id": "fires-on-slow-logs",
+      "prompt": "This data pipeline is too slow: `zcat logs/*.gz | grep ERROR | cut -d' ' -f1 | sort | uniq -c`. What's eating the time?",
+      "fingerprints": [
+        "bisect",
+        "marginal cost"
+      ]
+    }
   ]
 }

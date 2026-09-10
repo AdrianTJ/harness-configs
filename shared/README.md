@@ -37,6 +37,17 @@ Fixtures go in `evals/files/`, paths relative to the skill dir.
 `scripts/validate-skills.py` checks every skill structurally (spec-conforming
 frontmatter, well-formed evals) — run it before committing, CI runs it too.
 
+## Trigger probes
+
+Scored evals force-load their skill, so they measure compliance, not routing.
+`trigger_probes` in `evals.json` measure whether the skill fires on its own: a
+realistic prompt (never naming the skill), plus `fingerprints` — terms that
+appear in this skill's `SKILL.md` and in no other skill. The driver links all
+skills like a real install, runs the prompt, and compares against an unlinked
+control. Validator rules: fingerprints must be in your own skill, in no other
+skill, and absent from the prompt. bro-what/bro-shorter are user-invoked by
+design and exempt.
+
 `install.sh` links each skill directory individually into every harness that
 takes skills, so a harness-only skill can still live in `pi/skills/` or
 `claude-code/skills/` without conflict.

@@ -5,11 +5,24 @@
       "id": "prune-not-append",
       "name": "prunes stale content rather than only appending",
       "prompt": "Sync the docs in this directory.",
-      "files": ["evals/files/calc.py", "evals/files/README.md"],
+      "files": [
+        "evals/files/calc.py",
+        "evals/files/README.md"
+      ],
       "expected_output": "Updates README.md to cover subtract and multiply, instead of appending alongside the stale addition-only text.",
       "assertions": [
         "The response corrects or removes stale content rather than only adding new text.",
         "The response reports what changed per document."
+      ]
+    }
+  ],
+  "trigger_probes": [
+    {
+      "id": "fires-on-drifted-readme",
+      "prompt": "Here is our utils README and what the code looks like now \u2014 update the docs to match.\n\nREADME:\n# Utils\n\nHelpers. Currently documents:\n\n- `add(a, b)` \u2014 return the sum.\n\nCODE (utils.py):\n```python\ndef add(a, b):\n    return a + b\n\ndef multiply(a, b):\n    return a * b\n```",
+      "fingerprints": [
+        "drift",
+        "per-doc summary"
       ]
     }
   ]

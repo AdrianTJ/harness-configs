@@ -113,6 +113,44 @@ def check_evals(evals_json: Path) -> list:
             if not (skill_dir / rel).exists():
                 errors.append(f"{where}: file not found: {rel}")
 
+    for i, tp in enumerate(spec.get("trigger_probes") or []):
+        where = f"trigger_probes[{i}]"
+        if not isinstance(tp, dict):
+            errors.append(f"{where}: must be an object")
+            continue
+        tid = tp.get("id")
+        if not tid:
+            errors.append(f"{where}: missing 'id'")
+        elif tid in seen:
+            errors.append(f"{where}: duplicate id {tid!r} (collides with an eval id)")
+        else:
+            seen.add(tid)
+        prompt = tp.get("prompt") or ""
+        if not prompt.strip():
+            errors.append(f"{where}: missing 'prompt'")
+            continue
+        fps = tp.get("fingerprints")
+        if not isinstance(fps, list) or not fps or not all(isinstance(f, str) and f.strip() for f in fps):
+            errors.append(f"{where}: 'fingerprints' must be a non-empty array of strings")
+            continue
+        else:
+            lowering = prompt.lower()
+            own_text = (skill_dir / "SKILL.md").read_text().lower()
+            others = []
+            for other in sorted(skill_dir.parent.glob("*/SKILL.md")):
+                if other.parent != skill_dir:
+                    others.append(other.read_text().lower())
+            for f in fps:
+                fl = f.lower()
+                if fl in lowering:
+                    errors.append(f"{where}: fingerprint {f!r} leaks into the prompt (false positive)")
+                if len(f) < 4:
+                    errors.append(f"{where}: fingerprint {f!r} too short to be distinctive")
+                if fl not in own_text:
+                    errors.append(f"{where}: fingerprint {f!r} never appears in its own SKILL.md (can never legitimately fire)")
+                if any(fl in o for o in others):
+                    errors.append(f"{where}: fingerprint {f!r} also appears in another skill (control cannot distinguish)")
+
     return errors
 
 

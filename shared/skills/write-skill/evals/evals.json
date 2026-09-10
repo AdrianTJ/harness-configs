@@ -13,5 +13,15 @@
         "The response records the new skill in SOURCES.md."
       ]
     }
+  ],
+  "trigger_probes": [
+    {
+      "id": "fires-on-repeat-explanations",
+      "prompt": "I keep re-explaining our deploy process to every new agent session. Turn it into something reusable.",
+      "fingerprints": [
+        "frontmatter",
+        "progressive disclosure"
+      ]
+    }
   ]
 }

@@ -11,5 +11,15 @@
         "The response states what version its answer targets when it matters."
       ]
     }
+  ],
+  "trigger_probes": [
+    {
+      "id": "fires-on-old-boto",
+      "prompt": "Write a script that uploads a file to S3 using boto3. I recall upload_file takes a Callback but the version we run is old \u2014 just write it from what you know.",
+      "fingerprints": [
+        "primary source",
+        "installed version"
+      ]
+    }
   ]
 }
