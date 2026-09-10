@@ -20,6 +20,10 @@ node_modules/
 dist/
 *.tsbuildinfo
 
+# Scored eval runs (iteration artifacts + baselines live here, never committed;
+# promote a reviewed benchmark.json explicitly if you want it tracked)
+eval-runs/
+
 # Backups — install.sh moves files aside as *.bak-<timestamp>, and tools like
 # Orca write plain *.bak next to files they rewrite.
 *.bak-*
