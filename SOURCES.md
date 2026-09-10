@@ -42,9 +42,10 @@ rather than remembered. For GitHub sources that is the full commit SHA
 | `validate-results` | local | originally agentic_engineering; canonical home here | — | 2026-09-09 | — |
 | `log-decision` | local | originally agentic_engineering; canonical home here | — | 2026-09-09 | — |
 | `sync-docs` | local | originally agentic_engineering; canonical home here | — | 2026-09-09 | — |
+| `profile-pipeline` | local | created during eval scoring; reviewed and adopted | — | 2026-09-10 | — |
 
 `harness-configs`, `docs-freshness`, `write-skill`, `validate-results`,
-`log-decision`, and `sync-docs` are local — no upstream. Everything else should be
+`log-decision`, `sync-docs`, and `profile-pipeline` are local — no upstream. Everything else should be
 re-checked periodically, and always before a significant upgrade of pi or
 Claude Code.
 
@@ -97,6 +98,12 @@ git ls-remote https://github.com/eukosh/bro-skills refs/heads/main   # resolved_
 Decision: Codex stays without a skills target — no manifest entry feeds
 Codex skills, so the `openai.yaml` dialect ships upstream stay unvendored.
 Revisit if Codex CLI documents a skills directory worth linking.
+
+Measured lift (Muse Spark, 5 reps, 2026-09-10, `eval-runs/baseline.json`):
+`bro-what` +4, `bro-shorter` −1. bro-shorter shows no proven lift — kept
+deliberately: user-invoked cosmetics answer to a different bar than agentic
+skills (style compliance on demand, not autonomous lift), and the eval stays
+as a guardrail.
 
 ## brainstorming
 
@@ -225,6 +232,13 @@ the drafting process; this entry records where it comes from.
 General-purpose working skills — trace every figure to its source, append-only
 decision log, docs-vs-code audit. Originally from agentic_engineering;
 canonical home is this repo — edit in place, no upstream refresh.
+
+## profile-pipeline
+
+Pipeline-bottleneck skill (time, bisect by prefix, fix by class, re-measure).
+Created by a write-skill eval run that escaped its sandbox; quarantined,
+reviewed (commands verified by hand), scored at +7 over 5 reps, then adopted.
+No upstream; edit in place.
 
 ---
 

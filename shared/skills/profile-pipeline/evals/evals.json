@@ -1,0 +1,16 @@
+{
+  "skill_name": "profile-pipeline",
+  "evals": [
+    {
+      "id": "finds-slow-stage",
+      "name": "bisects a slow pipeline to its bottleneck",
+      "prompt": "My log crunching pipeline takes forever: cat access.log | grep 500 | sort | uniq -c | sort -rn | head -20. Which part is slow and how do I speed it up?",
+      "expected_output": "Times the full pipeline, then growing prefixes to isolate the slow stage, and reports the bottleneck with before/after timings.",
+      "assertions": [
+        "The response measures per-stage cost (timing prefixes or equivalent) rather than guessing which stage is slow.",
+        "The response names the bottleneck stage and gives a concrete fix for its class (CPU, I/O, or buffering).",
+        "The response quotes before/after timings from comparable runs."
+      ]
+    }
+  ]
+}
