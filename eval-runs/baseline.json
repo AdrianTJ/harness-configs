@@ -3,7 +3,8 @@
     "date": "2026-09-10T03:48:57.755572+00:00",
     "provider": "opencode-go",
     "model": "muse-spark-1.3-contributor",
-    "note": "First scored baseline; includes adopted profile-pipeline. defers-to-skill-creator retired as confounded."
+    "note": "First scored baseline; includes adopted profile-pipeline. defers-to-skill-creator retired as confounded.",
+    "triggers_note": "Trigger rates under clean-room HOME, 5 reps each. hc probe dropped as unmeasurable; bro pair exempt (user-invoked)."
   },
   "results": {
     "bro-shorter/compresses-keeps-facts": {
@@ -85,6 +86,50 @@
       "without_total": 13,
       "lift": 7,
       "max": 20
+    }
+  },
+  "triggers": {
+    "validate-results/fires-on-board-numbers": {
+      "reps": 5,
+      "trigger_rate": 0.8,
+      "control_rate": 0.8,
+      "lift": 0.0
+    },
+    "log-decision/fires-on-killed-migration": {
+      "reps": 5,
+      "trigger_rate": 1.0,
+      "control_rate": 1.0,
+      "lift": 0.0
+    },
+    "sync-docs/fires-on-drifted-readme": {
+      "reps": 5,
+      "trigger_rate": 0.4,
+      "control_rate": 0.0,
+      "lift": 0.4
+    },
+    "write-skill/fires-on-repeat-explanations": {
+      "reps": 5,
+      "trigger_rate": 0.2,
+      "control_rate": 0.0,
+      "lift": 0.2
+    },
+    "docs-freshness/fires-on-old-boto": {
+      "reps": 5,
+      "trigger_rate": 1.0,
+      "control_rate": 1.0,
+      "lift": 0.0
+    },
+    "profile-pipeline/fires-on-slow-logs": {
+      "reps": 5,
+      "trigger_rate": 1.0,
+      "control_rate": 0.8,
+      "lift": 0.2
+    },
+    "deslop/fires-on-bloated-helper": {
+      "reps": 5,
+      "trigger_rate": 0.2,
+      "control_rate": 0.0,
+      "lift": 0.2
     }
   }
 }

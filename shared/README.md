@@ -43,10 +43,12 @@ Scored evals force-load their skill, so they measure compliance, not routing.
 `trigger_probes` in `evals.json` measure whether the skill fires on its own: a
 realistic prompt (never naming the skill), plus `fingerprints` — terms that
 appear in this skill's `SKILL.md` and in no other skill. The driver links all
-skills like a real install, runs the prompt, and compares against an unlinked
-control. Validator rules: fingerprints must be in your own skill, in no other
-skill, and absent from the prompt. bro-what/bro-shorter are user-invoked by
-design and exempt.
+skills like a real install, runs the prompt under a clean-room HOME, and
+compares against an unlinked control. bro-what/bro-shorter are user-invoked by
+design and exempt. Machine-referential skills are out of scope: the
+harness-configs probe was dropped because both arms confabulate repo
+internals (install.sh invocations, link counts) without the skill, so no
+fingerprint can distinguish activation from guessing.
 
 `install.sh` links each skill directory individually into every harness that
 takes skills, so a harness-only skill can still live in `pi/skills/` or

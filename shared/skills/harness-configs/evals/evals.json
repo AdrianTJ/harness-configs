@@ -11,15 +11,5 @@
         "The response verifies no credential file is staged before committing anything the install produced."
       ]
     }
-  ],
-  "trigger_probes": [
-    {
-      "id": "fires-on-new-machine",
-      "prompt": "New machine with pi and Claude Code installed. Get my agent setup onto it.",
-      "fingerprints": [
-        "manifest line",
-        "post-link"
-      ]
-    }
   ]
 }
