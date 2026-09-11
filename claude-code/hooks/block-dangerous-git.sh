@@ -1,7 +1,13 @@
 #!/bin/bash
 
 INPUT=$(cat)
-COMMAND=$(echo "$INPUT" | jq -r '.tool_input.command')
+# Fail closed: if the command cannot be inspected, block rather than allow.
+command -v jq >/dev/null 2>&1 || { echo "BLOCKED: jq unavailable, cannot inspect command." >&2; exit 2; }
+COMMAND=$(echo "$INPUT" | jq -r '.tool_input.command // empty')
+if [ -z "$COMMAND" ]; then
+  echo "BLOCKED: could not parse tool command for safety inspection." >&2
+  exit 2
+fi
 
 DANGEROUS_PATTERNS=(
   "git push"
