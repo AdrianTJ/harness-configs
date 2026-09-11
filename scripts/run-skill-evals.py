@@ -174,7 +174,12 @@ def main():
                     if not src.exists():
                         raise RuntimeError(f"fixture missing: {rel}")
                     dest = workdir / Path(rel).name
-                    dest.write_bytes(src.read_bytes())
+                    if src.is_dir():
+                        if dest.exists():
+                            shutil.rmtree(dest)
+                        shutil.copytree(src, dest)
+                    else:
+                        dest.write_bytes(src.read_bytes())
                 try:
                     with_out = run_pi(["--no-skills", *load_flags, ev["prompt"]],
                                       workdir, prof_env)

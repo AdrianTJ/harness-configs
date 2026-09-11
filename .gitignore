@@ -11,6 +11,10 @@ sessions/
 trust.json
 history.jsonl
 *.log
+# One deliberate exception: the harness-configs eval fixture ships a decoy
+# credential so the runbook's credential rule is testable. It is fake by
+# construction (FIXTURE-NOT-A-REAL-SECRET) and lives only in eval fixtures.
+!shared/skills/harness-configs/evals/files/harness-configs/auth.json
 
 # Runtime lock files — omp writes config.yml.lock beside its config while saving
 *.lock

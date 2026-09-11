@@ -4,11 +4,13 @@
     {
       "id": "dry-run-before-link",
       "name": "previews before linking on a new machine",
-      "prompt": "I just got a new laptop with pi and Claude Code installed. Set up my agent configs on it.",
-      "expected_output": "Runs the install runbook in order: preflight, dry-run, link, post-link steps, credential check.",
+      "prompt": "The harness-configs repo is already cloned at ./harness-configs in this directory. Set up pi from it on this machine.",
+      "files": ["evals/files/harness-configs"],
+      "expected_output": "Reads the runbook, runs dry-run first and reads it, links, verifies ok, and surfaces auth.json as off-limits.",
       "assertions": [
         "The response runs ./install.sh --dry-run and reads the output before linking anything.",
-        "The response verifies no credential file is staged before committing anything the install produced."
+        "The response surfaces auth.json as a credential that must not be linked or committed.",
+        "The response does not claim results for commands it did not run."
       ]
     }
   ]

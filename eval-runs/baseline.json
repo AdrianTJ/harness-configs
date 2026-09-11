@@ -1,135 +1,275 @@
 {
   "meta": {
-    "date": "2026-09-10T03:48:57.755572+00:00",
-    "provider": "opencode-go",
-    "model": "muse-spark-1.3-contributor",
-    "note": "First scored baseline; includes adopted profile-pipeline. defers-to-skill-creator retired as confounded.",
-    "triggers_note": "Trigger rates under clean-room HOME, 5 reps each. hc probe dropped as unmeasurable; bro pair exempt (user-invoked)."
+    "note": "Two-model baseline. defers-to-skill-creator retired as confounded; hc eval refactored to fixture+honesty version."
   },
-  "results": {
-    "bro-shorter/compresses-keeps-facts": {
-      "reps": 5,
-      "assertions": 2,
-      "with_total": 8,
-      "without_total": 9,
-      "lift": -1,
-      "max": 10
+  "models": {
+    "muse-spark-1.3": {
+      "meta": {
+        "date": "2026-09-11T19:12:38.909637+00:00",
+        "provider": "opencode-go",
+        "model": "muse-spark-1.3-contributor",
+        "calls": 15
+      },
+      "results": {
+        "bro-shorter/compresses-keeps-facts": {
+          "reps": 5,
+          "assertions": 2,
+          "with_total": 8,
+          "without_total": 9,
+          "lift": -1,
+          "max": 10
+        },
+        "bro-what/re-explains-not-re-answers": {
+          "reps": 5,
+          "assertions": 2,
+          "with_total": 8,
+          "without_total": 4,
+          "lift": 4,
+          "max": 10
+        },
+        "deslop/cuts-slop-keeps-behavior": {
+          "reps": 6,
+          "assertions": 2,
+          "with_total": 12,
+          "without_total": 6,
+          "lift": 6,
+          "max": 12
+        },
+        "docs-freshness/checks-docs-before-coding": {
+          "reps": 5,
+          "assertions": 2,
+          "with_total": 10,
+          "without_total": 7,
+          "lift": 3,
+          "max": 10
+        },
+        "harness-configs/dry-run-before-link": {
+          "reps": 5,
+          "assertions": 3,
+          "with_total": 15,
+          "without_total": 7,
+          "lift": 8,
+          "max": 15
+        },
+        "log-decision/decision-log-append-only": {
+          "reps": 5,
+          "assertions": 2,
+          "with_total": 10,
+          "without_total": 5,
+          "lift": 5,
+          "max": 10
+        },
+        "profile-pipeline/finds-slow-stage": {
+          "reps": 5,
+          "assertions": 3,
+          "with_total": 15,
+          "without_total": 8,
+          "lift": 7,
+          "max": 15
+        },
+        "sync-docs/prune-not-append": {
+          "reps": 5,
+          "assertions": 2,
+          "with_total": 9,
+          "without_total": 3,
+          "lift": 6,
+          "max": 10
+        },
+        "validate-results/figures-reconciled": {
+          "reps": 5,
+          "assertions": 2,
+          "with_total": 10,
+          "without_total": 6,
+          "lift": 4,
+          "max": 10
+        },
+        "write-skill/new-skill-follows-conventions": {
+          "reps": 5,
+          "assertions": 4,
+          "with_total": 20,
+          "without_total": 13,
+          "lift": 7,
+          "max": 20
+        }
+      },
+      "triggers": {
+        "deslop/fires-on-bloated-helper": {
+          "reps": 5,
+          "trigger_rate": 0.2,
+          "control_rate": 0.0,
+          "lift": 0.2
+        },
+        "docs-freshness/fires-on-old-boto": {
+          "reps": 5,
+          "trigger_rate": 1.0,
+          "control_rate": 1.0,
+          "lift": 0.0
+        },
+        "log-decision/fires-on-killed-migration": {
+          "reps": 5,
+          "trigger_rate": 1.0,
+          "control_rate": 1.0,
+          "lift": 0.0
+        },
+        "profile-pipeline/fires-on-slow-logs": {
+          "reps": 5,
+          "trigger_rate": 1.0,
+          "control_rate": 0.8,
+          "lift": 0.2
+        },
+        "sync-docs/fires-on-drifted-readme": {
+          "reps": 5,
+          "trigger_rate": 0.4,
+          "control_rate": 0.0,
+          "lift": 0.4
+        },
+        "validate-results/fires-on-board-numbers": {
+          "reps": 5,
+          "trigger_rate": 0.8,
+          "control_rate": 0.8,
+          "lift": 0.0
+        },
+        "write-skill/fires-on-repeat-explanations": {
+          "reps": 5,
+          "trigger_rate": 0.2,
+          "control_rate": 0.0,
+          "lift": 0.2
+        }
+      }
     },
-    "bro-what/re-explains-not-re-answers": {
-      "reps": 5,
-      "assertions": 2,
-      "with_total": 8,
-      "without_total": 4,
-      "lift": 4,
-      "max": 10
-    },
-    "deslop/cuts-slop-keeps-behavior": {
-      "reps": 6,
-      "assertions": 2,
-      "with_total": 12,
-      "without_total": 6,
-      "lift": 6,
-      "max": 12
-    },
-    "docs-freshness/checks-docs-before-coding": {
-      "reps": 5,
-      "assertions": 2,
-      "with_total": 10,
-      "without_total": 7,
-      "lift": 3,
-      "max": 10
-    },
-    "harness-configs/dry-run-before-link": {
-      "reps": 5,
-      "assertions": 2,
-      "with_total": 10,
-      "without_total": 8,
-      "lift": 2,
-      "max": 10
-    },
-    "log-decision/decision-log-append-only": {
-      "reps": 5,
-      "assertions": 2,
-      "with_total": 10,
-      "without_total": 5,
-      "lift": 5,
-      "max": 10
-    },
-    "profile-pipeline/finds-slow-stage": {
-      "reps": 5,
-      "assertions": 3,
-      "with_total": 15,
-      "without_total": 8,
-      "lift": 7,
-      "max": 15
-    },
-    "sync-docs/prune-not-append": {
-      "reps": 5,
-      "assertions": 2,
-      "with_total": 9,
-      "without_total": 3,
-      "lift": 6,
-      "max": 10
-    },
-    "validate-results/figures-reconciled": {
-      "reps": 5,
-      "assertions": 2,
-      "with_total": 10,
-      "without_total": 6,
-      "lift": 4,
-      "max": 10
-    },
-    "write-skill/new-skill-follows-conventions": {
-      "reps": 5,
-      "assertions": 4,
-      "with_total": 20,
-      "without_total": 13,
-      "lift": 7,
-      "max": 20
-    }
-  },
-  "triggers": {
-    "validate-results/fires-on-board-numbers": {
-      "reps": 5,
-      "trigger_rate": 0.8,
-      "control_rate": 0.8,
-      "lift": 0.0
-    },
-    "log-decision/fires-on-killed-migration": {
-      "reps": 5,
-      "trigger_rate": 1.0,
-      "control_rate": 1.0,
-      "lift": 0.0
-    },
-    "sync-docs/fires-on-drifted-readme": {
-      "reps": 5,
-      "trigger_rate": 0.4,
-      "control_rate": 0.0,
-      "lift": 0.4
-    },
-    "write-skill/fires-on-repeat-explanations": {
-      "reps": 5,
-      "trigger_rate": 0.2,
-      "control_rate": 0.0,
-      "lift": 0.2
-    },
-    "docs-freshness/fires-on-old-boto": {
-      "reps": 5,
-      "trigger_rate": 1.0,
-      "control_rate": 1.0,
-      "lift": 0.0
-    },
-    "profile-pipeline/fires-on-slow-logs": {
-      "reps": 5,
-      "trigger_rate": 1.0,
-      "control_rate": 0.8,
-      "lift": 0.2
-    },
-    "deslop/fires-on-bloated-helper": {
-      "reps": 5,
-      "trigger_rate": 0.2,
-      "control_rate": 0.0,
-      "lift": 0.2
+    "qwen3.8-flash": {
+      "meta": {
+        "date": "2026-09-11T19:25:02.406424+00:00",
+        "provider": "opencode-go",
+        "model": "qwen3.8-flash",
+        "calls": 15
+      },
+      "results": {
+        "bro-shorter/compresses-keeps-facts": {
+          "reps": 5,
+          "assertions": 2,
+          "with_total": 5,
+          "without_total": 6,
+          "lift": -1,
+          "max": 10
+        },
+        "bro-what/re-explains-not-re-answers": {
+          "reps": 5,
+          "assertions": 2,
+          "with_total": 6,
+          "without_total": 6,
+          "lift": 0,
+          "max": 10
+        },
+        "deslop/cuts-slop-keeps-behavior": {
+          "reps": 6,
+          "assertions": 2,
+          "with_total": 10,
+          "without_total": 8,
+          "lift": 2,
+          "max": 12
+        },
+        "docs-freshness/checks-docs-before-coding": {
+          "reps": 5,
+          "assertions": 2,
+          "with_total": 10,
+          "without_total": 9,
+          "lift": 1,
+          "max": 10
+        },
+        "harness-configs/dry-run-before-link": {
+          "reps": 5,
+          "assertions": 3,
+          "with_total": 15,
+          "without_total": 12,
+          "lift": 3,
+          "max": 15
+        },
+        "log-decision/decision-log-append-only": {
+          "reps": 5,
+          "assertions": 2,
+          "with_total": 10,
+          "without_total": 5,
+          "lift": 5,
+          "max": 10
+        },
+        "profile-pipeline/finds-slow-stage": {
+          "reps": 5,
+          "assertions": 3,
+          "with_total": 15,
+          "without_total": 15,
+          "lift": 0,
+          "max": 15
+        },
+        "sync-docs/prune-not-append": {
+          "reps": 5,
+          "assertions": 2,
+          "with_total": 10,
+          "without_total": 4,
+          "lift": 6,
+          "max": 10
+        },
+        "validate-results/figures-reconciled": {
+          "reps": 5,
+          "assertions": 2,
+          "with_total": 10,
+          "without_total": 9,
+          "lift": 1,
+          "max": 10
+        },
+        "write-skill/new-skill-follows-conventions": {
+          "reps": 5,
+          "assertions": 4,
+          "with_total": 19,
+          "without_total": 15,
+          "lift": 4,
+          "max": 20
+        }
+      },
+      "triggers": {
+        "deslop/fires-on-bloated-helper": {
+          "reps": 5,
+          "trigger_rate": 0.2,
+          "control_rate": 0.0,
+          "lift": 0.2
+        },
+        "docs-freshness/fires-on-old-boto": {
+          "reps": 5,
+          "trigger_rate": 0.2,
+          "control_rate": 1.0,
+          "lift": -0.8
+        },
+        "log-decision/fires-on-killed-migration": {
+          "reps": 5,
+          "trigger_rate": 1.0,
+          "control_rate": 1.0,
+          "lift": 0.0
+        },
+        "profile-pipeline/fires-on-slow-logs": {
+          "reps": 5,
+          "trigger_rate": 1.0,
+          "control_rate": 0.8,
+          "lift": 0.2
+        },
+        "sync-docs/fires-on-drifted-readme": {
+          "reps": 5,
+          "trigger_rate": 0.6,
+          "control_rate": 0.2,
+          "lift": 0.4
+        },
+        "validate-results/fires-on-board-numbers": {
+          "reps": 5,
+          "trigger_rate": 1.0,
+          "control_rate": 1.0,
+          "lift": 0.0
+        },
+        "write-skill/fires-on-repeat-explanations": {
+          "reps": 5,
+          "trigger_rate": 0.0,
+          "control_rate": 0.0,
+          "lift": 0.0
+        }
+      }
     }
   }
 }

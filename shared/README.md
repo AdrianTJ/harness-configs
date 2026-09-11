@@ -30,7 +30,11 @@ skill changes. See `write-skill/evals/evals.json` for the shape.
 
 Assert behavior a reader could check, not phrasing — "dry-runs the fan-out
 before executing" survives a rewording of the skill, "the reply contains
-`--dry-run`" does not. Prefer stating the failure you're guarding against;
+`--dry-run`" does not. Assertions must be checkable against ground truth the
+judge can verify: never reward claims the response couldn't have earned. Where
+fabrication is possible (installer runbooks), add an honesty assertion
+("does not claim results for commands it did not run") and prefer fixtures
+that make the behavior actually performable.
 several assertions here came from bugs found by actually running the skills.
 `skill_name` must match the skill's directory, `id` unique within the file.
 Fixtures go in `evals/files/`, paths relative to the skill dir.
