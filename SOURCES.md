@@ -195,6 +195,21 @@ npm view pi-subagents-lite version   # current upstream, compare against 1.13.1
 Local skill for operating this repo (install/sync/repair runbook). No upstream;
 edit in place. Do not check for updates — it *is* the source.
 
+## sol-pi (profile package, not base)
+
+[NVIDIA Labs SoL-Pi](https://github.com/NVlabs/SoL-Pi) — efficiency extension
+for pi (Action Fusion, ObservationPack, reducer, context compact). **Not
+vendored, not a base package** — declared in the `sol-trial` profile
+(`git:github.com/NVlabs/SoL-Pi`, trialed at `0.1.0` / `8f8c139`, 2026-09-11,
+MIT). Trial verdict: no measurable effect on Ralph-loop or flash-model
+bash-heavy workloads (extension doesn't load in Ralph children; fusion only
+fires on edit/write tool use). Revisit if those constraints change.
+
+```sh
+# No npm version to check; compare installed git rev against upstream HEAD
+git ls-remote https://github.com/NVlabs/SoL-Pi HEAD
+```
+
 ## profile-badge
 
 Footer extension showing the active pi-profile name. Vendored verbatim from
