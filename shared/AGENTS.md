@@ -7,3 +7,17 @@ feat/multi-harness-repo-structure     good
 chore/prune-pi-extensions             good
 claude/multi-harness-structure-ehxq   wrong: vendor name, generated suffix
 ```
+
+## Safety
+Never commit secrets, tokens, or credential files (`.env`, `*.pem`,
+`credentials.json`). Verify with `git diff --cached` before committing.
+
+## Approvals
+Ask before destructive operations (`reset --hard`, `push --force`,
+`clean -fd`, publishing, deploys): state the command, wait for
+confirmation. Reads, edits, and test runs proceed without asking.
+Destructive git patterns are additionally enforced by hook where configured.
+
+Procedures live in skills, not here — consult them for task workflows.
+Keep this file to rules true in every repo.
+
