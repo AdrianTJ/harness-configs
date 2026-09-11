@@ -34,7 +34,6 @@ rather than remembered. For GitHub sources that is the full commit SHA
 | `bro-shorter` | vendored | [eukosh/bro-skills](https://github.com/eukosh/bro-skills) `skills/bro-shorter/SKILL.md` | `08d2e07…` | 2026-08-30 | MIT |
 | `ponytail` | reference | npm [`@dietrichgebert/ponytail`](https://www.npmjs.com/package/@dietrichgebert/ponytail) (GitHub: [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail)) | `4.9.0` | — | MIT |
 | `brainstorming` | adapted | [obra/superpowers](https://github.com/obra/superpowers) `skills/brainstorming/SKILL.md` | `b36e0829…` | 2026-09-03 | MIT |
-| `docs-freshness` | local | none — authored for this repo | — | — | — |
 | `harness-configs` | local | none — authored for this repo | — | — | — |
 | `researcher` | local | none — authored for this repo (`pi/agents/`, no upstream) | — | — | — |
 | `profile-badge` | vendored | [AdrianTJ/pi-profiles](https://github.com/AdrianTJ/pi-profiles) `extensions/profile-badge.ts` | `2ecdf87…` | 2026-09-06 | Apache-2.0 |
@@ -45,7 +44,7 @@ rather than remembered. For GitHub sources that is the full commit SHA
 | `sync-docs` | local | originally agentic_engineering; canonical home here | — | 2026-09-09 | — |
 | `profile-pipeline` | local | created during eval scoring; reviewed and adopted | — | 2026-09-10 | — |
 
-`harness-configs`, `docs-freshness`, `write-skill`, `validate-results`,
+`harness-configs`, `write-skill`, `validate-results`,
 `log-decision`, `sync-docs`, and `profile-pipeline` are local — no upstream. Everything else should be
 re-checked periodically, and always before a significant upgrade of pi or
 Claude Code.
@@ -242,6 +241,9 @@ npx skills add anthropics/skills --skill skill-creator -g -a pi -a claude-code -
 
 Decision: stays reference-only, like `unslop`. `write-skill` defers to it for
 the drafting process; this entry records where it comes from.
+
+Deliberately uninstalled from this machine 2026-09-11 (daily curation).
+Reinstall with the command above; `write-skill` degrades gracefully without it.
 
 ## validate-results, log-decision, sync-docs
 

@@ -1,6 +1,7 @@
 ---
 name: deslop
 description: Remove AI-generated slop from recently changed code — unrequested extras, comments that restate the code, needless abstractions, defensive handling for impossible cases, verbose naming, and generation artifacts like emoji or conversational comments. Use when asked to deslop, unslop, clean AI code, or remove AI patterns, and before committing a branch an agent wrote. For general quality review that may also restructure code, use simplify instead; for correctness bugs use code-review.
+disable-model-invocation: true
 ---
 
 # Deslop
