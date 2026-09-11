@@ -8,6 +8,7 @@ Config root: `~/.claude/` (project-level equivalent: `.claude/` in a repo).
 | `CLAUDE.md` | `~/.claude/CLAUDE.md` | Imports the shared instructions, then adds Claude-only rules. |
 | `agents/` | `~/.claude/agents/` | Subagent definitions (markdown + frontmatter). |
 | `commands/` | `~/.claude/commands/` | Slash commands. |
+| `hooks/` | `~/.claude/hooks/` | Hook scripts invoked by `settings.json` (merge-linked, so foreign scripts can sit beside them). |
 | `skills/` | `~/.claude/skills/` | Claude-Code-only skills; portable ones come from `shared/skills/`. |
 
 `CLAUDE.md` here is a real file, not a symlink. It imports `shared/AGENTS.md`
@@ -50,6 +51,11 @@ That file is gitignored and never linked — keep the durable, portable rules in
 `settings.json` here and let the local file stay local.
 
 ## Hooks
+
+`block-dangerous-git.sh` (PreToolUse/Bash) is a personal guardrail, tracked
+here and merge-linked so it deploys with the rest of the config. It needs
+`jq`; without it the script exits 0 and the guardrail fails open, so keep
+jq installed.
 
 The `SessionStart` hook reports the session to the herdr app. Only the settings
 line is tracked here; the script itself (`~/.claude/hooks/herdr-agent-state.sh`)
