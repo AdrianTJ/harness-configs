@@ -46,6 +46,10 @@ def run_pi(args, cwd, env):
 def repo_snapshot():
     p = subprocess.run(["git", "status", "--porcelain"], capture_output=True,
                        text=True, cwd=REPO)
+    # A failed snapshot must NEVER compare equal-or-not silently: an empty or
+    # partial output would false-positive as a breach (or mask a real one).
+    if p.returncode != 0:
+        raise RuntimeError(f"tripwire blind: git status failed: {p.stderr.strip()[-200:]}")
     return p.stdout
 
 
@@ -97,7 +101,7 @@ def main():
                 link.unlink()
             link.symlink_to(d.resolve())
 
-    it = REPO / "eval-runs" / "iteration-1" / "triggers"
+    it = REPO / "eval-runs" / os.environ.get("EVAL_ITERATION", "iteration-1") / "triggers"
     results, errors, calls = {}, [], 0
     clean_tree = repo_snapshot()
     for skill, reps in plan:

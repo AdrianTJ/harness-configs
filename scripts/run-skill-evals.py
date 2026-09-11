@@ -94,6 +94,10 @@ def repo_snapshot():
     """Working-tree status; the tripwire compares it per rep."""
     p = subprocess.run(["git", "status", "--porcelain"], capture_output=True,
                        text=True, cwd=REPO)
+    # A failed snapshot must NEVER compare equal-or-not silently: an empty or
+    # partial output would false-positive as a breach (or mask a real one).
+    if p.returncode != 0:
+        raise RuntimeError(f"tripwire blind: git status failed: {p.stderr.strip()[-200:]}")
     return p.stdout
 
 
@@ -122,15 +126,13 @@ def main():
     env = dict(os.environ, PI_PROFILES_ROOT=str(Path(trit) / "profiles"),
                PI_PROFILE_BASE_DIR=str(Path.home() / ".pi" / "agent"),
                HOME=fakehome)
+    it = REPO / "eval-runs" / os.environ.get("EVAL_ITERATION", "iteration-1")
     subprocess.run(["pi-profile", "create", "eval"], check=True, capture_output=True,
                    env=env)
     prof_env = dict(os.environ, PI_CODING_AGENT_DIR=str(Path(trit) / "profiles" / "eval"),
                     HOME=fakehome)
     base_work = Path(trit) / "work"
     base_work.mkdir()
-    # Isolate skill discovery: the profile dir may gain skills later; --no-skills
-    # keeps both arms clean and the WITH arm adds exactly one skill.
-    it = REPO / "eval-runs" / "iteration-1"
     results, errors, calls = {}, [], 0
     clean_tree = repo_snapshot()
     for skill, reps in plan:
