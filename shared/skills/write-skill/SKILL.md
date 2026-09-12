@@ -1,6 +1,7 @@
 ---
 name: write-skill
 description: Write or revise an Agent Skill so it conforms to the Agent Skills spec and is actually reliable — description that triggers correctly, checkable steps, progressive disclosure. Use when adding a skill, or when reviewing an existing one for quality.
+disable-model-invocation: true
 ---
 
 # Write skill
