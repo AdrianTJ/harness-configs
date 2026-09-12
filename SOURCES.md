@@ -215,6 +215,15 @@ SoL-Pi: both register `edit` and the first one loaded takes the slot.
 Also seen in that trial, not re-verified since: the extension does not load in
 Ralph child sessions.
 
+Re-measured 2026-09-12 on the rebuilt profile, stock Pi 0.85.1 against SoL-Pi
+only, 3 pairs per shape, `deepseek-v4-flash-0731`: Action Fusion fired in 0 of 6
+natural-prompt runs, so it only pays off when the model opts into `then_run`.
+When the prompt asks for it, it fires 3 of 3 and saves a turn (4 to 3 turns,
+-21.6% and -12.7% tokens on a small task). With fusion inactive the profile costs
+about 14% more tokens on small tasks, which is the added tool schema plus
+`obs_recall` in every request. Large-context results were too noisy at 3 pairs to
+conclude. Separate ObservationPack from Fusion before claiming a net effect.
+
 ```sh
 # No npm version to check; compare installed git rev against upstream HEAD
 git ls-remote https://github.com/NVlabs/SoL-Pi HEAD
