@@ -7,15 +7,14 @@ set -u
 REF="skills-ref@0.1.5"
 fail=0
 for d in shared/skills/*/; do
-  name="$(basename "$d")"
   if out="$(npx -y "$REF" validate "$d" 2>&1)"; then
     echo "OK   $d (skills-ref)"
-  elif { [[ "$name" == "bro-what" ]] || [[ "$name" == "bro-shorter" ]]; } \
-    && grep -q 'Unexpected fields in frontmatter: disable-model-invocation' <<<"$out" \
+  elif grep -q 'Unexpected fields in frontmatter: disable-model-invocation' <<<"$out" \
     && [[ "$(grep -c '^  - ' <<<"$out")" == 1 ]]; then
-    # Known upstream deviation: user-invoked-only flag, load-bearing, and both
-    # skills are vendored verbatim (see SOURCES.md) — must not "fix" by editing.
-    echo "OK   $d (skills-ref, known upstream exception)"
+    # Allowed deviation: the user-invoked-only flag is load-bearing host
+    # convention (see bro-what/bro-shorter, vendored verbatim). Any skill may
+    # carry exactly this one extra field; anything else still fails.
+    echo "OK   $d (skills-ref, user-invoked-only flag)"
   else
     fail=1; echo "FAIL $d (skills-ref)"; echo "$out" | sed 's/^/     /'
   fi
