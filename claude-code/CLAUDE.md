@@ -7,22 +7,15 @@ opencode. Everything below is Claude-specific and applies only here.
 
 ## Git
 
-I author; you commit and take co-author credit. The author line is in the shared
-instructions above — set the committer explicitly, since the harness's own git
-identity is already Claude:
+I author every commit; you never attribute yourself — no `Co-Authored-By`
+trailer, no alternate committer. Set the author explicitly, since the harness's
+own git identity may differ:
 
 ```sh
-GIT_COMMITTER_NAME="Claude" GIT_COMMITTER_EMAIL="noreply@anthropic.com" \
 git commit --author="Adrian Tame <31286933+AdrianTJ@users.noreply.github.com>" -m "..."
 ```
 
-End every commit message with:
-
-```
-Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
-```
-
-Check before pushing — author me, committer you:
+Check before pushing — author and committer both me:
 
 ```sh
 git log --format='%h  A:%an  |  C:%cn' main..HEAD

@@ -36,7 +36,7 @@ rather than remembered. For GitHub sources that is the full commit SHA
 | `brainstorming` | adapted | [obra/superpowers](https://github.com/obra/superpowers) `skills/brainstorming/SKILL.md` | `b36e0829…` | 2026-09-03 | MIT |
 | `harness-configs` | local | none — authored for this repo | — | — | — |
 | `researcher` | local | none — authored for this repo (`pi/agents/`, no upstream) | — | — | — |
-| `profile-badge` | vendored | [AdrianTJ/pi-profiles](https://github.com/AdrianTJ/pi-profiles) `extensions/profile-badge.ts` | `2ecdf87…` | 2026-09-06 | Apache-2.0 |
+| `profile-badge` | vendored | [AdrianTJ/pi-profiles](https://github.com/AdrianTJ/pi-profiles) `extensions/profile-badge.ts` | `df7dbc0…` | 2026-09-12 | Apache-2.0 |
 | `write-skill` | local | originally agentic_engineering; canonical home here | — | 2026-09-08 | — |
 | `skill-creator` | reference | [anthropics/skills](https://github.com/anthropics/skills) `skills/skill-creator/SKILL.md` | via `npx skills` | — | Apache-2.0 |
 | `validate-results` | local | originally agentic_engineering; canonical home here | — | 2026-09-09 | — |
@@ -219,7 +219,7 @@ Footer extension showing the active pi-profile name. Vendored verbatim from
 via the wrapper and stays quiet otherwise.
 
 ```sh
-git ls-remote https://github.com/AdrianTJ/pi-profiles HEAD   # resolved_commit 2ecdf87
+git ls-remote https://github.com/AdrianTJ/pi-profiles HEAD   # resolved_commit df7dbc0
 # New commits? Diff upstream extensions/profile-badge.ts against pi/extensions/profile-badge.ts, re-copy, update pin + footer.
 ```
 

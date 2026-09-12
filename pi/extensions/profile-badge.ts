@@ -3,7 +3,7 @@
  * Installed per profile via settings.json "extensions"; reads the env var the
  * pi-profile wrapper sets, so it stays quiet when pi runs without a profile.
  *
- * Vendored from AdrianTJ/pi-profiles `extensions/profile-badge.ts` @ 2ecdf87 (2026-09-06).
+ * Vendored from AdrianTJ/pi-profiles `extensions/profile-badge.ts` @ df7dbc0 (2026-09-12).
  */
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 

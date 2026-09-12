@@ -1,5 +1,5 @@
 ## Git
-Author every commit to me: Adrian Tame <31286933+AdrianTJ@users.noreply.github.com>. Use that GitHub noreply address, never a personal email, it must not land in a repo.
+Author every commit to me: Adrian Tame <31286933+AdrianTJ@users.noreply.github.com>. Use that GitHub noreply address, never a personal email, it must not land in a repo. Never add a `Co-Authored-By` trailer, and never set an alternate committer identity.
 
 Branch names take a conventional prefix (`feat/`, `bug/`, `chore/`, `docs/`) followed by a short kebab-case description. **No model or vendor name in a branch name, and no generated suffix.** Some harnesses default to names like `claude/<topic>-<hash>`; rename before pushing. For example: 
 ```
