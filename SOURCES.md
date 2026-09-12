@@ -200,10 +200,29 @@ edit in place. Do not check for updates — it *is* the source.
 [NVIDIA Labs SoL-Pi](https://github.com/NVlabs/SoL-Pi) — efficiency extension
 for pi (Action Fusion, ObservationPack, reducer, context compact). **Not
 vendored, not a base package** — declared in the `sol-trial` profile
-(`git:github.com/NVlabs/SoL-Pi`, trialed at `0.1.0` / `8f8c139`, 2026-09-11,
-MIT). Trial verdict: no measurable effect on Ralph-loop or flash-model
-bash-heavy workloads (extension doesn't load in Ralph children; fusion only
-fires on edit/write tool use). Revisit if those constraints change.
+(`git:github.com/NVlabs/SoL-Pi`, `0.1.0`, MIT).
+
+The 2026-09-11 trial ran in a profile that had been cloned from `marathon`, so it
+carried marathon's ten packages on top of SoL-Pi. One of them, `pi-nolo`,
+re-registers the builtin `edit` tool and holds the `edit` slot ahead of SoL-Pi,
+which removes Action Fusion's `then_run` parameter from the schema the model
+receives. Action Fusion was therefore inert for `edit` calls for the entire trial
+(`write` still fused), so the original "no measurable effect" verdict measured
+ObservationPack plus a disabled fusion, not SoL-Pi. The polluted profile is gone
+and `sol-trial` is SoL-Pi only now. Do not load `pi-nolo` alongside
+SoL-Pi: both register `edit` and the first one loaded takes the slot.
+
+Also seen in that trial, not re-verified since: the extension does not load in
+Ralph child sessions.
+
+Re-measured 2026-09-12 on the rebuilt profile, stock Pi 0.85.1 against SoL-Pi
+only, 3 pairs per shape, `deepseek-v4-flash-0731`: Action Fusion fired in 0 of 6
+natural-prompt runs, so it only pays off when the model opts into `then_run`.
+When the prompt asks for it, it fires 3 of 3 and saves a turn (4 to 3 turns,
+-21.6% and -12.7% tokens on a small task). With fusion inactive the profile costs
+about 14% more tokens on small tasks, which is the added tool schema plus
+`obs_recall` in every request. Large-context results were too noisy at 3 pairs to
+conclude. Separate ObservationPack from Fusion before claiming a net effect.
 
 ```sh
 # No npm version to check; compare installed git rev against upstream HEAD
