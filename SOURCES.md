@@ -200,10 +200,20 @@ edit in place. Do not check for updates — it *is* the source.
 [NVIDIA Labs SoL-Pi](https://github.com/NVlabs/SoL-Pi) — efficiency extension
 for pi (Action Fusion, ObservationPack, reducer, context compact). **Not
 vendored, not a base package** — declared in the `sol-trial` profile
-(`git:github.com/NVlabs/SoL-Pi`, trialed at `0.1.0` / `8f8c139`, 2026-09-11,
-MIT). Trial verdict: no measurable effect on Ralph-loop or flash-model
-bash-heavy workloads (extension doesn't load in Ralph children; fusion only
-fires on edit/write tool use). Revisit if those constraints change.
+(`git:github.com/NVlabs/SoL-Pi`, `0.1.0`, MIT).
+
+The 2026-09-11 trial ran in a profile that had been cloned from `marathon`, so it
+carried marathon's ten packages on top of SoL-Pi. One of them, `pi-nolo`,
+re-registers the builtin `edit` tool and holds the `edit` slot ahead of SoL-Pi,
+which removes Action Fusion's `then_run` parameter from the schema the model
+receives. Action Fusion was therefore inert for `edit` calls for the entire trial
+(`write` still fused), so the original "no measurable effect" verdict measured
+ObservationPack plus a disabled fusion, not SoL-Pi. That profile is preserved as
+`sol-marathon`; `sol-trial` is SoL-Pi only now. Do not load `pi-nolo` alongside
+SoL-Pi: both register `edit` and the first one loaded takes the slot.
+
+Also seen in that trial, not re-verified since: the extension does not load in
+Ralph child sessions.
 
 ```sh
 # No npm version to check; compare installed git rev against upstream HEAD
