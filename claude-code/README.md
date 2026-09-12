@@ -27,9 +27,8 @@ imported files load at launch regardless.
 appending its "Generated with Claude Code" footer to pull request bodies and
 commit messages.
 
-This only governs what Claude Code appends on its own. The `Co-Authored-By`
-trailer convention in `CLAUDE.md` is unaffected — that trailer is passed
-explicitly in the commit command, not auto-appended.
+This only governs what Claude Code appends on its own. Commits carry no
+`Co-Authored-By` trailer at all — see the Git section of `CLAUDE.md`.
 
 The older `includeCoAuthoredBy` setting is deprecated in favour of this one, and
 the two conflict if both are set. Use `attribution` alone.

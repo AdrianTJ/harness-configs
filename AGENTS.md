@@ -166,7 +166,7 @@ claude/multi-harness-structure-ehxq   wrong: agent name, generated suffix
 **Verify before pushing:**
 
 ```sh
-git log --format='%h  A:%an  |  C:%cn' main..HEAD   # author you, committer Claude
+git log --format='%h  A:%an  |  C:%cn' main..HEAD   # author and committer both me
 git branch --show-current                           # feat/, bug/, chore/, docs/
 ```
 
