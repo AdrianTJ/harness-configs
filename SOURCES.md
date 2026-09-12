@@ -199,7 +199,7 @@ edit in place. Do not check for updates — it *is* the source.
 
 [NVIDIA Labs SoL-Pi](https://github.com/NVlabs/SoL-Pi) — efficiency extension
 for pi (Action Fusion, ObservationPack, reducer, context compact). **Not
-vendored, not a base package** — declared in the `sol-trial` profile
+vendored, not a base package** — declared in the `SoL-Pi` profile
 (`git:github.com/NVlabs/SoL-Pi`, `0.1.0`, MIT).
 
 The 2026-09-11 trial ran in a profile that had been cloned from `marathon`, so it
@@ -209,7 +209,7 @@ which removes Action Fusion's `then_run` parameter from the schema the model
 receives. Action Fusion was therefore inert for `edit` calls for the entire trial
 (`write` still fused), so the original "no measurable effect" verdict measured
 ObservationPack plus a disabled fusion, not SoL-Pi. The polluted profile is gone
-and `sol-trial` is SoL-Pi only now. Do not load `pi-nolo` alongside
+and the rebuilt `SoL-Pi` profile carries SoL-Pi alone now. Do not load `pi-nolo` alongside
 SoL-Pi: both register `edit` and the first one loaded takes the slot.
 
 Also seen in that trial, not re-verified since: the extension does not load in
