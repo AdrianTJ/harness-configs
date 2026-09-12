@@ -6,7 +6,7 @@ Config root: `~/.pi/agent/` (project-level equivalent: `.pi/` in a repo).
 |---|---|---|
 | `settings.json` | `~/.pi/agent/settings.json` | All settings, including the `packages` list below. |
 | `keybindings.json` | `~/.pi/agent/keybindings.json` | Key overrides. |
-| `nolo.json` | `~/.pi/agent/nolo.json` | Approval-gate defaults (scope-writes guard, yolo shortcut). Inert unless pi-nolo is installed. |
+| `nolo.json` | `~/.pi/agent/nolo.json` | Approval-gate defaults (scope-writes guard, yolo shortcut). Inert unless pi-nolo is installed (marathon only). |
 | `APPEND_SYSTEM.md` | `~/.pi/agent/APPEND_SYSTEM.md` | Appended to the system prompt. (`SYSTEM.md` *replaces* it — use with care.) |
 | `extensions/` | `~/.pi/agent/extensions/` | Locally-authored extensions, auto-discovered as `*.ts` or `*/index.ts`. |
 | `themes/` | `~/.pi/agent/themes/` | Custom themes, hot-reloaded. |
@@ -66,6 +66,8 @@ has no keyless default: put at least one Exa/Brave/Tavily/Doubao key in
 `~/.pi/web-search.json` (its only config file). That path is machine-local and
 never tracked — keys belong there or in the environment, never in
 `settings.json`.
+
+**pi-nolo is marathon-only, on purpose.** pi-nolo (no-yolo approval gating) re-registers the builtin `edit` and `bash` tools from Pi's own definitions, which strips SoL-Pi Action Fusion's `then_run` parameter from the schema the model receives when both are loaded (see `../SOURCES.md` for the 2026-09-11 incident). It is deliberately not part of this base set, nor of the daily profile: it ships only in the `marathon` profile, where it gates edits on unattended runs. Its `nolo.json` config is linked here because the extension reads `~/.pi/agent/nolo.json` regardless of the active profile. Do not add `npm:pi-nolo` to this `packages` list.
 
 ## First run on a new machine
 

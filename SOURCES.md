@@ -224,6 +224,8 @@ about 14% more tokens on small tasks, which is the added tool schema plus
 `obs_recall` in every request. Large-context results were too noisy at 3 pairs to
 conclude. Separate ObservationPack from Fusion before claiming a net effect.
 
+pi-nolo itself is still used: it remains installed in the `marathon` profile (approval gating for unattended runs) and was purged from every other profile store on 2026-09-12; the base pi set has never declared it. `nolo.json` stays tracked here because the extension reads the hard-coded global path `~/.pi/agent/nolo.json` even when another profile is active, so marathon depends on it.
+
 ```sh
 # No npm version to check; compare installed git rev against upstream HEAD
 git ls-remote https://github.com/NVlabs/SoL-Pi HEAD
