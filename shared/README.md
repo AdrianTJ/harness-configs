@@ -20,6 +20,12 @@ shared/skills/my-skill/
 └── scripts/
 ```
 
+A skill may also set `disable-model-invocation: true` to make it user-invoked
+only — triggered by `/name`, never auto-selected by the model. Current set:
+`bro-what`, `bro-shorter`, `deslop`, `write-skill`. The conformance check
+(`scripts/check-skill-refs.sh`) allows exactly that one extra frontmatter field
+as a deviation from the strict spec; any other unexpected field still fails.
+
 ## Skill evals
 
 Each skill ships at least one eval in `evals/evals.json` beside its `SKILL.md`:
