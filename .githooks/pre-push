@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# Run this repo's checks before a push leaves the machine. The point is that a
+# red CI run should never be the first you hear about a broken check; CI runs the
+# same script, so the two cannot drift.
+set -euo pipefail
+root="$(git rev-parse --show-toplevel)"
+exec "$root/scripts/check.sh"

@@ -170,6 +170,19 @@ git log --format='%h  A:%an  |  C:%cn' main..HEAD   # author and committer both 
 git branch --show-current                           # feat/, bug/, chore/, docs/
 ```
 
+## Checks
+
+Run `bash scripts/check.sh` before pushing, or set the hook once per clone and let
+it run for you:
+
+```sh
+git config core.hooksPath .githooks
+```
+
+CI runs that same script, so a local pass means a green run instead of a red one
+you find out about later. It covers shellcheck, the manifest and skill validators,
+and an install smoke test.
+
 ## Rules
 
 - **Never commit credentials.** `auth.json`, `models.json`, `.credentials.json`,

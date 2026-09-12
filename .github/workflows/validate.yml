@@ -16,27 +16,6 @@ jobs:
       - name: Install shellcheck
         run: sudo apt-get update -qq && sudo apt-get install -y -qq shellcheck
 
-      - name: shellcheck
-        run: shellcheck -S warning install.sh scripts/check-manifest.sh scripts/check-skill-refs.sh scripts/check-upstream.sh
-
-      - name: syntax
-        run: bash -n install.sh && bash -n scripts/check-manifest.sh && bash -n scripts/check-skill-refs.sh && bash -n scripts/check-upstream.sh
-
-      - name: manifest structure
-        run: bash scripts/check-manifest.sh
-
-      - name: skills and evals structure
-        run: python3 scripts/validate-skills.py
-
-      - name: spec conformance (skills-ref)
-        run: bash scripts/check-skill-refs.sh
-
-      - name: install smoke test
-        run: ./install.sh --dry-run && ./install.sh --status
-
-      - name: unknown harness rejected
-        run: |
-          if ./install.sh --harness bogus --status; then
-            echo "expected --harness bogus to fail" >&2
-            exit 1
-          fi
+      # Same script the pre-push hook runs, so a local pass means a green run.
+      - name: checks
+        run: bash scripts/check.sh
