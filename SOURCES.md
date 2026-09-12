@@ -208,8 +208,8 @@ re-registers the builtin `edit` tool and holds the `edit` slot ahead of SoL-Pi,
 which removes Action Fusion's `then_run` parameter from the schema the model
 receives. Action Fusion was therefore inert for `edit` calls for the entire trial
 (`write` still fused), so the original "no measurable effect" verdict measured
-ObservationPack plus a disabled fusion, not SoL-Pi. That profile is preserved as
-`sol-marathon`; `sol-trial` is SoL-Pi only now. Do not load `pi-nolo` alongside
+ObservationPack plus a disabled fusion, not SoL-Pi. The polluted profile is gone
+and `sol-trial` is SoL-Pi only now. Do not load `pi-nolo` alongside
 SoL-Pi: both register `edit` and the first one loaded takes the slot.
 
 Also seen in that trial, not re-verified since: the extension does not load in
