@@ -9,14 +9,17 @@ claude/multi-harness-structure-ehxq   wrong: vendor name, generated suffix
 ```
 
 ## Safety
-Never commit secrets, tokens, or credential files (`.env`, `*.pem`,
-`credentials.json`). Verify with `git diff --cached` before committing.
+Never commit secrets, tokens, or credential files (`.env`, `*.pem`, `credentials.json`). Verify with `git diff --cached` before committing.
 
 ## Approvals
-Ask before destructive operations (`reset --hard`, `push --force`,
-`clean -fd`, publishing, deploys): state the command, wait for
-confirmation. Reads, edits, and test runs proceed without asking.
-Destructive git patterns are additionally enforced by hook where configured.
+Ask before destructive operations (`reset --hard`, `push --force`, `clean -fd`, publishing, deploys): state the command, wait for confirmation. Reads, edits, and test runs proceed without asking. Destructive git patterns are additionally enforced by hook where configured.
+
+## Markdown
+Write Markdown soft-wrapped: one paragraph per line, one list item per line, a blank line between blocks. Never hard-wrap prose at a column.
+
+A newline in Markdown source is not a newline on the page, so wrapping buys nothing, and it renders wrong wherever newlines are treated as breaks: GitHub issue and PR bodies, chat, several docs sites. Keep line breaks only where they carry meaning, which is code blocks and tables.
+
+If a file is already hard-wrapped, join the paragraphs you touch back into single lines rather than adding more wrapped ones. Do not reflow a whole file just to unwrap it; that buries the real change.
 
 Procedures live in skills, not here — consult them for task workflows.
 Keep this file to rules true in every repo.
