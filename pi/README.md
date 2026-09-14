@@ -47,7 +47,7 @@ them. Pin any package you need to hold still.
 | `npm:@jqwn/pi-ask-user-question` | `ask_user_question` — multi-question TUI dialogs with options, descriptions, and previews, so the model asks instead of guessing. |
 | `npm:@narumitw/pi-btw` | `/btw` side-question thread, answered in an ephemeral UI without polluting the main conversation. |
 | `npm:@dietrichgebert/ponytail` | "Lazy senior dev" mode — YAGNI ladder, stdlib-first, shortest diff. Ships an extension *and* skills. |
-| `npm:pi-subagents-lite` | Delegation to child agents, foreground or background, with steering, continuation, and worktrees — schema-first, three tools, minimal token overhead. |
+| `npm:pi-subagents` | Sub-agent delegation — foreground/background runs, steering, continuation, worktrees, intercom/supervisor channel. Most-used subagent package for pi. |
 | `npm:pi-tasks` | Evidence-gated task plans that survive compaction and crashes, resumable via `/task-resume`. |
 | `npm:pi-web-lite` | Lean web access: `web_search` (Exa/Tavily/Brave/Doubao) and `fetch`. No curator UI, video, or GitHub-clone extras — `gh` CLI and `pdftotext` cover those. |
 

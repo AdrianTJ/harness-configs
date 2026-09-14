@@ -9,7 +9,7 @@
     "npm:@jqwn/pi-ask-user-question",
     "npm:@narumitw/pi-btw",
     "npm:@dietrichgebert/ponytail",
-    "npm:pi-subagents-lite",
+    "npm:pi-subagents",
     "npm:pi-tasks",
     "npm:pi-web-lite"
   ]

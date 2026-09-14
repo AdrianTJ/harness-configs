@@ -140,7 +140,7 @@ machine.
 | Package | Version | Ships | Source |
 |---|---|---|---|
 | `npm:@dietrichgebert/ponytail` | 4.9.0 | 6 skills (`ponytail`, `-audit`, `-debt`, `-gain`, `-help`, `-review`), pi extension, opencode plugin | [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail) |
-| `npm:pi-subagents-lite` | 1.13.1 | extension | [AlexParamonov/pi-subagents-lite](https://github.com/AlexParamonov/pi-subagents-lite) |
+| `npm:pi-subagents` | 0.67.0 | extension | [nicobailon/pi-subagents](https://github.com/nicobailon/pi-subagents) |
 | `npm:@bacnh85/pi-fff` | 0.8.0 | extension | [bacnh85/pi-extensions](https://github.com/bacnh85/pi-extensions) |
 | `npm:@jqwn/pi-ask-user-question` | 0.2.0 | extension | [jqwn/pi-ask-user-question](https://github.com/jqwn/pi-ask-user-question) |
 | `npm:@narumitw/pi-btw` | 0.58.1 | extension | [narumiruna/pi-extensions](https://github.com/narumiruna/pi-extensions) |
@@ -174,19 +174,21 @@ npm view @dietrichgebert/ponytail version   # current upstream, compare against 
 The unpacked package also carries a `SKILL.md` for pi. If you want it visible
 to Claude Code too, either vendor it here or accept pi-only.
 
-## pi-subagents-lite
+## pi-subagents
 
-Delegation for pi — subagents, foreground or background, with steering,
-continuation, worktrees, and an `/agents` management menu. Swapped in for
-`pi-subagents` (2026-09-03): schema-first with three tools and no tool
-descriptions, against a measured extension layer of ~16.7k of pi's ~22.5k
-resident tokens. What the swap gives up: council-mode, saved workflows,
-missions, and the two skills + five prompts the old package shipped (its
-`council-mode` skill was the one that looked orphaned in pi's startup skill
-list). Custom agents are plain `.md` files in `~/.pi/agent/agents/`.
+Sub-agent delegation for pi — foreground/background child agents, steering,
+continuation, worktrees, intercom/supervisor channel. Back to `pi-subagents`
+(2026-09-14), reverting the `pi-subagents-lite` swap of 2026-09-03: lite's
+`Agent`/`StopAgent`/`AgentStatus` tools register with no `description` field,
+and DeepSeek's API strict-validates `function.description` — every request
+400'd with `tools[5]: function.description is required` (unreported upstream;
+we're the heaviest lite user here). The full-size package registers every tool
+with a description and is the ecosystem's de-facto standard (~3.6k stars vs 53).
+What the revert gives up: lite's three-tool token economy — irrelevant next to
+a package that cannot talk to DeepSeek at all.
 
 ```sh
-npm view pi-subagents-lite version   # current upstream, compare against 1.13.1
+npm view pi-subagents version   # current upstream, compare against 0.67.0
 # Bump by editing pi/settings.json; pi installs the new version on startup.
 ```
 

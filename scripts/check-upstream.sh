@@ -40,7 +40,7 @@ check_git "pi-profiles (profile-badge upstream)" https://github.com/AdrianTJ/pi-
 
 echo "== npm pins (pi packages) =="
 check_npm "@dietrichgebert/ponytail" 4.9.0
-check_npm "pi-subagents-lite" 1.13.1
+check_npm "pi-subagents" 0.67.0
 check_npm "@bacnh85/pi-fff" 0.8.0
 check_npm "@jqwn/pi-ask-user-question" 0.2.0
 check_npm "@narumitw/pi-btw" 0.58.1
