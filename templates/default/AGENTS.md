@@ -1,7 +1,7 @@
 # <project>
 
-Instructions for agents working in this repository. Read by pi, codex, and
-opencode directly; by Claude Code through `CLAUDE.md`.
+Instructions for agents working in this repository. Read natively by pi, Claude
+Code (v2.1.277+), codex, and opencode.
 
 These layer on top of the global instructions in `~/harness-configs/shared/AGENTS.md`
 — only put things here that are specific to this project.

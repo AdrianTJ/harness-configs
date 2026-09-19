@@ -13,8 +13,11 @@ cp -R templates/default/. /path/to/project/
 
 ## default/
 
-The baseline: an `AGENTS.md` skeleton plus a `CLAUDE.md` that points at it, so a
-project has one instruction file no matter which harness opens it.
+The baseline: a single `AGENTS.md` skeleton. Every harness reads it natively —
+Claude Code included, since v2.1.277 added AGENTS.md project-instruction support
+(no `CLAUDE.md` shim needed anymore; Claude Code skips it when sessions run on
+Bedrock or third-party providers, in which case add a one-line `@AGENTS.md`
+import file back).
 
 Add more templates as siblings (`templates/rust/`, `templates/monorepo/`, …)
 when a project type earns its own starting point.

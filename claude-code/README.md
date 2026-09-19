@@ -13,13 +13,29 @@ Config root: `~/.claude/` (project-level equivalent: `.claude/` in a repo).
 
 `CLAUDE.md` here is a real file, not a symlink. It imports `shared/AGENTS.md`
 (linked alongside it as `~/.claude/AGENTS.md`) and then adds the rules that only
-apply to Claude Code. Claude Code reads `CLAUDE.md` and not `AGENTS.md`, so the
-shared half loads exactly once.
+apply to Claude Code. The import is still the only path to the shared
+instructions: AGENTS.md support added in Claude Code v2.1.277 is a *project*
+fallback (used when a repo has no CLAUDE.md), and the user-level
+`~/.claude/CLAUDE.md` always loads without triggering that fallback.
 
 The import is written as an absolute `@~/.claude/AGENTS.md`. A relative import
 resolves against the file containing it, which is a symlink into this repo — so
 a relative path would be ambiguous. Note that importing does not save context:
 imported files load at launch regardless.
+
+## AGENTS.md support (v2.1.277+)
+
+Claude Code reads a repository's `AGENTS.md` natively when the project has no
+`CLAUDE.md`/`CLAUDE.local.md` in the working directory or above it, so new
+projects no longer need a `CLAUDE.md` shim — see `templates/default/`.
+Behaviour is configurable via `/config` → "Project instructions" (four modes,
+including loading both formats); the setting lives in user or managed settings,
+never a repo's `.claude/settings.json`. Support is unavailable on Bedrock,
+Vertex, third-party providers, or with telemetry disabled, and does not extend
+to `.agents/skills` — skills remain per-harness.
+
+Project files that already import AGENTS.md (like this `CLAUDE.md`) are safe to
+keep in either mode: Claude Code never reads an AGENTS.md twice.
 
 ## Attribution
 
