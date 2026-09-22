@@ -49,7 +49,7 @@ them. Pin any package you need to hold still.
 | `npm:@dietrichgebert/ponytail` | "Lazy senior dev" mode — YAGNI ladder, stdlib-first, shortest diff. Ships an extension *and* skills. |
 | `npm:pi-subagents` | Sub-agent delegation — foreground/background runs, steering, continuation, worktrees, intercom/supervisor channel. Most-used subagent package for pi. |
 | `npm:pi-tasks` | Evidence-gated task plans that survive compaction and crashes, resumable via `/task-resume`. |
-| `npm:pi-web-lite` | Lean web access: `web_search` (Exa/Tavily/Brave/Doubao) and `fetch`. No curator UI, video, or GitHub-clone extras — `gh` CLI and `pdftotext` cover those. |
+| `npm:pi-web-access` | Web search, page fetch, and extraction. Keyless by default (Exa MCP + DuckDuckGo fallback); optional keys for Brave/Tavily/Kagi/etc. Also: YouTube/video understanding, GitHub URLs cloned locally instead of scraped. Most-installed web-search extension for pi. |
 
 Which of these ship skills (ponytail does; the rest are extensions only) is
 recorded in `SOURCES.md` under "pi package skills" — check
@@ -61,11 +61,11 @@ Two are worth knowing more about:
 (extension + skills) and an `.opencode/` plugin. So when you set up opencode, it's
 the same package declared a second way — not a second tool to learn.
 
-**pi-web-lite needs one search key.** Unlike the pi-web-access it replaced, it
-has no keyless default: put at least one Exa/Brave/Tavily/Doubao key in
-`~/.pi/web-search.json` (its only config file). That path is machine-local and
-never tracked — keys belong there or in the environment, never in
-`settings.json`.
+**pi-web-access needs no key.** Search works out of the box through Exa MCP
+(keyless) with a DuckDuckGo fallback; Codex-auth reuse applies when signed in
+via `/login` codex. Optional keys for other providers (Brave, Tavily, Kagi,
+...) go in `~/.pi/agent/web-search.json` — machine-local, never tracked, and
+keys belong there or in the environment, never in `settings.json`.
 
 **pi-nolo is marathon-only, on purpose.** pi-nolo (no-yolo approval gating) re-registers the builtin `edit` and `bash` tools from Pi's own definitions, which strips SoL-Pi Action Fusion's `then_run` parameter from the schema the model receives when both are loaded (see `../SOURCES.md` for the 2026-09-11 incident). It is deliberately not part of this base set, nor of the daily profile: it ships only in the `marathon` profile, where it gates edits on unattended runs. Its `nolo.json` config is linked here because the extension reads `~/.pi/agent/nolo.json` regardless of the active profile. Do not add `npm:pi-nolo` to this `packages` list.
 

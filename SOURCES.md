@@ -145,7 +145,7 @@ machine.
 | `npm:@jqwn/pi-ask-user-question` | 0.2.0 | extension | [jqwn/pi-ask-user-question](https://github.com/jqwn/pi-ask-user-question) |
 | `npm:@narumitw/pi-btw` | 0.58.1 | extension | [narumiruna/pi-extensions](https://github.com/narumiruna/pi-extensions) |
 | `npm:pi-tasks` | 0.2.7 | extension | [nczz/pi-tasks](https://github.com/nczz/pi-tasks) |
-| `npm:pi-web-lite` | 0.1.6 | extension | [smithyyang/pi-web-lite](https://github.com/smithyyang/pi-web-lite) |
+| `npm:pi-web-access` | 0.30.0 | extension | [nicobailon/pi-web-access](https://github.com/nicobailon/pi-web-access) |
 
 Check per package: `npm view <name> version`. Bump by editing `pi/settings.json`;
 pi installs the new version on startup.

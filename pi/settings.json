@@ -11,6 +11,6 @@
     "npm:@dietrichgebert/ponytail",
     "npm:pi-subagents",
     "npm:pi-tasks",
-    "npm:pi-web-lite"
+    "npm:pi-web-access"
   ]
 }

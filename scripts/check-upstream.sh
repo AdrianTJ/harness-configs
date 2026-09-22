@@ -45,7 +45,7 @@ check_npm "@bacnh85/pi-fff" 0.8.0
 check_npm "@jqwn/pi-ask-user-question" 0.2.0
 check_npm "@narumitw/pi-btw" 0.58.1
 check_npm "pi-tasks" 0.2.7
-check_npm "pi-web-lite" 0.1.6
+check_npm "pi-web-access" 0.30.0
 
 echo
 if (( stale > 0 )); then
