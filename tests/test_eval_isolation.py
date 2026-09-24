@@ -287,6 +287,40 @@ class EvalIsolationTests(unittest.TestCase):
         self.assertNotEqual(status.returncode, 0)
         self.assertIn("STALE", status.stdout + status.stderr)
 
+    def test_status_check_fails_on_recorded_run_errors(self):
+        result = self._run("run-skill-evals.py", "harness-configs=1")
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+        (self.eval_dir / "errors.json").write_text(
+            json.dumps(["rep1: pi run failed: provider 400"]) + "\n"
+        )
+        status = self._status(self.eval_dir)
+        self.assertNotEqual(status.returncode, 0, status.stdout + status.stderr)
+        self.assertIn("ERROR", status.stdout)
+        self.assertIn("provider 400", status.stdout)
+
+    def test_status_check_fails_when_case_has_no_result(self):
+        result = self._run("run-skill-evals.py", "harness-configs=1")
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+        benchmark_path = self.eval_dir / "benchmark.json"
+        benchmark = json.loads(benchmark_path.read_text())
+        benchmark.pop("harness-configs/dry-run-before-link")
+        benchmark_path.write_text(json.dumps(benchmark) + "\n")
+
+        status = self._status(self.eval_dir)
+        self.assertNotEqual(status.returncode, 0, status.stdout + status.stderr)
+        self.assertIn("NORESULT", status.stdout)
+
+    def test_status_check_fails_when_results_file_is_missing(self):
+        result = self._run("run-skill-evals.py", "harness-configs=1")
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+        (self.eval_dir / "benchmark.json").unlink()
+        status = self._status(self.eval_dir)
+        self.assertNotEqual(status.returncode, 0, status.stdout + status.stderr)
+        self.assertIn("NORESULT", status.stdout)
+
 
 if __name__ == "__main__":
     unittest.main()

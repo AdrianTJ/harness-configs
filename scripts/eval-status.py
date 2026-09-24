@@ -123,6 +123,33 @@ def classify(stored: Mapping, current: Mapping) -> tuple[str, list[str]]:
     return ("FRESH" if not changed else "STALE", changed)
 
 
+def run_completeness(path: Path, manifest: Mapping) -> tuple[list[str], list[str]]:
+    """Return (run errors, fingerprinted cases with no result entry).
+
+    Freshness alone is not enough: a run whose calls failed or that stopped
+    before writing results matches the current code exactly and would still be
+    useless as evidence.
+    """
+    directory = path if path.is_dir() else path.parent
+    errors: list[str] = []
+    errors_path = directory / "errors.json"
+    if errors_path.is_file():
+        recorded = json.loads(errors_path.read_text())
+        if isinstance(recorded, list):
+            errors = [str(item) for item in recorded]
+    results_name = "triggers.json" if manifest["runner"] == "trigger" else "benchmark.json"
+    results_path = directory / results_name
+    results = {}
+    if results_path.is_file():
+        loaded = json.loads(results_path.read_text())
+        if isinstance(loaded, dict):
+            results = loaded
+    missing = sorted(key for key in manifest["records"] if key not in results)
+    if not results_path.is_file():
+        missing = sorted(manifest["records"])
+    return errors, missing
+
+
 def inspect(path: Path) -> dict:
     manifest = load_manifest(path)
     runner = manifest["runner"]
@@ -161,6 +188,7 @@ def inspect(path: Path) -> dict:
         status: sum(entry["status"] == status for entry in entries)
         for status in ("FRESH", "STALE", "MISSING")
     }
+    run_errors, missing_results = run_completeness(path, manifest)
     return {
         "schema_version": EVAL_PROTOCOL_VERSION,
         "runner": runner,
@@ -168,6 +196,8 @@ def inspect(path: Path) -> dict:
         "profile_runtime_fingerprint": profile_runtime,
         "counts": counts,
         "entries": entries,
+        "run_errors": run_errors,
+        "missing_results": missing_results,
     }
 
 
@@ -212,9 +242,16 @@ def main(argv: Optional[list[str]] = None) -> int:
             f"{counts['FRESH']} fresh, {counts['STALE']} stale, "
             f"{counts['MISSING']} missing"
         )
+        for error in report["run_errors"]:
+            print(f"ERROR   {error}")
+        for key in report["missing_results"]:
+            print(f"NORESULT {key} (fingerprinted but absent from results)")
 
-    if args.check and any(entry["status"] != "FRESH" for entry in report["entries"]):
-        return 1
+    if args.check:
+        if any(entry["status"] != "FRESH" for entry in report["entries"]):
+            return 1
+        if report["run_errors"] or report["missing_results"]:
+            return 1
     return 0
 
 

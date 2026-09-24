@@ -36,7 +36,7 @@ Scored runs use Pi JSON event mode. Each target and control arm retains raw even
 
 The judge must be pinned explicitly with `EVAL_JUDGE_PROVIDER` and `EVAL_JUDGE_MODEL`. Running the same provider/model as both target and judge stops the run unless `EVAL_ALLOW_SELF_JUDGE=1` is set for an explicitly exploratory experiment.
 
-Every run records per-case fingerprints over the skill, that case and fixtures, runner code, target/judge configuration, timeout, repetitions, pi version, and effective non-secret profile runtime. `python3 scripts/eval-status.py <run-directory>` checks freshness without model calls; `--check` exits nonzero for stale or missing cases. Raw runs remain in gitignored `eval-runs/`; reviewed summaries belong in tracked `eval-baselines/`.
+Every run records per-case fingerprints over the skill, that case and fixtures, runner code, target/judge configuration, timeout, repetitions, pi version, and effective non-secret profile runtime. `python3 scripts/eval-status.py <run-directory>` checks freshness without model calls; `--check` exits nonzero for stale or missing cases, recorded run errors, or fingerprinted cases with no result entry. Raw runs remain in gitignored `eval-runs/`; reviewed summaries belong in tracked `eval-baselines/`.
 
 ## Trigger probes
 
