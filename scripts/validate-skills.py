@@ -10,6 +10,11 @@ Two things, both free and fast enough to run on every commit (and in CI):
      the containing skill, each eval has a unique `id` and a `prompt`,
      `assertions` and optional `transcript_assertions` are non-empty lists of
      strings, and every path in `files` resolves relative to the skill.
+  3. Semantic dependencies hold: every skill has a SOURCES.md ledger row,
+     vendored/adapted skills carry an attribution footer with the upstream URL,
+     prose references to sibling skills (`X` skill / Pairs with `X`) resolve to
+     a ledger row or an installed skill, `also_load` entries name a real skill,
+     and relative markdown links inside a SKILL.md point at files that exist.
 
 Scoring the evals against a real model is a separate, by-eye step — see
 "Skill evals" in shared/README.md. This only checks that the specs are
@@ -22,10 +27,85 @@ import json
 import re
 import sys
 from pathlib import Path
+from typing import Optional
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 SKILLS_ROOTS = [REPO_ROOT / "shared" / "skills"]
+STORE_SKILLS = Path.home() / ".agents" / "skills"
 NAME_RE = re.compile(r"[a-z0-9]+(?:-[a-z0-9]+)*\Z")
+SIBLING_REF_RE = re.compile(
+    r"`([a-z0-9]+(?:-[a-z0-9]+)*)`\s+skill\b|Pairs with `([a-z0-9]+(?:-[a-z0-9]+)*)`"
+)
+MD_LINK_RE = re.compile(r"\]\((?!https?://|mailto:|#)([^)\s]+)(?:\s+[\"'])")
+MD_LINK_PLAIN_RE = re.compile(r"\]\((?!https?://|mailto:|#)([^)\s]+)\)")
+MARKDOWN_URL_RE = re.compile(r"https?://[^\s)>]+")
+
+
+def sources_ledger() -> dict:
+    """Map of skill name -> {status, row} parsed from the SOURCES.md summary table."""
+    ledger_path = REPO_ROOT / "SOURCES.md"
+    if not ledger_path.is_file():
+        return {}
+    rows = {}
+    for line in ledger_path.read_text().splitlines():
+        match = re.match(r"\|\s*`([a-z0-9]+(?:-[a-z0-9]+)*)`\s*\|\s*([a-z]+)\s*\|", line)
+        if match:
+            rows[match.group(1)] = {"status": match.group(2), "row": line}
+    return rows
+
+
+def installed_skill_names(ledger: Optional[dict] = None) -> set:
+    """Skill names a reference can resolve to: ledger rows or an installed directory."""
+    names = set(sources_ledger() if ledger is None else ledger)
+    for root in SKILLS_ROOTS + [STORE_SKILLS]:
+        if root.is_dir():
+            names.update(child.name for child in root.iterdir() if child.is_dir())
+    return names
+
+
+def check_semantics(skill_md: Path, ledger: Optional[dict] = None) -> list:
+    """Cross-file checks: ledger coverage, attribution, sibling refs, links."""
+    errors = []
+    text = skill_md.read_text()
+    name = skill_md.parent.name
+    ledger = sources_ledger() if ledger is None else ledger
+
+    if name not in ledger:
+        errors.append(
+            f"no SOURCES.md row for {name!r} (every skill gets a ledger entry)"
+        )
+    else:
+        entry = ledger[name]
+        status = entry["status"] if isinstance(entry, dict) else entry
+        row = entry["row"] if isinstance(entry, dict) else ""
+        if status in {"vendored", "adapted"}:
+            upstream_urls = MARKDOWN_URL_RE.findall(row)
+            if not upstream_urls:
+                errors.append(
+                    f"SOURCES.md row for {name!r} is {status} but has no upstream URL"
+                )
+            elif not any(url.rstrip(".,;)") in text for url in upstream_urls):
+                errors.append(
+                    f"{status} skill {name!r} has no attribution footer: none of its "
+                    "SOURCES.md upstream URLs appear in SKILL.md"
+                )
+
+    for match in SIBLING_REF_RE.finditer(text):
+        target = match.group(1) or match.group(2)
+        if target != name and target not in installed_skill_names(ledger):
+            errors.append(
+                f"references {target!r} as a skill, but no such skill exists "
+                "(shared/skills, ~/.agents/skills, or a SOURCES.md row)"
+            )
+
+    for match in MD_LINK_PLAIN_RE.finditer(text):
+        target = match.group(1)
+        if "{" in target or " " in target:
+            continue
+        if not (skill_md.parent / target).exists():
+            errors.append(f"relative link target not found: {target}")
+
+    return errors
 
 
 def frontmatter(text: str) -> str:
@@ -136,6 +216,20 @@ def check_evals(evals_json: Path) -> list:
             elif not all(isinstance(command, str) and command.strip() for command in setup):
                 errors.append(f"{where}: every setup command must be a non-empty string")
 
+        also_load = ev.get("also_load")
+        if also_load is not None:
+            if not isinstance(also_load, list) or not also_load:
+                errors.append(f"{where}: 'also_load' must be a non-empty array")
+            elif not all(isinstance(name, str) and NAME_RE.match(name or "") for name in also_load):
+                errors.append(f"{where}: every also_load entry must be a skill name")
+            else:
+                known = installed_skill_names()
+                for name in also_load:
+                    if name not in known:
+                        errors.append(
+                            f"{where}: also_load names unknown skill {name!r}"
+                        )
+
         process_assertions = ev.get("transcript_assertions")
         if process_assertions is not None:
             if not isinstance(process_assertions, list) or not process_assertions:
@@ -220,7 +314,9 @@ def main() -> int:
     failed = False
     for skill_md in skill_mds:
         rel = skill_md.relative_to(REPO_ROOT)
-        errors = check_skill(skill_md)
+        errors = check_skill(skill_md) + [
+            f"semantics: {e}" for e in check_semantics(skill_md)
+        ]
 
         evals_json = skill_md.parent / "evals" / "evals.json"
         if evals_json.exists():
