@@ -13,8 +13,9 @@ harness-configs/
 │
 ├── AGENTS.md           runbook for an agent installing this (CLAUDE.md imports it)
 │
-├── scripts/            repo checks — manifest, skill refs, evals, upstream pins
-├── eval-runs/          skill eval and trigger-probe results, kept for comparison
+├── scripts/            repo checks — manifest, skill refs, evals, fingerprints, upstream pins
+├── eval-baselines/     reviewed, tracked eval summaries promoted from raw runs
+├── eval-runs/          raw skill eval and trigger-probe output; gitignored
 │
 ├── shared/             consumed by more than one harness, no translation needed
 │   ├── AGENTS.md         global instructions (Claude Code imports it)

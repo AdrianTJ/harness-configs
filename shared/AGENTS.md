@@ -21,6 +21,6 @@ A newline in Markdown source is not a newline on the page, so wrapping buys noth
 
 If a file is already hard-wrapped, join the paragraphs you touch back into single lines rather than adding more wrapped ones. Do not reflow a whole file just to unwrap it; that buries the real change.
 
-Procedures live in skills, not here — consult them for task workflows.
+Procedures live in skills, not here — consult them for task workflows. When a request explicitly says to update, sync, align, or refresh documentation with code, load `sync-docs` before editing.
 Keep this file to rules true in every repo.
 
