@@ -1,22 +1,15 @@
 #!/usr/bin/env python3
-"""Pilot skill evals on Muse Spark through pi. Run: scripts/run-skill-evals.py.
+"""Run forced-load A/B skill compliance evals through Pi.
 
-Differential design (best practice for skill evals):
-  - WITHOUT arm: sterile profile + --no-skills. The ONLY difference in the
-    WITH arm is `--skill <dir>` for the skill under test.
-  - A/B sides are swapped on even reps to cancel judge position bias.
-  - Judge grades each assertion against each side with quoted evidence and
-    ends with machine-readable A-PASS / B-PASS lines; unparseable verdicts
-    retry once, then record an error.
-  - One rep proves nothing on a stochastic system: budget allows ~6 reps for
-    single-eval skills, ~3 for two-eval skills (20 calls each).
-
-Cost: 3 calls per eval per rep (2 target + 1 judge).
-NEVER in CI. Writes gitignored eval-runs/iteration-N/; prints the rollup.
+Each treatment, control, and judge attempt gets a fresh workspace, HOME/XDG
+root, and Pi profile. Pi runs in JSON event mode, so every result retains the
+final response, transcript/tool evidence, environment manifest, usage, and
+observed model. Scored runs write deterministic per-case fingerprints and
+remain under gitignored eval-runs/ unless explicitly reviewed and promoted.
 """
+
 import json
 import os
-import re
 import shutil
 import subprocess
 import sys
@@ -24,212 +17,409 @@ import tempfile
 from datetime import datetime, timezone
 from pathlib import Path
 
+from eval_scoring import aggregate_reps, parse_judge_verdict
+from pi_eval_client import require_success, run_pi, run_setup, write_run_evidence
+from skill_eval_utils import (
+    EVAL_PROTOCOL_VERSION,
+    build_compliance_record,
+    clean_base_environment,
+    command_version,
+    create_isolated_profile,
+    default_runner_files,
+    measure_profile_runtime,
+    prepare_isolated_arms,
+    write_fingerprint_manifest,
+)
+
 REPO = Path(__file__).resolve().parents[1]
 PROVIDER = os.environ.get("EVAL_PROVIDER", "opencode-go")
 MODEL = os.environ.get("EVAL_MODEL", "muse-spark-1.3-contributor")
-CALL_TIMEOUT = int(os.environ.get("EVAL_TIMEOUT", "300"))
-# Pilot budget: 20 calls each -> deslop 6 reps, write-skill 3 reps.
+JUDGE_PROVIDER = os.environ.get("EVAL_JUDGE_PROVIDER")
+JUDGE_MODEL = os.environ.get("EVAL_JUDGE_MODEL")
+ALLOW_SELF_JUDGE = os.environ.get("EVAL_ALLOW_SELF_JUDGE") == "1"
+CALL_TIMEOUT = int(os.environ.get("EVAL_TIMEOUT", "600"))
 PILOT = {"deslop": 6, "write-skill": 3}
 
-JUDGE_TEMPLATE = """You are grading two anonymous responses to the same user request.
-For EACH numbered assertion and EACH response, write PASS or FAIL followed by a
-short quote from that response as evidence. Judge only what is written: a
-response that never addresses an assertion FAILs it.
+JUDGE_TEMPLATE = """You are an independent evaluator comparing two anonymous Pi runs. Do not guess which run received a skill.
+
+Evidence for side A is under A/. Evidence for side B is under B/. Each side contains:
+- events.jsonl: raw Pi JSON event stream
+- transcript.json: final output, usage, tool calls, files read/modified, commands, and errors
+- environment.json: hashed workspace, HOME, and profile manifests (credentials excluded)
+
+Inspect the evidence with your tools. Judge observable behavior, not wording. Never reward a claim that the evidence contradicts.
 
 User request:
 {prompt}
 
-Assertions:
-{assertions}
+OUTPUT ASSERTIONS: {output_count}
+{output_assertions}
 
-Response A:
-{out_a}
+PROCESS ASSERTIONS: {process_count}
+{process_assertions}
 
-Response B:
-{out_b}
-
-End with exactly these two lines and nothing after them:
-A-PASS: <number of assertions Response A passed>
-B-PASS: <number of assertions Response B passed>
+For every numbered output and process assertion, write PASS or FAIL for side A and side B, followed by a short exact quote or evidence path. Then end with exactly these lines and nothing after them:
+A-OUTPUT: <passed output assertions>
+A-PROCESS: <passed process assertions>
+A-PASS: <total passed assertions>
+B-OUTPUT: <passed output assertions>
+B-PROCESS: <passed process assertions>
+B-PASS: <total passed assertions>
 """
 
 
-def run_pi(args, cwd, prof_env):
-    """Run pi -p once under the sterile eval profile; return stdout or raise."""
-    try:
-        p = subprocess.run(
-            ["pi", "-p", "--no-session", "--provider", PROVIDER, "--model", MODEL, *args],
-            capture_output=True, text=True, timeout=CALL_TIMEOUT, cwd=cwd, env=prof_env,
+def require_independent_judge() -> None:
+    if not JUDGE_PROVIDER or not JUDGE_MODEL:
+        raise RuntimeError(
+            "EVAL_JUDGE_PROVIDER and EVAL_JUDGE_MODEL are required; "
+            "pin the judge explicitly for comparable results"
         )
-    except subprocess.TimeoutExpired:
-        raise RuntimeError(f"pi call timed out after {CALL_TIMEOUT}s")
-    if p.returncode != 0:
-        raise RuntimeError(f"pi exited {p.returncode}: {p.stderr.strip()[-500:]}")
-    return p.stdout.strip()
+    if (
+        JUDGE_PROVIDER == PROVIDER
+        and JUDGE_MODEL == MODEL
+        and not ALLOW_SELF_JUDGE
+    ):
+        raise RuntimeError(
+            "judge and target are the same provider/model; choose an independent "
+            "judge or set EVAL_ALLOW_SELF_JUDGE=1 for an explicitly exploratory run"
+        )
 
 
-def parse_verdict(text):
-    """Extract (a_pass, b_pass) or return None."""
-    a = re.search(r"^A-PASS:\s*(\d+)", text, re.M)
-    b = re.search(r"^B-PASS:\s*(\d+)", text, re.M)
-    if not a or not b:
-        return None
-    return int(a.group(1)), int(b.group(1))
+def repo_snapshot() -> str:
+    completed = subprocess.run(
+        ["git", "status", "--porcelain"],
+        capture_output=True,
+        text=True,
+        cwd=REPO,
+    )
+    if completed.returncode != 0:
+        raise RuntimeError(
+            f"tripwire blind: git status failed: {completed.stderr.strip()[-200:]}"
+        )
+    return completed.stdout
 
 
-def grade(prompt, assertions, out_a, out_b, workdir, prof_env):
-    """Judge both sides; retry once on unparseable verdict."""
-    numbered = "\n".join(f"{i + 1}. {a}" for i, a in enumerate(assertions))
-    judge_prompt = JUDGE_TEMPLATE.format(
-        prompt=prompt, assertions=numbered, out_a=out_a, out_b=out_b)
-    last = ""
-    for _ in range(2):
-        last = run_pi([judge_prompt], workdir, prof_env)
-        verdict = parse_verdict(last)
-        if verdict is not None:
-            return verdict, last
-    raise RuntimeError(f"judge verdict unparseable after retry; output tail: {last[-300:]}")
-
-def repo_snapshot():
-    """Working-tree status; the tripwire compares it per rep."""
-    p = subprocess.run(["git", "status", "--porcelain"], capture_output=True,
-                       text=True, cwd=REPO)
-    # A failed snapshot must NEVER compare equal-or-not silently: an empty or
-    # partial output would false-positive as a breach (or mask a real one).
-    if p.returncode != 0:
-        raise RuntimeError(f"tripwire blind: git status failed: {p.stderr.strip()[-200:]}")
-    return p.stdout
-
-
-
-def load_evals(skill):
-    spec = json.loads((REPO / "shared" / "skills" / skill / "evals" / "evals.json").read_text())
-    assert spec["skill_name"] == skill, f"skill_name mismatch in {skill}"
+def load_evals(skill: str) -> list[dict]:
+    spec = json.loads(
+        (REPO / "shared" / "skills" / skill / "evals" / "evals.json").read_text()
+    )
+    if spec["skill_name"] != skill:
+        raise ValueError(f"skill_name mismatch in {skill}")
     return spec["evals"]
 
 
-def main():
-    pairs = sys.argv[1:] or [f"{s}={r}" for s, r in PILOT.items()]
+def numbered(items: list[str], empty: str) -> str:
+    if not items:
+        return empty
+    return "\n".join(f"{index}. {item}" for index, item in enumerate(items, 1))
+
+
+def stage_judge_evidence(
+    result_dir: Path,
+    judge_arms: list,
+    sides: dict[str, tuple],
+) -> None:
+    for label, (run_result, arm) in sides.items():
+        source = result_dir / f"{label}-evidence"
+        write_run_evidence(source, run_result, arm)
+        for judge_arm in judge_arms:
+            shutil.copytree(source, judge_arm.workdir / label)
+
+
+def grade(
+    prompt: str,
+    output_assertions: list[str],
+    process_assertions: list[str],
+    judge_arms: list,
+    judge_envs: list[dict],
+) -> tuple[dict, object, object]:
+    judge_prompt = JUDGE_TEMPLATE.format(
+        prompt=prompt,
+        output_count=len(output_assertions),
+        output_assertions=numbered(output_assertions, "(none)"),
+        process_count=len(process_assertions),
+        process_assertions=numbered(process_assertions, "(none)"),
+    )
+    last_result = None
+    last_error = ""
+    for arm, env in zip(judge_arms, judge_envs):
+        last_result = run_pi(
+            JUDGE_PROVIDER,
+            JUDGE_MODEL,
+            ["--no-skills", judge_prompt],
+            arm.workdir,
+            env,
+            CALL_TIMEOUT,
+        )
+        try:
+            require_success(last_result)
+            return parse_judge_verdict(
+                last_result.output,
+                output_assertions=len(output_assertions),
+                process_assertions=len(process_assertions),
+            ), last_result, arm
+        except (ValueError, RuntimeError) as exc:
+            last_error = str(exc)
+    raise RuntimeError(
+        "judge verdict invalid after isolated retries: "
+        f"{last_error}; output tail: {(last_result.output if last_result else '')[-300:]}"
+    )
+
+
+def main() -> int:
+    require_independent_judge()
+    pairs = sys.argv[1:] or [f"{skill}={reps}" for skill, reps in PILOT.items()]
     plan = []
     for pair in pairs:
-        skill, _, reps = pair.partition("=")
-        plan.append((skill, int(reps or PILOT.get(skill, 1))))
+        target, _, reps = pair.partition("=")
+        skill, separator, case_id = target.partition("/")
+        if not skill or (separator and not case_id):
+            raise ValueError(f"invalid eval target: {target}")
+        plan.append(
+            (skill, case_id if separator else None, int(reps or PILOT.get(skill, 1)))
+        )
 
-    # Sterile profile: auth symlinked from the real base, never copied.
-    trit = tempfile.mkdtemp(prefix="skill-evals-")
-    # Clean-room HOME: the live ~ holds symlinks into the repo plus every
-    # skill ever installed. Under the real HOME a tool-using run can read
-    # skill files and repo docs directly, voiding both arms. Under fakehome
-    # the only visible config is the eval profile (auth symlinked in).
-    fakehome = str(Path(trit) / "fakehome")
-    Path(fakehome).mkdir()
-    env = dict(os.environ, PI_PROFILES_ROOT=str(Path(trit) / "profiles"),
-               PI_PROFILE_BASE_DIR=str(Path.home() / ".pi" / "agent"),
-               HOME=fakehome)
-    it = REPO / "eval-runs" / os.environ.get("EVAL_ITERATION", "iteration-1")
-    subprocess.run(["pi-profile", "create", "eval"], check=True, capture_output=True,
-                   env=env)
-    prof_env = dict(os.environ, PI_CODING_AGENT_DIR=str(Path(trit) / "profiles" / "eval"),
-                    HOME=fakehome)
-    base_work = Path(trit) / "work"
-    base_work.mkdir()
-    results, errors, calls = {}, [], 0
+    trit = Path(tempfile.mkdtemp(prefix="skill-evals-"))
+    base_env = clean_base_environment()
+    iteration = REPO / "eval-runs" / os.environ.get("EVAL_ITERATION", "iteration-1")
+    base_work = trit / "work"
+    profile_runtime = measure_profile_runtime(
+        trit / "fingerprint-profile", base_env, profile_name="eval"
+    )
+    results: dict[str, dict] = {}
+    errors: list[str] = []
+    calls = 0
+    fingerprint_records: dict[str, dict] = {}
     clean_tree = repo_snapshot()
-    for skill, reps in plan:
+    pi_version = command_version("pi")
+    runner_files = default_runner_files(REPO, "compliance")
+
+    for skill, selected_case, reps in plan:
         evals = load_evals(skill)
-        # Stage skills into temp: the model must never see a repo path.
-        # (A with-arm run once derived the repo root from an absolute --skill
-        # path and wrote a new skill into the live tree.)
-        # Extra skills an eval needs alongside the skill under test (e.g. one
-        # the eval asserts deferral to) resolve here, never vendored.
-        loads = [skill] + sorted({x for ev in evals for x in ev.get("also_load", [])})
-        load_flags, skill_dir = [], None
+        if selected_case:
+            evals = [case for case in evals if case.get("id") == selected_case]
+            if not evals:
+                raise ValueError(f"eval case not found: {skill}/{selected_case}")
+        loads = [skill] + sorted(
+            {name for case in evals for name in case.get("also_load", [])}
+        )
+        skill_sources: dict[str, Path] = {}
         for name in loads:
-            for root in (REPO / "shared" / "skills", Path.home() / ".agents" / "skills"):
+            for root in (
+                REPO / "shared" / "skills",
+                Path.home() / ".agents" / "skills",
+            ):
                 if (root / name).is_dir():
-                    dest = Path(trit) / "skills" / name
-                    if dest.exists():
-                        shutil.rmtree(dest)
-                    shutil.copytree(root / name, dest)
-                    load_flags += ["--skill", str(dest)]
-                    if name == skill:
-                        skill_dir = dest
+                    skill_sources[name] = root / name
                     break
             else:
                 raise RuntimeError(f"also_load skill not found: {name}")
-        for ev in evals:
-            key = f"{skill}/{ev['id']}"
+
+        skill_source = skill_sources[skill]
+        config = {
+            "provider": PROVIDER,
+            "model": MODEL,
+            "judge_provider": JUDGE_PROVIDER,
+            "judge_model": JUDGE_MODEL,
+            "pi_version": pi_version,
+            "profile_runtime_fingerprint": profile_runtime,
+            "timeout_seconds": CALL_TIMEOUT,
+            "repetitions": reps,
+        }
+        loaded_sources = {
+            name: source for name, source in skill_sources.items() if name != skill
+        }
+
+        for case in evals:
+            key = f"{skill}/{case['id']}"
+            fingerprint_records[key] = build_compliance_record(
+                skill,
+                skill_source,
+                case,
+                loaded_sources,
+                runner_files,
+                config,
+            )
             rep_results = []
+            output_assertions = list(case.get("assertions") or [])
+            process_assertions = list(case.get("transcript_assertions") or [])
+
             for rep in range(1, reps + 1):
-                d = it / skill / ev["id"] / f"rep{rep}"
-                d.mkdir(parents=True, exist_ok=True)
-                # Fresh cwd per rep: side effects (created logs, edited docs)
-                # never leak across reps, and fixtures start clean.
-                workdir = base_work / f"rep{rep}"
-                if workdir.exists():
-                    shutil.rmtree(workdir)
-                workdir.mkdir(parents=True)
-                for rel in ev.get("files") or []:
-                    src = skill_dir / rel
-                    if not src.exists():
-                        raise RuntimeError(f"fixture missing: {rel}")
-                    dest = workdir / Path(rel).name
-                    if src.is_dir():
-                        if dest.exists():
-                            shutil.rmtree(dest)
-                        shutil.copytree(src, dest)
-                    else:
-                        dest.write_bytes(src.read_bytes())
+                result_dir = iteration / skill / case["id"] / f"rep{rep}"
+                result_dir.mkdir(parents=True, exist_ok=True)
                 try:
-                    with_out = run_pi(["--no-skills", *load_flags, ev["prompt"]],
-                                      workdir, prof_env)
+                    arms = prepare_isolated_arms(
+                        base_work / skill / case["id"] / f"rep{rep}",
+                        skill_source,
+                        case.get("files") or [],
+                        ("treatment", "control", "judge-1", "judge-2"),
+                        profile_name="eval",
+                    )
+                    load_flags = []
+                    for name, source in skill_sources.items():
+                        destination = arms["treatment"].root / "loaded-skills" / name
+                        destination.parent.mkdir(parents=True, exist_ok=True)
+                        shutil.copytree(source, destination)
+                        load_flags += ["--skill", str(destination)]
+
+                    arm_envs = {
+                        name: create_isolated_profile(arm, base_env)
+                        for name, arm in arms.items()
+                    }
+                    for arm_name in ("treatment", "control"):
+                        run_setup(
+                            case.get("setup") or [],
+                            arms[arm_name].workdir,
+                            arm_envs[arm_name],
+                            CALL_TIMEOUT,
+                        )
+                    with_result = run_pi(
+                        PROVIDER,
+                        MODEL,
+                        ["--no-skills", *load_flags, case["prompt"]],
+                        arms["treatment"].workdir,
+                        arm_envs["treatment"],
+                        CALL_TIMEOUT,
+                    )
                     calls += 1
-                    without_out = run_pi(["--no-skills", ev["prompt"]], workdir, prof_env)
+                    write_run_evidence(
+                        result_dir / "with-evidence",
+                        with_result,
+                        arms["treatment"],
+                    )
+                    require_success(with_result)
+                    without_result = run_pi(
+                        PROVIDER,
+                        MODEL,
+                        ["--no-skills", case["prompt"]],
+                        arms["control"].workdir,
+                        arm_envs["control"],
+                        CALL_TIMEOUT,
+                    )
                     calls += 1
-                    (d / "with.txt").write_text(with_out)
-                    (d / "without.txt").write_text(without_out)
-                    # Swap sides on even reps: position bias cancels out.
+                    write_run_evidence(
+                        result_dir / "without-evidence",
+                        without_result,
+                        arms["control"],
+                    )
+                    require_success(without_result)
+                    (result_dir / "with.txt").write_text(with_result.output)
+                    (result_dir / "without.txt").write_text(without_result.output)
+
                     if rep % 2 == 1:
-                        a_out, b_out, a_is_with = with_out, without_out, True
+                        sides = {
+                            "A": (with_result, arms["treatment"]),
+                            "B": (without_result, arms["control"]),
+                        }
+                        a_is_with = True
                     else:
-                        a_out, b_out, a_is_with = without_out, with_out, False
-                    (a, b), judge_out = grade(ev["prompt"], ev["assertions"], a_out, b_out,
-                                             workdir, prof_env)
+                        sides = {
+                            "A": (without_result, arms["control"]),
+                            "B": (with_result, arms["treatment"]),
+                        }
+                        a_is_with = False
+                    judge_arms = [arms["judge-1"], arms["judge-2"]]
+                    judge_envs = [
+                        arm_envs["judge-1"],
+                        arm_envs["judge-2"],
+                    ]
+                    stage_judge_evidence(result_dir, judge_arms, sides)
+                    verdict, judge_result, judge_arm = grade(
+                        case["prompt"],
+                        output_assertions,
+                        process_assertions,
+                        judge_arms,
+                        judge_envs,
+                    )
                     calls += 1
-                    (d / "judge.txt").write_text(judge_out)
-                    with_pass, without_pass = (a, b) if a_is_with else (b, a)
+                    (result_dir / "judge.txt").write_text(judge_result.output)
+                    write_run_evidence(
+                        result_dir / "judge-evidence",
+                        judge_result,
+                        judge_arm,
+                    )
+
+                    if a_is_with:
+                        a_output = verdict["a_output"]
+                        a_process = verdict["a_process"]
+                        b_output = verdict["b_output"]
+                        b_process = verdict["b_process"]
+                    else:
+                        a_output = verdict["b_output"]
+                        a_process = verdict["b_process"]
+                        b_output = verdict["a_output"]
+                        b_process = verdict["a_process"]
+                    total_assertions = len(output_assertions) + len(process_assertions)
+                    rep_results.append(
+                        {
+                            "output_assertions": len(output_assertions),
+                            "process_assertions": len(process_assertions),
+                            "with_output": a_output,
+                            "with_process": a_process,
+                            "without_output": b_output,
+                            "without_process": b_process,
+                            "with_pass": a_output + a_process == total_assertions,
+                            "without_pass": b_output + b_process == total_assertions,
+                        }
+                    )
                     if repo_snapshot() != clean_tree:
                         raise RuntimeError(
-                            "SANDBOX BREACH: repo tree changed during rep "
-                            "(see git status); rep invalid, inspect before continuing")
-                    rep_results.append({"with": with_pass, "without": without_pass,
-                                        "n": len(ev["assertions"])})
-                    print(f"OK   {key} rep{rep}: with={with_pass} without={without_pass}")
-                except Exception as exc:  # noqa: BLE001 — one flake must not kill the sweep
+                            "SANDBOX BREACH: repo tree changed during rep; inspect git status"
+                        )
+                    print(
+                        f"OK   {key} rep{rep}: "
+                        f"with={a_output + a_process}/{total_assertions} "
+                        f"without={b_output + b_process}/{total_assertions}"
+                    )
+                except Exception as exc:  # noqa: BLE001
                     errors.append(f"{key} rep{rep}: {exc}")
                     print(f"FAIL {key} rep{rep}: {exc}")
-            if rep_results:
-                n = rep_results[0]["n"]
-                w = sum(r["with"] for r in rep_results)
-                wo = sum(r["without"] for r in rep_results)
-                results[key] = {"reps": len(rep_results), "assertions": n,
-                                "with_total": w, "without_total": wo,
-                                "lift": w - wo, "max": len(rep_results) * n}
 
-    (it / "meta.json").write_text(json.dumps({
-        "date": datetime.now(timezone.utc).isoformat(), "provider": PROVIDER,
-        "model": MODEL, "plan": plan, "calls": calls,
-        "repo": subprocess.run(["git", "rev-parse", "HEAD"], capture_output=True,
-                               text=True, cwd=REPO).stdout.strip(),
-    }, indent=2))
-    (it / "benchmark.json").write_text(json.dumps(results, indent=2))
+            if rep_results:
+                results[key] = aggregate_reps(rep_results)
+
+    write_fingerprint_manifest(
+        iteration / "fingerprints.json", "compliance", fingerprint_records
+    )
+    (iteration / "meta.json").write_text(
+        json.dumps(
+            {
+                "date": datetime.now(timezone.utc).isoformat(),
+                "provider": PROVIDER,
+                "model": MODEL,
+                "judge_provider": JUDGE_PROVIDER,
+                "judge_model": JUDGE_MODEL,
+                "pi_version": pi_version,
+                "profile_runtime_fingerprint": profile_runtime,
+                "plan": plan,
+                "calls": calls,
+                "fingerprint_schema_version": EVAL_PROTOCOL_VERSION,
+                "fingerprints": "fingerprints.json",
+                "repo": subprocess.run(
+                    ["git", "rev-parse", "HEAD"],
+                    capture_output=True,
+                    text=True,
+                    cwd=REPO,
+                ).stdout.strip(),
+                "repo_dirty": bool(clean_tree),
+            },
+            indent=2,
+        )
+        + "\n"
+    )
+    (iteration / "benchmark.json").write_text(json.dumps(results, indent=2) + "\n")
+    (iteration / "errors.json").write_text(json.dumps(errors, indent=2) + "\n")
 
     print(f"\n{len(results)} evals, {calls} calls, {len(errors)} errors")
-    for key, r in results.items():
-        print(f"  {key}: with {r['with_total']}/{r['max']}  "
-              f"without {r['without_total']}/{r['max']}  lift {r['lift']:+d}")
+    for key, result in results.items():
+        print(
+            f"  {key}: tasks with {result['with_task_passes']}/{result['max_task_passes']}, "
+            f"without {result['without_task_passes']}/{result['max_task_passes']}; "
+            f"assertion points {result['with_assertion_points']}/{result['max_assertion_points']} "
+            f"vs {result['without_assertion_points']}/{result['max_assertion_points']}"
+        )
     return 1 if errors else 0
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    raise SystemExit(main())

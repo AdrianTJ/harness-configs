@@ -19,6 +19,9 @@ for f in "${SHELL_FILES[@]}"; do bash -n "$f"; done
 echo "== manifest structure"
 bash scripts/check-manifest.sh
 
+echo "== eval harness tests"
+python3 -m unittest discover -s tests -p 'test_*.py'
+
 echo "== skills and evals structure"
 python3 scripts/validate-skills.py
 

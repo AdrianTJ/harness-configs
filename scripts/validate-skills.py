@@ -8,8 +8,8 @@ Two things, both free and fast enough to run on every commit (and in CI):
      single hyphens, is 1-64 chars; `description` is present and <= 1024 chars.
   2. Every evals/evals.json is well formed: valid JSON, `skill_name` matches
      the containing skill, each eval has a unique `id` and a `prompt`,
-     `assertions` is a non-empty list of strings, and every path in `files`
-     resolves relative to the skill directory.
+     `assertions` and optional `transcript_assertions` are non-empty lists of
+     strings, and every path in `files` resolves relative to the skill.
 
 Scoring the evals against a real model is a separate, by-eye step — see
 "Skill evals" in shared/README.md. This only checks that the specs are
@@ -69,6 +69,26 @@ def check_skill(skill_md: Path) -> list:
     return errors
 
 
+def fixture_fields(entry) -> tuple:
+    if isinstance(entry, str):
+        return entry, None
+    if not isinstance(entry, dict):
+        return None, "fixture entry must be a string or object"
+    source = entry.get("source")
+    destination = entry.get("dest")
+    if not isinstance(source, str) or not source.strip():
+        return None, "fixture object requires a non-empty 'source'"
+    if not isinstance(destination, str) or not destination.strip():
+        return None, "fixture object requires a non-empty 'dest'"
+    source_path = Path(source)
+    destination_path = Path(destination)
+    if source_path.is_absolute() or ".." in source_path.parts:
+        return None, f"fixture source must stay inside the skill: {source}"
+    if destination_path.is_absolute() or ".." in destination_path.parts:
+        return None, f"fixture destination must stay inside the arm: {destination}"
+    return source, None
+
+
 def check_evals(evals_json: Path) -> list:
     errors = []
     skill_dir = evals_json.parent.parent
@@ -109,9 +129,32 @@ def check_evals(evals_json: Path) -> list:
         elif not all(isinstance(a, str) and a.strip() for a in assertions):
             errors.append(f"{where}: every assertion must be a non-empty string")
 
-        for rel in ev.get("files") or []:
-            if not (skill_dir / rel).exists():
-                errors.append(f"{where}: file not found: {rel}")
+        setup = ev.get("setup")
+        if setup is not None:
+            if not isinstance(setup, list) or not setup:
+                errors.append(f"{where}: 'setup' must be a non-empty array")
+            elif not all(isinstance(command, str) and command.strip() for command in setup):
+                errors.append(f"{where}: every setup command must be a non-empty string")
+
+        process_assertions = ev.get("transcript_assertions")
+        if process_assertions is not None:
+            if not isinstance(process_assertions, list) or not process_assertions:
+                errors.append(
+                    f"{where}: 'transcript_assertions' must be a non-empty array"
+                )
+            elif not all(
+                isinstance(a, str) and a.strip() for a in process_assertions
+            ):
+                errors.append(
+                    f"{where}: every transcript assertion must be a non-empty string"
+                )
+
+        for fixture in ev.get("files") or []:
+            source, error = fixture_fields(fixture)
+            if error:
+                errors.append(f"{where}: {error}")
+            elif not (skill_dir / source).exists():
+                errors.append(f"{where}: file not found: {source}")
 
     for i, tp in enumerate(spec.get("trigger_probes") or []):
         where = f"trigger_probes[{i}]"
@@ -129,6 +172,16 @@ def check_evals(evals_json: Path) -> list:
         if not prompt.strip():
             errors.append(f"{where}: missing 'prompt'")
             continue
+        expect_activation = tp.get("expect_activation", True)
+        if not isinstance(expect_activation, bool):
+            errors.append(f"{where}: 'expect_activation' must be boolean")
+        for fixture in tp.get("files") or []:
+            source, error = fixture_fields(fixture)
+            if error:
+                errors.append(f"{where}: {error}")
+            elif not (skill_dir / source).exists():
+                errors.append(f"{where}: file not found: {source}")
+
         fps = tp.get("fingerprints")
         if not isinstance(fps, list) or not fps or not all(isinstance(f, str) and f.strip() for f in fps):
             errors.append(f"{where}: 'fingerprints' must be a non-empty array of strings")
