@@ -4,18 +4,49 @@
     {
       "id": "decision-log-append-only",
       "name": "appends a new entry, never edits history",
-      "prompt": "We just decided to drop the gRPC migration after burning a week on it \u2014 sticking with REST for the internal API. Log this decision.",
+      "prompt": "We just decided to drop the gRPC migration after burning a week on it — sticking with REST for the internal API. Log this decision.",
       "expected_output": "Appends a new sequentially-numbered DEC entry capturing the context, decision, and consequences.",
       "assertions": [
         "The response appends a new sequentially numbered entry (DEC-NNN format).",
         "The response does not rewrite or delete any existing entry."
+      ]
+    },
+    {
+      "id": "reverses-existing-decision",
+      "name": "records a reversal without mutating history",
+      "prompt": "We reversed DEC-007: the pilot is going back to SQLite because managed Postgres is too expensive. Record that reversal without changing the old entry.",
+      "files": [
+        {
+          "source": "evals/files/log-decision/docs/decision-log.md",
+          "dest": "docs/decision-log.md"
+        }
+      ],
+      "expected_output": "Reads DEC-007, appends DEC-008 with status superseded by DEC-007, and leaves the original text untouched.",
+      "assertions": [
+        "The response appends DEC-008 rather than editing DEC-007 in place.",
+        "The new entry records DEC-007 as superseded and explains the cost-driven reversal.",
+        "The response does not delete or rewrite the existing DEC-007 text."
+      ],
+      "transcript_assertions": [
+        "The transcript reads docs/decision-log.md before writing the reversal.",
+        "The final decision log contains the original DEC-007 content and a new DEC-008 entry."
       ]
     }
   ],
   "trigger_probes": [
     {
       "id": "fires-on-killed-migration",
-      "prompt": "We just killed the Jenkins CI after last night's outage \u2014 moving everything to GitHub Actions. Make a note of it.",
+      "prompt": "We just killed the Jenkins CI after last night's outage — moving everything to GitHub Actions. Make a note of it.",
+      "expect_activation": true,
+      "fingerprints": [
+        "DEC-",
+        "superseded"
+      ]
+    },
+    {
+      "id": "ignores-unrelated-question",
+      "prompt": "What are three good names for a team building a log viewer?",
+      "expect_activation": false,
       "fingerprints": [
         "DEC-",
         "superseded"

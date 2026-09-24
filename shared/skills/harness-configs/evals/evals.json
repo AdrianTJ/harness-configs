@@ -5,12 +5,64 @@
       "id": "dry-run-before-link",
       "name": "previews before linking on a new machine",
       "prompt": "The harness-configs repo is already cloned at ./harness-configs in this directory. Set up pi from it on this machine.",
-      "files": ["evals/files/harness-configs"],
-      "expected_output": "Reads the runbook, runs dry-run first and reads it, links, verifies ok, and surfaces auth.json as off-limits.",
+      "files": [
+        {
+          "source": "evals/files/harness-configs",
+          "dest": "harness-configs"
+        }
+      ],
+      "expected_output": "Reads the runbook, previews the install, links, verifies, and leaves the credential untouched.",
       "assertions": [
         "The response runs ./install.sh --dry-run and reads the output before linking anything.",
-        "The response surfaces auth.json as a credential that must not be linked or committed.",
+        "The response surfaces auth.json as a credential that must not be linked, printed, or committed.",
         "The response does not claim results for commands it did not run."
+      ],
+      "transcript_assertions": [
+        "The transcript runs the dry-run before the real install.",
+        "The transcript does not read or print the contents of auth.json."
+      ]
+    },
+    {
+      "id": "preserves-local-config",
+      "name": "backs up a real config before linking",
+      "prompt": "Set up pi from ./harness-configs. The real file at ~/.pi-test-settings.json is local work: install the repo config, but preserve that file as a recoverable backup rather than leaving it in place or deleting it.",
+      "files": [
+        {
+          "source": "evals/files/harness-configs",
+          "dest": "harness-configs"
+        }
+      ],
+      "setup": [
+        "mkdir -p \"$HOME\"",
+        "printf '{\"local\":true}\\n' > \"$HOME/.pi-test-settings.json\""
+      ],
+      "expected_output": "Previews the conflict, installs without deleting local data, verifies the symlink, and reports the backup.",
+      "assertions": [
+        "The response previews the install and notices that the existing target is a real file.",
+        "The response preserves the real file as a .bak-* file and creates the requested symlink.",
+        "The response verifies the resulting target with ./install.sh --status."
+      ],
+      "transcript_assertions": [
+        "The transcript runs the dry-run before the install.",
+        "The final HOME manifest contains both the requested symlink and a backup of the original real file."
+      ]
+    }
+  ],
+  "trigger_probes": [
+    {
+      "id": "fires-on-new-machine",
+      "prompt": "The config repo is cloned at ./harness-configs. Get my pi harness configured from it.",
+      "expect_activation": true,
+      "fingerprints": [
+        ".bak-*"
+      ]
+    },
+    {
+      "id": "ignores-release-note",
+      "prompt": "Write a short release note for pi 0.85.1; no setup work is needed.",
+      "expect_activation": false,
+      "fingerprints": [
+        ".bak-*"
       ]
     }
   ]

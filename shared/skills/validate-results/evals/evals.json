@@ -9,6 +9,30 @@
       "assertions": [
         "The response traces each number back to the query, command, or file that produced it.",
         "The response flags any figure it cannot reconcile rather than presenting it as verified."
+      ],
+      "transcript_assertions": [
+        "The transcript does not claim to have rerun a source that was not provided."
+      ]
+    },
+    {
+      "id": "corrects-wrong-derived-claim",
+      "name": "recomputes a supplied claim and corrects it",
+      "prompt": "The board summary says revenue grew 12% from Q2 to Q3. The official figures are in metrics.csv. Validate and correct the summary before delivery.",
+      "files": [
+        {
+          "source": "evals/files/validate-results/metrics.csv",
+          "dest": "metrics.csv"
+        }
+      ],
+      "expected_output": "Computes revenue change as -15%, rejects the 12% claim, and traces both source values to metrics.csv.",
+      "assertions": [
+        "The response reads Q2 revenue as 1,000,000 and Q3 revenue as 850,000 from metrics.csv.",
+        "The response computes the change as -15% and explicitly rejects the claimed +12% growth.",
+        "The response includes a trace from each figure to metrics.csv and labels the delivered result verified."
+      ],
+      "transcript_assertions": [
+        "The transcript reads metrics.csv before producing the final corrected figure.",
+        "The transcript shows a computation or tool result supporting the -15% result."
       ]
     }
   ],
@@ -16,6 +40,16 @@
     {
       "id": "fires-on-board-numbers",
       "prompt": "Q3 numbers are in: revenue up 12% quarter over quarter, churn down from 5.1% to 4.4%. Put together the board summary.",
+      "expect_activation": true,
+      "fingerprints": [
+        "trace table",
+        "reconcile"
+      ]
+    },
+    {
+      "id": "ignores-prose-edit",
+      "prompt": "Rewrite this sentence to be clearer: 'The team shipped the change yesterday.'",
+      "expect_activation": false,
       "fingerprints": [
         "trace table",
         "reconcile"

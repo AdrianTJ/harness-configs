@@ -2,14 +2,44 @@
   "skill_name": "profile-pipeline",
   "evals": [
     {
-      "id": "finds-slow-stage",
-      "name": "bisects a slow pipeline to its bottleneck",
+      "id": "refuses-unmeasured-bottleneck",
+      "name": "does not invent timings without the input",
       "prompt": "My log crunching pipeline takes forever: cat access.log | grep 500 | sort | uniq -c | sort -rn | head -20. Which part is slow and how do I speed it up?",
-      "expected_output": "Times the full pipeline, then growing prefixes to isolate the slow stage, and reports the bottleneck with before/after timings.",
+      "expected_output": "States that access.log is unavailable, asks for representative data, and does not fabricate stage timings.",
       "assertions": [
-        "The response measures per-stage cost (timing prefixes or equivalent) rather than guessing which stage is slow.",
-        "The response names the bottleneck stage and gives a concrete fix for its class (CPU, I/O, or buffering).",
-        "The response quotes before/after timings from comparable runs."
+        "The response does not invent before/after timings or claim a measured bottleneck.",
+        "The response asks for access.log or clearly labels any substitute data as synthetic."
+      ],
+      "transcript_assertions": [
+        "The transcript does not claim to have timed the unavailable access.log.",
+        "If the response tries to run the pipeline, the transcript records the missing-file failure rather than hiding it."
+      ]
+    },
+    {
+      "id": "profiles-provided-fixture",
+      "name": "bisects a reproducible pipeline and verifies the fix",
+      "prompt": "The included bash pipeline processes access.log and is too slow. Use the provided data, measure it, speed it up, and prove the top-20 results stayed equivalent.",
+      "files": [
+        {
+          "source": "evals/files/profile-pipeline/generate_log.py",
+          "dest": "generate_log.py"
+        },
+        {
+          "source": "evals/files/profile-pipeline/pipeline.sh",
+          "dest": "pipeline.sh"
+        }
+      ],
+      "setup": ["python3 generate_log.py"],
+      "expected_output": "Times the full pipeline and prefixes, fixes the measured bottleneck, reruns on the same data, and compares output.",
+      "assertions": [
+        "The response measures the full pipeline and growing prefixes or an equivalent stage-by-stage method before choosing a fix.",
+        "The response identifies the bottleneck from measured marginal costs rather than guessing.",
+        "The response quotes before/after timings from actual runs.",
+        "The response verifies the optimized pipeline preserves the top-20 result."
+      ],
+      "transcript_assertions": [
+        "The transcript runs the full pipeline and stage measurements on the generated access.log.",
+        "The transcript reruns the optimized pipeline and captures a result for comparison."
       ]
     }
   ],
@@ -17,6 +47,16 @@
     {
       "id": "fires-on-slow-logs",
       "prompt": "This data pipeline is too slow: `zcat logs/*.gz | grep ERROR | cut -d' ' -f1 | sort | uniq -c`. What's eating the time?",
+      "expect_activation": true,
+      "fingerprints": [
+        "bisect",
+        "marginal cost"
+      ]
+    },
+    {
+      "id": "ignores-fast-pipeline",
+      "prompt": "How do I pipe `seq 10` into `wc -l`?",
+      "expect_activation": false,
       "fingerprints": [
         "bisect",
         "marginal cost"

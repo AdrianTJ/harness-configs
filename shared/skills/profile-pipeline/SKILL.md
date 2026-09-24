@@ -16,7 +16,10 @@ of the time — measure before changing anything.
 
 1. **Reproduce with a baseline.** Run the whole pipeline once under `time`,
    discarding output so paging doesn't pollute the measurement. Done when you
-   have one `real/user/sys` number for the full pipeline.
+   have one `real/user/sys` number for the full pipeline. If the input is
+   unavailable, stop: do not name a likely bottleneck or quote hypothetical
+   timings. Ask for representative data, or offer a clearly labeled synthetic
+   benchmark.
    ```sh
    bash -c 'set -o pipefail; time (<pipeline> > /dev/null)'
    ```

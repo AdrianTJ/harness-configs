@@ -13,13 +13,46 @@
       "assertions": [
         "The response corrects or removes stale content rather than only adding new text.",
         "The response reports what changed per document."
+      ],
+      "transcript_assertions": [
+        "The transcript reads both calc.py and README.md before editing the documentation.",
+        "The final README documents all three calculator functions exposed by the code."
+      ]
+    },
+    {
+      "id": "flags-unresolved-conflict",
+      "name": "does not guess when code and docs disagree",
+      "prompt": "Sync the docs in this directory with the code.",
+      "files": [
+        "evals/files/sync-docs-conflict/README.md",
+        "evals/files/sync-docs-conflict/billing.py"
+      ],
+      "expected_output": "Flags the endpoint conflict and asks which source is canonical instead of silently rewriting either side.",
+      "assertions": [
+        "The response identifies the /v2/charges versus /legacy/charges conflict.",
+        "The response does not silently choose one endpoint as correct.",
+        "The response asks the user which source is canonical and reports the unresolved doc."
+      ],
+      "transcript_assertions": [
+        "The transcript reads both README.md and billing.py before reporting the conflict.",
+        "The transcript does not edit either file before the conflict is resolved."
       ]
     }
   ],
   "trigger_probes": [
     {
       "id": "fires-on-drifted-readme",
-      "prompt": "Here is our utils README and what the code looks like now \u2014 update the docs to match.\n\nREADME:\n# Utils\n\nHelpers. Currently documents:\n\n- `add(a, b)` \u2014 return the sum.\n\nCODE (utils.py):\n```python\ndef add(a, b):\n    return a + b\n\ndef multiply(a, b):\n    return a * b\n```",
+      "prompt": "Here is our utils README and what the code looks like now — update the docs to match.\n\nREADME:\n# Utils\n\nHelpers. Currently documents:\n\n- `add(a, b)` — return the sum.\n\nCODE (utils.py):\n```python\ndef add(a, b):\n    return a + b\n\ndef multiply(a, b):\n    return a * b\n```",
+      "expect_activation": true,
+      "fingerprints": [
+        "drift",
+        "per-doc summary"
+      ]
+    },
+    {
+      "id": "ignores-writing-request",
+      "prompt": "Give me three title ideas for a blog post about API documentation.",
+      "expect_activation": false,
       "fingerprints": [
         "drift",
         "per-doc summary"

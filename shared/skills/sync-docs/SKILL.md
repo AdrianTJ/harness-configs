@@ -2,8 +2,8 @@
 name: sync-docs
 description: >
   Audit and refresh a project's documentation so it matches the current code and
-  recent conversations. Use after a meaningful chunk of work, before ending a work
-  session, or whenever docs feel stale.
+  recent conversations. Use whenever the user asks to update, sync, align, fix,
+  or refresh docs—or after a meaningful code change leaves documentation stale.
 ---
 
 # Sync docs
@@ -28,8 +28,9 @@ so drift is the default outcome unless something actively corrects it.
      work/conversation that were never logged? Log them via the `log-decision` skill
      (append-only — never edit past entries here).
    - Any other doc — same treatment.
-3. **Fix.** Update the docs. Prefer correcting and pruning over appending; stale text
-   is worse than no text. A decision log is the one exception (append-only).
+3. **Fix settled drift.** Update the docs. Prefer correcting and pruning over
+   appending; stale text is worse than no text. A decision log is the one
+   exception (append-only). Do not edit either side of an unresolved conflict.
 4. **Report.** Tell the user what changed in each doc and anything you found that
    needs their input (e.g., an undocumented decision you couldn't reconstruct).
 
@@ -39,8 +40,10 @@ so drift is the default outcome unless something actively corrects it.
   cut it.
 - Docs describe intent and rationale, not just structure — "what and why", the code
   already shows "how".
-- If code and docs conflict and you can't tell which is right, flag it to the user
-  instead of guessing.
+- Shipped code proves what currently exists, not which behavior is correct. If
+  code and docs conflict and no accepted source, spec, test, or repository
+  evidence establishes which is canonical, do not silently prefer either one:
+  leave both untouched and ask the user to resolve the conflict.
 
 ## Output
 
