@@ -31,6 +31,26 @@ class ScoringTests(unittest.TestCase):
         self.assertEqual(verdict["a_total"], 3)
         self.assertEqual(verdict["b_total"], 1)
 
+    def test_parses_list_form_verdicts_judges_naturally_write(self):
+        verdict = parse_judge_verdict(
+            "\n".join(
+                [
+                    "A-OUTPUT: 1, 2, 3",
+                    "A-PROCESS: 1, 2",
+                    "B-OUTPUT: 2, 3",
+                    "B-PROCESS: 1, 2",
+                    "A-PASS: 5",
+                    "B-PASS: 4",
+                ]
+            ),
+            output_assertions=3,
+            process_assertions=2,
+        )
+        self.assertEqual(verdict["a_output"], 3)
+        self.assertEqual(verdict["a_process"], 2)
+        self.assertEqual(verdict["a_total"], 5)
+        self.assertEqual(verdict["b_total"], 4)
+
     def test_rejects_out_of_range_or_inconsistent_verdict(self):
         with self.assertRaises(ValueError):
             parse_judge_verdict(

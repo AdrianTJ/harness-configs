@@ -58,13 +58,13 @@ OUTPUT ASSERTIONS: {output_count}
 PROCESS ASSERTIONS: {process_count}
 {process_assertions}
 
-For every numbered output and process assertion, write PASS or FAIL for side A and side B, followed by a short exact quote or evidence path. Then end with exactly these lines and nothing after them:
-A-OUTPUT: <passed output assertions>
-A-PROCESS: <passed process assertions>
-A-PASS: <total passed assertions>
-B-OUTPUT: <passed output assertions>
-B-PROCESS: <passed process assertions>
-B-PASS: <total passed assertions>
+For every numbered output and process assertion, write PASS or FAIL for side A and side B, followed by a short exact quote or evidence path. Then end with exactly these lines and nothing after them (each value is a COUNT, not a list):
+A-OUTPUT: <count of passed output assertions for side A>
+A-PROCESS: <count of passed process assertions for side A>
+A-PASS: <total passed assertions for side A>
+B-OUTPUT: <count of passed output assertions for side B>
+B-PROCESS: <count of passed process assertions for side B>
+B-PASS: <total passed assertions for side B>
 """
 
 
@@ -281,7 +281,7 @@ def main() -> int:
                         arm_envs["treatment"],
                         CALL_TIMEOUT,
                     )
-                    calls += 1
+                    calls += with_result.attempts
                     write_run_evidence(
                         result_dir / "with-evidence",
                         with_result,
@@ -296,7 +296,7 @@ def main() -> int:
                         arm_envs["control"],
                         CALL_TIMEOUT,
                     )
-                    calls += 1
+                    calls += without_result.attempts
                     write_run_evidence(
                         result_dir / "without-evidence",
                         without_result,
@@ -331,7 +331,7 @@ def main() -> int:
                         judge_arms,
                         judge_envs,
                     )
-                    calls += 1
+                    calls += judge_result.attempts
                     (result_dir / "judge.txt").write_text(judge_result.output)
                     write_run_evidence(
                         result_dir / "judge-evidence",

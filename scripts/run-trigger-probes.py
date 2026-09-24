@@ -178,7 +178,7 @@ def main() -> int:
                         arm_envs["linked"],
                         CALL_TIMEOUT,
                     )
-                    calls += 1
+                    calls += linked_result.attempts
                     write_run_evidence(
                         result_dir / "linked-evidence",
                         linked_result,
@@ -193,7 +193,7 @@ def main() -> int:
                         arm_envs["control"],
                         CALL_TIMEOUT,
                     )
-                    calls += 1
+                    calls += control_result.attempts
                     write_run_evidence(
                         result_dir / "control-evidence",
                         control_result,

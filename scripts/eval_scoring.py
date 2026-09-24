@@ -18,10 +18,14 @@ _VERDICT_FIELDS = {
 def _parse_counts(text: str) -> dict[str, int]:
     counts = {}
     for field, label in _VERDICT_FIELDS.items():
-        match = re.search(rf"^{label}:\s*(\d+)$", text, re.M)
+        match = re.search(rf"^{label}:\s*([0-9, ]+)$", text, re.M)
         if not match:
             raise ValueError(f"judge verdict missing {label}")
-        counts[field] = int(match.group(1))
+        # Judges answer either a count ("3") or the numbers that passed
+        # ("1, 2, 3"). A bare number is a count; a comma-separated list
+        # counts its items. Both reduce to passed-assertion counts.
+        raw = match.group(1)
+        counts[field] = len(raw.split(",")) if "," in raw else int(raw)
     return counts
 
 

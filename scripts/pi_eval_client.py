@@ -7,7 +7,8 @@ import hashlib
 import json
 import os
 import subprocess
-from dataclasses import dataclass
+import time
+from dataclasses import dataclass, replace
 from pathlib import Path
 from typing import Any, Mapping, Optional
 
@@ -20,6 +21,25 @@ SENSITIVE_NAMES = {
     "credentials.json",
     "settings.local.json",
 }
+
+# Upstream provider failures that clear up on their own (opencode-go intermittently
+# returns 400 "reasoning_effort is not allowed" for an otherwise valid request).
+# Timeouts and local exit codes without these markers are NOT retried: a slow or
+# broken run retried at 10-20 minutes per attempt would double the round's cost.
+TRANSIENT_MARKERS = (
+    "upstream request failed",
+    "400:",
+    "429",
+    "502",
+    "503",
+    "504",
+    "econnreset",
+    "rate limit",
+    "overloaded",
+    "temporarily unavailable",
+)
+RETRY_ATTEMPTS = 3
+RETRY_BASE_DELAY_SECONDS = 5
 
 
 @dataclass(frozen=True)
@@ -36,6 +56,7 @@ class PiRunResult:
     commands: list[str]
     errors: list[str]
     fatal_error: Optional[str]
+    attempts: int = 1
 
     def transcript_summary(self) -> dict[str, Any]:
         counts: dict[str, int] = {}
@@ -238,6 +259,12 @@ def run_setup(
             )
 
 
+def is_transient(message: str) -> bool:
+    """True when an error matches a known self-clearing upstream failure."""
+    lowered = message.lower()
+    return any(marker in lowered for marker in TRANSIENT_MARKERS)
+
+
 def run_pi(
     provider: str,
     model: str,
@@ -246,6 +273,12 @@ def run_pi(
     env: Mapping[str, str],
     timeout: int,
 ) -> PiRunResult:
+    """Run pi once per attempt, retrying transient upstream failures with backoff.
+
+    Non-transient failures (timeouts, local exits, malformed streams) raise
+    immediately; a provider 400/429/5xx that survives RETRY_ATTEMPTS raises too,
+    so real failures still surface as run errors instead of vanishing.
+    """
     command = [
         "pi",
         "--mode",
@@ -257,21 +290,42 @@ def run_pi(
         model,
         *args,
     ]
-    try:
-        completed = subprocess.run(
-            command,
-            capture_output=True,
-            text=True,
-            timeout=timeout,
-            cwd=cwd,
-            env=dict(env),
-        )
-    except subprocess.TimeoutExpired as exc:
-        raise RuntimeError(f"pi call timed out after {timeout}s") from exc
-    if completed.returncode != 0:
-        detail = (completed.stderr or completed.stdout).strip()[-500:]
-        raise RuntimeError(f"pi exited {completed.returncode}: {detail}")
-    return parse_pi_events(completed.stdout)
+    attempt = 0
+    while True:
+        attempt += 1
+        try:
+            completed = subprocess.run(
+                command,
+                capture_output=True,
+                text=True,
+                timeout=timeout,
+                cwd=cwd,
+                env=dict(env),
+            )
+        except subprocess.TimeoutExpired as exc:
+            raise RuntimeError(f"pi call timed out after {timeout}s") from exc
+        if completed.returncode != 0:
+            detail = (completed.stderr or completed.stdout).strip()[-500:]
+            failure = RuntimeError(f"pi exited {completed.returncode}: {detail}")
+            if attempt < RETRY_ATTEMPTS and is_transient(detail):
+                time.sleep(RETRY_BASE_DELAY_SECONDS * attempt)
+                continue
+            raise failure
+        try:
+            result = parse_pi_events(completed.stdout)
+        except RuntimeError as exc:
+            if attempt < RETRY_ATTEMPTS and is_transient(str(exc)):
+                time.sleep(RETRY_BASE_DELAY_SECONDS * attempt)
+                continue
+            raise
+        if (
+            result.fatal_error
+            and attempt < RETRY_ATTEMPTS
+            and is_transient(result.fatal_error)
+        ):
+            time.sleep(RETRY_BASE_DELAY_SECONDS * attempt)
+            continue
+        return replace(result, attempts=attempt)
 
 
 def _file_sha256(path: Path) -> str:
