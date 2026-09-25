@@ -9,6 +9,7 @@ eval-baselines/<name>/
 ├── meta.json          # run configuration and source revision
 ├── fingerprints.json  # per-case content/runner/config fingerprints
 ├── benchmark.json     # compliance aggregates, or triggers.json
+├── errors.json        # recorded run errors from the source run (may be [])
 └── review.json        # reviewer, date, source run, and notes
 ```
 
@@ -31,4 +32,4 @@ python3 scripts/eval-status.py eval-runs/iteration-name
 python3 scripts/eval-status.py eval-baselines/<name> --check
 ```
 
-A baseline should not be promoted until the independent-judge and held-out-case work is complete. Older exploratory aggregates remain historical only.
+A baseline should not be promoted until the independent-judge and held-out-case work is complete. Where a promotion knowingly carries flaws (for example fingerprints that read STALE because the runner changed after the run, or arms flagged by the retry-contamination audit), `review.json` states them explicitly rather than burying them in commit messages. Older exploratory aggregates remain historical only.
