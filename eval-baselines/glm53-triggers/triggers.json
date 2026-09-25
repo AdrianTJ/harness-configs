@@ -1,0 +1,194 @@
+{
+  "deslop/fires-on-bloated-helper": {
+    "reps": 5,
+    "expect_activation": true,
+    "trigger_rate": 0.0,
+    "control_rate": 0.0,
+    "lift": 0.0,
+    "linked_skill_read_rate": 0.0,
+    "control_skill_read_rate": 0.0,
+    "skill_miss_rate": 1.0,
+    "false_positive_rate": 0.0,
+    "fingerprint_miss_rate": 1.0,
+    "fingerprint_false_positive_rate": 0.0,
+    "observed_models": [
+      "glm-5.3-flash"
+    ]
+  },
+  "harness-configs/fires-on-new-machine": {
+    "reps": 5,
+    "expect_activation": true,
+    "trigger_rate": 0.0,
+    "control_rate": 0.2,
+    "lift": -0.2,
+    "linked_skill_read_rate": 1.0,
+    "control_skill_read_rate": 0.4,
+    "skill_miss_rate": 0.0,
+    "false_positive_rate": 0.0,
+    "fingerprint_miss_rate": 1.0,
+    "fingerprint_false_positive_rate": 0.0,
+    "observed_models": [
+      "glm-5.3-flash"
+    ]
+  },
+  "harness-configs/ignores-release-note": {
+    "reps": 5,
+    "expect_activation": false,
+    "trigger_rate": 0.0,
+    "control_rate": 0.0,
+    "lift": 0.0,
+    "linked_skill_read_rate": 0.0,
+    "control_skill_read_rate": 0.0,
+    "skill_miss_rate": 0.0,
+    "false_positive_rate": 0.0,
+    "fingerprint_miss_rate": 0.0,
+    "fingerprint_false_positive_rate": 0.0,
+    "observed_models": [
+      "glm-5.3-flash"
+    ]
+  },
+  "log-decision/fires-on-killed-migration": {
+    "reps": 5,
+    "expect_activation": true,
+    "trigger_rate": 1.0,
+    "control_rate": 0.0,
+    "lift": 1.0,
+    "linked_skill_read_rate": 1.0,
+    "control_skill_read_rate": 0.0,
+    "skill_miss_rate": 0.0,
+    "false_positive_rate": 0.0,
+    "fingerprint_miss_rate": 0.0,
+    "fingerprint_false_positive_rate": 0.0,
+    "observed_models": [
+      "glm-5.3-flash"
+    ]
+  },
+  "log-decision/ignores-unrelated-question": {
+    "reps": 5,
+    "expect_activation": false,
+    "trigger_rate": 0.0,
+    "control_rate": 0.0,
+    "lift": 0.0,
+    "linked_skill_read_rate": 0.0,
+    "control_skill_read_rate": 0.0,
+    "skill_miss_rate": 0.0,
+    "false_positive_rate": 0.0,
+    "fingerprint_miss_rate": 0.0,
+    "fingerprint_false_positive_rate": 0.0,
+    "observed_models": [
+      "glm-5.3-flash"
+    ]
+  },
+  "profile-pipeline/fires-on-slow-logs": {
+    "reps": 5,
+    "expect_activation": true,
+    "trigger_rate": 1.0,
+    "control_rate": 0.0,
+    "lift": 1.0,
+    "linked_skill_read_rate": 1.0,
+    "control_skill_read_rate": 0.0,
+    "skill_miss_rate": 0.0,
+    "false_positive_rate": 0.0,
+    "fingerprint_miss_rate": 0.0,
+    "fingerprint_false_positive_rate": 0.0,
+    "observed_models": [
+      "glm-5.3-flash"
+    ]
+  },
+  "profile-pipeline/ignores-fast-pipeline": {
+    "reps": 5,
+    "expect_activation": false,
+    "trigger_rate": 0.0,
+    "control_rate": 0.0,
+    "lift": 0.0,
+    "linked_skill_read_rate": 0.0,
+    "control_skill_read_rate": 0.0,
+    "skill_miss_rate": 0.0,
+    "false_positive_rate": 0.0,
+    "fingerprint_miss_rate": 0.0,
+    "fingerprint_false_positive_rate": 0.0,
+    "observed_models": [
+      "glm-5.3-flash"
+    ]
+  },
+  "sync-docs/fires-on-drifted-readme": {
+    "reps": 5,
+    "expect_activation": true,
+    "trigger_rate": 0.4,
+    "control_rate": 0.0,
+    "lift": 0.4,
+    "linked_skill_read_rate": 1.0,
+    "control_skill_read_rate": 0.0,
+    "skill_miss_rate": 0.0,
+    "false_positive_rate": 0.0,
+    "fingerprint_miss_rate": 0.6,
+    "fingerprint_false_positive_rate": 0.0,
+    "observed_models": [
+      "glm-5.3-flash"
+    ]
+  },
+  "sync-docs/ignores-writing-request": {
+    "reps": 5,
+    "expect_activation": false,
+    "trigger_rate": 0.0,
+    "control_rate": 0.0,
+    "lift": 0.0,
+    "linked_skill_read_rate": 0.0,
+    "control_skill_read_rate": 0.0,
+    "skill_miss_rate": 0.0,
+    "false_positive_rate": 0.0,
+    "fingerprint_miss_rate": 0.0,
+    "fingerprint_false_positive_rate": 0.0,
+    "observed_models": [
+      "glm-5.3-flash"
+    ]
+  },
+  "validate-results/fires-on-board-numbers": {
+    "reps": 5,
+    "expect_activation": true,
+    "trigger_rate": 1.0,
+    "control_rate": 0.0,
+    "lift": 1.0,
+    "linked_skill_read_rate": 1.0,
+    "control_skill_read_rate": 0.0,
+    "skill_miss_rate": 0.0,
+    "false_positive_rate": 0.0,
+    "fingerprint_miss_rate": 0.0,
+    "fingerprint_false_positive_rate": 0.0,
+    "observed_models": [
+      "glm-5.3-flash"
+    ]
+  },
+  "validate-results/ignores-prose-edit": {
+    "reps": 5,
+    "expect_activation": false,
+    "trigger_rate": 0.0,
+    "control_rate": 0.0,
+    "lift": 0.0,
+    "linked_skill_read_rate": 0.0,
+    "control_skill_read_rate": 0.0,
+    "skill_miss_rate": 0.0,
+    "false_positive_rate": 0.0,
+    "fingerprint_miss_rate": 0.0,
+    "fingerprint_false_positive_rate": 0.0,
+    "observed_models": [
+      "glm-5.3-flash"
+    ]
+  },
+  "write-skill/fires-on-repeat-explanations": {
+    "reps": 5,
+    "expect_activation": true,
+    "trigger_rate": 0.4,
+    "control_rate": 0.4,
+    "lift": 0.0,
+    "linked_skill_read_rate": 0.2,
+    "control_skill_read_rate": 0.0,
+    "skill_miss_rate": 0.8,
+    "false_positive_rate": 0.0,
+    "fingerprint_miss_rate": 0.6,
+    "fingerprint_false_positive_rate": 0.0,
+    "observed_models": [
+      "glm-5.3-flash"
+    ]
+  }
+}

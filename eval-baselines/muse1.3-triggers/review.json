@@ -1,0 +1,7 @@
+{
+  "schema_version": 1,
+  "reviewed_at": "2026-09-25T02:32:52Z",
+  "reviewed_by": "agent review, approved by Adrian Tame",
+  "source_run": "eval-runs/round-muse/triggers",
+  "notes": "Trigger routing for muse-spark-1.3-contributor, 12 probes x 5 reps, 120 calls (exactly as planned; zero retries), 0 errors. Run produced by runner at commit ebc370b (with the retry-on-transient-failure logic); runner bytes changed at 695021c after the run, so eval-status --check reports STALE by design. Promotion decision (Adrian Tame): promote as-is and document known flaws. Judge independence verified: judge (mimo-v2.6-flash) differs from every target; judge sessions inspected across both rounds are read-only (no edit/write tools, bash used only for read-only inspection of A/B evidence)."
+}

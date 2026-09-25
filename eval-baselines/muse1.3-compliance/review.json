@@ -1,0 +1,7 @@
+{
+  "schema_version": 1,
+  "reviewed_at": "2026-09-25T02:32:52Z",
+  "reviewed_by": "agent review, approved by Adrian Tame",
+  "source_run": "eval-runs/round-muse",
+  "notes": "Compliance A/B for muse-spark-1.3-contributor, judge mimo-v2.6-flash, 14 cases x 5 reps planned, 208 calls. Call-count arithmetic shows ZERO in-place retries (planned calls minus the recorded timeout account for the difference), so the data is behaviorally clean of the retry bug; bro-what/re-explains-not-re-answers rep3 hit a 1200s timeout and is aggregated at 4 of 5 reps. Run produced by runner at commit ebc370b (with the retry-on-transient-failure logic); runner bytes changed at 695021c after the run, so eval-status --check reports STALE by design. Promotion decision (Adrian Tame): promote as-is and document known flaws. Judge independence verified: judge (mimo-v2.6-flash) differs from every target; judge sessions inspected across both rounds are read-only (no edit/write tools, bash used only for read-only inspection of A/B evidence)."
+}

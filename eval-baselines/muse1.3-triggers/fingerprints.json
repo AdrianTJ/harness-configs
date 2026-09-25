@@ -1,0 +1,234 @@
+{
+  "records": {
+    "deslop/fires-on-bloated-helper": {
+      "case_id": "fires-on-bloated-helper",
+      "config": {
+        "model": "muse-spark-1.3-contributor",
+        "pi_version": "0.85.1",
+        "profile_runtime_fingerprint": "a48d40b277108f64d2b3c4f11f2183fd0187b622d608bebc483ab4a2cf3aefc2",
+        "provider": "opencode-go",
+        "repetitions": 5,
+        "timeout_seconds": 1200
+      },
+      "fingerprints": {
+        "combined": "6be225a60d54608528f61cadf34d54dfcc513d6e80fa1adba9fe719a84b5dc2c",
+        "config": "2659d61a101c163277f4e8f81208ef2a9bde24dd68429d2fd3125b1ed29e1001",
+        "content": "7764bbb8a38a548f9899762c00e99a817c05b8a8c893c67324826ea4cf3427f0",
+        "runner": "66b25416bb1c32366b1096bab91a0f2f46c1cf70c1344630cc6e17b97126fdf9"
+      },
+      "loaded_skills": [],
+      "skill": "deslop"
+    },
+    "harness-configs/fires-on-new-machine": {
+      "case_id": "fires-on-new-machine",
+      "config": {
+        "model": "muse-spark-1.3-contributor",
+        "pi_version": "0.85.1",
+        "profile_runtime_fingerprint": "a48d40b277108f64d2b3c4f11f2183fd0187b622d608bebc483ab4a2cf3aefc2",
+        "provider": "opencode-go",
+        "repetitions": 5,
+        "timeout_seconds": 1200
+      },
+      "fingerprints": {
+        "combined": "c8fd70e0781db30fa1aae1e4a71b4f2ca6367dfdc1cc4f44a1aa4087957fe962",
+        "config": "2659d61a101c163277f4e8f81208ef2a9bde24dd68429d2fd3125b1ed29e1001",
+        "content": "d7ec215dfb02942306a480b17ac756ab04e2c4d24182e061299c28003fcde20c",
+        "runner": "66b25416bb1c32366b1096bab91a0f2f46c1cf70c1344630cc6e17b97126fdf9"
+      },
+      "loaded_skills": [],
+      "skill": "harness-configs"
+    },
+    "harness-configs/ignores-release-note": {
+      "case_id": "ignores-release-note",
+      "config": {
+        "model": "muse-spark-1.3-contributor",
+        "pi_version": "0.85.1",
+        "profile_runtime_fingerprint": "a48d40b277108f64d2b3c4f11f2183fd0187b622d608bebc483ab4a2cf3aefc2",
+        "provider": "opencode-go",
+        "repetitions": 5,
+        "timeout_seconds": 1200
+      },
+      "fingerprints": {
+        "combined": "5d3e423bd5f0b2a1df107357091bc352b8bd84ca354913c6894afa30d0ed48f6",
+        "config": "2659d61a101c163277f4e8f81208ef2a9bde24dd68429d2fd3125b1ed29e1001",
+        "content": "d17fa95ea7b4f809023021af0c09049a3b244055ce94a251fde6f06fefcc2ee2",
+        "runner": "66b25416bb1c32366b1096bab91a0f2f46c1cf70c1344630cc6e17b97126fdf9"
+      },
+      "loaded_skills": [],
+      "skill": "harness-configs"
+    },
+    "log-decision/fires-on-killed-migration": {
+      "case_id": "fires-on-killed-migration",
+      "config": {
+        "model": "muse-spark-1.3-contributor",
+        "pi_version": "0.85.1",
+        "profile_runtime_fingerprint": "a48d40b277108f64d2b3c4f11f2183fd0187b622d608bebc483ab4a2cf3aefc2",
+        "provider": "opencode-go",
+        "repetitions": 5,
+        "timeout_seconds": 1200
+      },
+      "fingerprints": {
+        "combined": "a03932c5ff4df8eaf820cd114940247e88daa5aa489712678221d55f71f9f838",
+        "config": "2659d61a101c163277f4e8f81208ef2a9bde24dd68429d2fd3125b1ed29e1001",
+        "content": "ef00567bfdd615427e89d117b22823524ef229e454335229864af6523fa962de",
+        "runner": "66b25416bb1c32366b1096bab91a0f2f46c1cf70c1344630cc6e17b97126fdf9"
+      },
+      "loaded_skills": [],
+      "skill": "log-decision"
+    },
+    "log-decision/ignores-unrelated-question": {
+      "case_id": "ignores-unrelated-question",
+      "config": {
+        "model": "muse-spark-1.3-contributor",
+        "pi_version": "0.85.1",
+        "profile_runtime_fingerprint": "a48d40b277108f64d2b3c4f11f2183fd0187b622d608bebc483ab4a2cf3aefc2",
+        "provider": "opencode-go",
+        "repetitions": 5,
+        "timeout_seconds": 1200
+      },
+      "fingerprints": {
+        "combined": "02db48c4b8c995327ab4c147a8f1c99452f2df96481966b2b5b58ec2dcaa9fe9",
+        "config": "2659d61a101c163277f4e8f81208ef2a9bde24dd68429d2fd3125b1ed29e1001",
+        "content": "dac4f728bead2eab326a6b92c27ddd4d14169a7b12ef26a75a923086e6bb3504",
+        "runner": "66b25416bb1c32366b1096bab91a0f2f46c1cf70c1344630cc6e17b97126fdf9"
+      },
+      "loaded_skills": [],
+      "skill": "log-decision"
+    },
+    "profile-pipeline/fires-on-slow-logs": {
+      "case_id": "fires-on-slow-logs",
+      "config": {
+        "model": "muse-spark-1.3-contributor",
+        "pi_version": "0.85.1",
+        "profile_runtime_fingerprint": "a48d40b277108f64d2b3c4f11f2183fd0187b622d608bebc483ab4a2cf3aefc2",
+        "provider": "opencode-go",
+        "repetitions": 5,
+        "timeout_seconds": 1200
+      },
+      "fingerprints": {
+        "combined": "e7869a0603bd4fc4c58a6fa2ee64479a99d81918db9fbeec2dcf8b2b6fb32a65",
+        "config": "2659d61a101c163277f4e8f81208ef2a9bde24dd68429d2fd3125b1ed29e1001",
+        "content": "c771c1cdab43a6292c44d7c9dc2b1180652201165e4f77b47622d4122246fb6e",
+        "runner": "66b25416bb1c32366b1096bab91a0f2f46c1cf70c1344630cc6e17b97126fdf9"
+      },
+      "loaded_skills": [],
+      "skill": "profile-pipeline"
+    },
+    "profile-pipeline/ignores-fast-pipeline": {
+      "case_id": "ignores-fast-pipeline",
+      "config": {
+        "model": "muse-spark-1.3-contributor",
+        "pi_version": "0.85.1",
+        "profile_runtime_fingerprint": "a48d40b277108f64d2b3c4f11f2183fd0187b622d608bebc483ab4a2cf3aefc2",
+        "provider": "opencode-go",
+        "repetitions": 5,
+        "timeout_seconds": 1200
+      },
+      "fingerprints": {
+        "combined": "0beb39e2b9a2ec4059288a32d91f9503e690221f7fcf4443aed30a086d73bb05",
+        "config": "2659d61a101c163277f4e8f81208ef2a9bde24dd68429d2fd3125b1ed29e1001",
+        "content": "732b1730ca71ec1c48fdf71e9334612bd0f5b7b46a731fa07165c2b409f5f6d0",
+        "runner": "66b25416bb1c32366b1096bab91a0f2f46c1cf70c1344630cc6e17b97126fdf9"
+      },
+      "loaded_skills": [],
+      "skill": "profile-pipeline"
+    },
+    "sync-docs/fires-on-drifted-readme": {
+      "case_id": "fires-on-drifted-readme",
+      "config": {
+        "model": "muse-spark-1.3-contributor",
+        "pi_version": "0.85.1",
+        "profile_runtime_fingerprint": "a48d40b277108f64d2b3c4f11f2183fd0187b622d608bebc483ab4a2cf3aefc2",
+        "provider": "opencode-go",
+        "repetitions": 5,
+        "timeout_seconds": 1200
+      },
+      "fingerprints": {
+        "combined": "cd3562ef366e61ab9c547cd0c41603f8eac8a0778f7805096be96bf90fb188b2",
+        "config": "2659d61a101c163277f4e8f81208ef2a9bde24dd68429d2fd3125b1ed29e1001",
+        "content": "b475207928b2bed4080467513f5963e40d5f55a5af083fb2f872fefb4ff7735f",
+        "runner": "66b25416bb1c32366b1096bab91a0f2f46c1cf70c1344630cc6e17b97126fdf9"
+      },
+      "loaded_skills": [],
+      "skill": "sync-docs"
+    },
+    "sync-docs/ignores-writing-request": {
+      "case_id": "ignores-writing-request",
+      "config": {
+        "model": "muse-spark-1.3-contributor",
+        "pi_version": "0.85.1",
+        "profile_runtime_fingerprint": "a48d40b277108f64d2b3c4f11f2183fd0187b622d608bebc483ab4a2cf3aefc2",
+        "provider": "opencode-go",
+        "repetitions": 5,
+        "timeout_seconds": 1200
+      },
+      "fingerprints": {
+        "combined": "932f80ca65adda7a79f048becb8739861cb946741dd446c801cbd16d3f5fbd90",
+        "config": "2659d61a101c163277f4e8f81208ef2a9bde24dd68429d2fd3125b1ed29e1001",
+        "content": "e5b3c24d914395880b4dea3f3921870c25c8e5b5ccf3da0a57b84728de77a291",
+        "runner": "66b25416bb1c32366b1096bab91a0f2f46c1cf70c1344630cc6e17b97126fdf9"
+      },
+      "loaded_skills": [],
+      "skill": "sync-docs"
+    },
+    "validate-results/fires-on-board-numbers": {
+      "case_id": "fires-on-board-numbers",
+      "config": {
+        "model": "muse-spark-1.3-contributor",
+        "pi_version": "0.85.1",
+        "profile_runtime_fingerprint": "a48d40b277108f64d2b3c4f11f2183fd0187b622d608bebc483ab4a2cf3aefc2",
+        "provider": "opencode-go",
+        "repetitions": 5,
+        "timeout_seconds": 1200
+      },
+      "fingerprints": {
+        "combined": "e5dfca5a3a430a553c08b2bbfe5262847095b9693f95168dff509c2b06a2bf9b",
+        "config": "2659d61a101c163277f4e8f81208ef2a9bde24dd68429d2fd3125b1ed29e1001",
+        "content": "11d2e87c0ae2961d537fa7faedffd7460ae8b8f7ea919e39c1c61d663eff2d75",
+        "runner": "66b25416bb1c32366b1096bab91a0f2f46c1cf70c1344630cc6e17b97126fdf9"
+      },
+      "loaded_skills": [],
+      "skill": "validate-results"
+    },
+    "validate-results/ignores-prose-edit": {
+      "case_id": "ignores-prose-edit",
+      "config": {
+        "model": "muse-spark-1.3-contributor",
+        "pi_version": "0.85.1",
+        "profile_runtime_fingerprint": "a48d40b277108f64d2b3c4f11f2183fd0187b622d608bebc483ab4a2cf3aefc2",
+        "provider": "opencode-go",
+        "repetitions": 5,
+        "timeout_seconds": 1200
+      },
+      "fingerprints": {
+        "combined": "31eb4a192bb7ecd2989fabb43f7d91f21dda3057e368fcb48d094ca8bee06310",
+        "config": "2659d61a101c163277f4e8f81208ef2a9bde24dd68429d2fd3125b1ed29e1001",
+        "content": "807484746252496674020e37db730ade11d1688e6b92a531286fe742d5e5c127",
+        "runner": "66b25416bb1c32366b1096bab91a0f2f46c1cf70c1344630cc6e17b97126fdf9"
+      },
+      "loaded_skills": [],
+      "skill": "validate-results"
+    },
+    "write-skill/fires-on-repeat-explanations": {
+      "case_id": "fires-on-repeat-explanations",
+      "config": {
+        "model": "muse-spark-1.3-contributor",
+        "pi_version": "0.85.1",
+        "profile_runtime_fingerprint": "a48d40b277108f64d2b3c4f11f2183fd0187b622d608bebc483ab4a2cf3aefc2",
+        "provider": "opencode-go",
+        "repetitions": 5,
+        "timeout_seconds": 1200
+      },
+      "fingerprints": {
+        "combined": "9dee691e2cf6bc8a9b174e7e547852c1e8cd2cb504f1ccb4188cf87bed7be825",
+        "config": "2659d61a101c163277f4e8f81208ef2a9bde24dd68429d2fd3125b1ed29e1001",
+        "content": "2e44de6b7e86e8740b6b7c474d2cbff3ce12c30b2a6a0bd0943f619b02a0aac2",
+        "runner": "66b25416bb1c32366b1096bab91a0f2f46c1cf70c1344630cc6e17b97126fdf9"
+      },
+      "loaded_skills": [],
+      "skill": "write-skill"
+    }
+  },
+  "runner": "trigger",
+  "schema_version": 1
+}

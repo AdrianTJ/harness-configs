@@ -1,0 +1,300 @@
+{
+  "records": {
+    "bro-shorter/compresses-keeps-facts": {
+      "case_id": "compresses-keeps-facts",
+      "config": {
+        "judge_model": "mimo-v2.6-flash",
+        "judge_provider": "opencode-go",
+        "model": "muse-spark-1.3-contributor",
+        "pi_version": "0.85.1",
+        "profile_runtime_fingerprint": "a48d40b277108f64d2b3c4f11f2183fd0187b622d608bebc483ab4a2cf3aefc2",
+        "provider": "opencode-go",
+        "repetitions": 5,
+        "timeout_seconds": 1200
+      },
+      "fingerprints": {
+        "combined": "9ed65ce8b650cbc6184da81cffc5ebe80d91189926e052120ff8445463c0f624",
+        "config": "fa3491c752df0041d38795f3e2fb7bc7d836813e1a7ae7b263ef470bd14267a5",
+        "content": "e6ea6bc5d8c2833892c5fd11b45fd922f732311d560de6d2cbee01aae072aa95",
+        "runner": "9ca0dc087a2bc3aea25cb9fa55cc89084a019fa45334587dc0b964551a4de7d0"
+      },
+      "loaded_skills": [],
+      "skill": "bro-shorter"
+    },
+    "bro-what/re-explains-not-re-answers": {
+      "case_id": "re-explains-not-re-answers",
+      "config": {
+        "judge_model": "mimo-v2.6-flash",
+        "judge_provider": "opencode-go",
+        "model": "muse-spark-1.3-contributor",
+        "pi_version": "0.85.1",
+        "profile_runtime_fingerprint": "a48d40b277108f64d2b3c4f11f2183fd0187b622d608bebc483ab4a2cf3aefc2",
+        "provider": "opencode-go",
+        "repetitions": 5,
+        "timeout_seconds": 1200
+      },
+      "fingerprints": {
+        "combined": "5d155e2625a4401d99348dfd3ac349168b0f259c1e4e053cdbe7ea6b9a785a59",
+        "config": "fa3491c752df0041d38795f3e2fb7bc7d836813e1a7ae7b263ef470bd14267a5",
+        "content": "43046be177fa19b683fdf4afc9b93bcb541faf6aff4d879261e8a98741233760",
+        "runner": "9ca0dc087a2bc3aea25cb9fa55cc89084a019fa45334587dc0b964551a4de7d0"
+      },
+      "loaded_skills": [],
+      "skill": "bro-what"
+    },
+    "deslop/cuts-slop-keeps-behavior": {
+      "case_id": "cuts-slop-keeps-behavior",
+      "config": {
+        "judge_model": "mimo-v2.6-flash",
+        "judge_provider": "opencode-go",
+        "model": "muse-spark-1.3-contributor",
+        "pi_version": "0.85.1",
+        "profile_runtime_fingerprint": "a48d40b277108f64d2b3c4f11f2183fd0187b622d608bebc483ab4a2cf3aefc2",
+        "provider": "opencode-go",
+        "repetitions": 5,
+        "timeout_seconds": 1200
+      },
+      "fingerprints": {
+        "combined": "d23944c22d5f6bdb2fc91bdf296d168a8246f3601755ecb0caf6213ad3042a76",
+        "config": "fa3491c752df0041d38795f3e2fb7bc7d836813e1a7ae7b263ef470bd14267a5",
+        "content": "2e95f56fab5be9b7271bb01d6b4d155f493a39e5b9c5ff8a4ff2e26ef4afdaeb",
+        "runner": "9ca0dc087a2bc3aea25cb9fa55cc89084a019fa45334587dc0b964551a4de7d0"
+      },
+      "loaded_skills": [],
+      "skill": "deslop"
+    },
+    "harness-configs/dry-run-before-link": {
+      "case_id": "dry-run-before-link",
+      "config": {
+        "judge_model": "mimo-v2.6-flash",
+        "judge_provider": "opencode-go",
+        "model": "muse-spark-1.3-contributor",
+        "pi_version": "0.85.1",
+        "profile_runtime_fingerprint": "a48d40b277108f64d2b3c4f11f2183fd0187b622d608bebc483ab4a2cf3aefc2",
+        "provider": "opencode-go",
+        "repetitions": 5,
+        "timeout_seconds": 1200
+      },
+      "fingerprints": {
+        "combined": "a0c377adc8197701d0a19d815589dc804dad93526e9aa731881e9540cb6e7c2f",
+        "config": "fa3491c752df0041d38795f3e2fb7bc7d836813e1a7ae7b263ef470bd14267a5",
+        "content": "85cd9496a06d2c35f2c7bbe5ff129a1636b49c63e34d6a9e4a00658be12886f5",
+        "runner": "9ca0dc087a2bc3aea25cb9fa55cc89084a019fa45334587dc0b964551a4de7d0"
+      },
+      "loaded_skills": [],
+      "skill": "harness-configs"
+    },
+    "harness-configs/preserves-local-config": {
+      "case_id": "preserves-local-config",
+      "config": {
+        "judge_model": "mimo-v2.6-flash",
+        "judge_provider": "opencode-go",
+        "model": "muse-spark-1.3-contributor",
+        "pi_version": "0.85.1",
+        "profile_runtime_fingerprint": "a48d40b277108f64d2b3c4f11f2183fd0187b622d608bebc483ab4a2cf3aefc2",
+        "provider": "opencode-go",
+        "repetitions": 5,
+        "timeout_seconds": 1200
+      },
+      "fingerprints": {
+        "combined": "50ad6d3879b452031b684083fa3d8b3f8a2c1bae710085cf6158ac594d3a291b",
+        "config": "fa3491c752df0041d38795f3e2fb7bc7d836813e1a7ae7b263ef470bd14267a5",
+        "content": "d324a57f3793f09cfaad87e36de710c4bb46b2128ee035e20966362a178227d9",
+        "runner": "9ca0dc087a2bc3aea25cb9fa55cc89084a019fa45334587dc0b964551a4de7d0"
+      },
+      "loaded_skills": [],
+      "skill": "harness-configs"
+    },
+    "log-decision/decision-log-append-only": {
+      "case_id": "decision-log-append-only",
+      "config": {
+        "judge_model": "mimo-v2.6-flash",
+        "judge_provider": "opencode-go",
+        "model": "muse-spark-1.3-contributor",
+        "pi_version": "0.85.1",
+        "profile_runtime_fingerprint": "a48d40b277108f64d2b3c4f11f2183fd0187b622d608bebc483ab4a2cf3aefc2",
+        "provider": "opencode-go",
+        "repetitions": 5,
+        "timeout_seconds": 1200
+      },
+      "fingerprints": {
+        "combined": "57adee42cb20c3ef3e7d4e3a50b7acefb6b9af2f40ede80e2069c458e354426b",
+        "config": "fa3491c752df0041d38795f3e2fb7bc7d836813e1a7ae7b263ef470bd14267a5",
+        "content": "a526044790a9ce1173b85b7ef7bdf0e5306eebce0483b8de0461c0401e414cfd",
+        "runner": "9ca0dc087a2bc3aea25cb9fa55cc89084a019fa45334587dc0b964551a4de7d0"
+      },
+      "loaded_skills": [],
+      "skill": "log-decision"
+    },
+    "log-decision/reverses-existing-decision": {
+      "case_id": "reverses-existing-decision",
+      "config": {
+        "judge_model": "mimo-v2.6-flash",
+        "judge_provider": "opencode-go",
+        "model": "muse-spark-1.3-contributor",
+        "pi_version": "0.85.1",
+        "profile_runtime_fingerprint": "a48d40b277108f64d2b3c4f11f2183fd0187b622d608bebc483ab4a2cf3aefc2",
+        "provider": "opencode-go",
+        "repetitions": 5,
+        "timeout_seconds": 1200
+      },
+      "fingerprints": {
+        "combined": "a650c30bbc45405a0a6852bf8f167efa835fa274c080544d7fb5aeb24c670045",
+        "config": "fa3491c752df0041d38795f3e2fb7bc7d836813e1a7ae7b263ef470bd14267a5",
+        "content": "6657a7026c969600d24e18d12c947bf08c5f2b66dc12d81bab09a1a04dd937e6",
+        "runner": "9ca0dc087a2bc3aea25cb9fa55cc89084a019fa45334587dc0b964551a4de7d0"
+      },
+      "loaded_skills": [],
+      "skill": "log-decision"
+    },
+    "profile-pipeline/profiles-provided-fixture": {
+      "case_id": "profiles-provided-fixture",
+      "config": {
+        "judge_model": "mimo-v2.6-flash",
+        "judge_provider": "opencode-go",
+        "model": "muse-spark-1.3-contributor",
+        "pi_version": "0.85.1",
+        "profile_runtime_fingerprint": "a48d40b277108f64d2b3c4f11f2183fd0187b622d608bebc483ab4a2cf3aefc2",
+        "provider": "opencode-go",
+        "repetitions": 5,
+        "timeout_seconds": 1200
+      },
+      "fingerprints": {
+        "combined": "f797f75242db67b658f16dc76a6cee9de2214007033571b44c09898f42c07a07",
+        "config": "fa3491c752df0041d38795f3e2fb7bc7d836813e1a7ae7b263ef470bd14267a5",
+        "content": "34904c81470292674a6ced889f47a496499021f017863f617e03bba51022f384",
+        "runner": "9ca0dc087a2bc3aea25cb9fa55cc89084a019fa45334587dc0b964551a4de7d0"
+      },
+      "loaded_skills": [],
+      "skill": "profile-pipeline"
+    },
+    "profile-pipeline/refuses-unmeasured-bottleneck": {
+      "case_id": "refuses-unmeasured-bottleneck",
+      "config": {
+        "judge_model": "mimo-v2.6-flash",
+        "judge_provider": "opencode-go",
+        "model": "muse-spark-1.3-contributor",
+        "pi_version": "0.85.1",
+        "profile_runtime_fingerprint": "a48d40b277108f64d2b3c4f11f2183fd0187b622d608bebc483ab4a2cf3aefc2",
+        "provider": "opencode-go",
+        "repetitions": 5,
+        "timeout_seconds": 1200
+      },
+      "fingerprints": {
+        "combined": "3b42a4ca8e8f776565d669345bd1b5d602c3c0d75b4d2797ac66e61de6e65c17",
+        "config": "fa3491c752df0041d38795f3e2fb7bc7d836813e1a7ae7b263ef470bd14267a5",
+        "content": "7dc8f9bf79a2ef8c6f9f3c59eda4e8bc75313f99955924a8669befdc456adae6",
+        "runner": "9ca0dc087a2bc3aea25cb9fa55cc89084a019fa45334587dc0b964551a4de7d0"
+      },
+      "loaded_skills": [],
+      "skill": "profile-pipeline"
+    },
+    "sync-docs/flags-unresolved-conflict": {
+      "case_id": "flags-unresolved-conflict",
+      "config": {
+        "judge_model": "mimo-v2.6-flash",
+        "judge_provider": "opencode-go",
+        "model": "muse-spark-1.3-contributor",
+        "pi_version": "0.85.1",
+        "profile_runtime_fingerprint": "a48d40b277108f64d2b3c4f11f2183fd0187b622d608bebc483ab4a2cf3aefc2",
+        "provider": "opencode-go",
+        "repetitions": 5,
+        "timeout_seconds": 1200
+      },
+      "fingerprints": {
+        "combined": "69df68ac8c7c058ba518623dab1154dcb575df132f5799cce0225721230da9a3",
+        "config": "fa3491c752df0041d38795f3e2fb7bc7d836813e1a7ae7b263ef470bd14267a5",
+        "content": "c5e06edc3967729a72a355117cffd86ab83711a0a05a8593090371a6163d54ce",
+        "runner": "9ca0dc087a2bc3aea25cb9fa55cc89084a019fa45334587dc0b964551a4de7d0"
+      },
+      "loaded_skills": [],
+      "skill": "sync-docs"
+    },
+    "sync-docs/prune-not-append": {
+      "case_id": "prune-not-append",
+      "config": {
+        "judge_model": "mimo-v2.6-flash",
+        "judge_provider": "opencode-go",
+        "model": "muse-spark-1.3-contributor",
+        "pi_version": "0.85.1",
+        "profile_runtime_fingerprint": "a48d40b277108f64d2b3c4f11f2183fd0187b622d608bebc483ab4a2cf3aefc2",
+        "provider": "opencode-go",
+        "repetitions": 5,
+        "timeout_seconds": 1200
+      },
+      "fingerprints": {
+        "combined": "d7e130ee3c5f7da3d0425edec9b5651d6022753d35740cc0dc06898ca0cd74d9",
+        "config": "fa3491c752df0041d38795f3e2fb7bc7d836813e1a7ae7b263ef470bd14267a5",
+        "content": "86ad160590b4fa9ac3c6d97a2c449a54b138e8017f7b88336188687885008299",
+        "runner": "9ca0dc087a2bc3aea25cb9fa55cc89084a019fa45334587dc0b964551a4de7d0"
+      },
+      "loaded_skills": [],
+      "skill": "sync-docs"
+    },
+    "validate-results/corrects-wrong-derived-claim": {
+      "case_id": "corrects-wrong-derived-claim",
+      "config": {
+        "judge_model": "mimo-v2.6-flash",
+        "judge_provider": "opencode-go",
+        "model": "muse-spark-1.3-contributor",
+        "pi_version": "0.85.1",
+        "profile_runtime_fingerprint": "a48d40b277108f64d2b3c4f11f2183fd0187b622d608bebc483ab4a2cf3aefc2",
+        "provider": "opencode-go",
+        "repetitions": 5,
+        "timeout_seconds": 1200
+      },
+      "fingerprints": {
+        "combined": "333608721c621017d6b4828d80e92c5f306e1130835f8ca4cab89c37d8e7dcad",
+        "config": "fa3491c752df0041d38795f3e2fb7bc7d836813e1a7ae7b263ef470bd14267a5",
+        "content": "037b8af21613e503574ab3db1702e2703b5de57bdc46ef44d932687932214f60",
+        "runner": "9ca0dc087a2bc3aea25cb9fa55cc89084a019fa45334587dc0b964551a4de7d0"
+      },
+      "loaded_skills": [],
+      "skill": "validate-results"
+    },
+    "validate-results/figures-reconciled": {
+      "case_id": "figures-reconciled",
+      "config": {
+        "judge_model": "mimo-v2.6-flash",
+        "judge_provider": "opencode-go",
+        "model": "muse-spark-1.3-contributor",
+        "pi_version": "0.85.1",
+        "profile_runtime_fingerprint": "a48d40b277108f64d2b3c4f11f2183fd0187b622d608bebc483ab4a2cf3aefc2",
+        "provider": "opencode-go",
+        "repetitions": 5,
+        "timeout_seconds": 1200
+      },
+      "fingerprints": {
+        "combined": "5dfe4028d09830e7aa00d6b4d4e7e46da6d9228d30d53ef1769dbc3da66c9b0d",
+        "config": "fa3491c752df0041d38795f3e2fb7bc7d836813e1a7ae7b263ef470bd14267a5",
+        "content": "ad9c55dd9d71f23afee635b568a6b99e970562b07ab708bbf405664dd4e8b6ae",
+        "runner": "9ca0dc087a2bc3aea25cb9fa55cc89084a019fa45334587dc0b964551a4de7d0"
+      },
+      "loaded_skills": [],
+      "skill": "validate-results"
+    },
+    "write-skill/new-skill-follows-conventions": {
+      "case_id": "new-skill-follows-conventions",
+      "config": {
+        "judge_model": "mimo-v2.6-flash",
+        "judge_provider": "opencode-go",
+        "model": "muse-spark-1.3-contributor",
+        "pi_version": "0.85.1",
+        "profile_runtime_fingerprint": "a48d40b277108f64d2b3c4f11f2183fd0187b622d608bebc483ab4a2cf3aefc2",
+        "provider": "opencode-go",
+        "repetitions": 5,
+        "timeout_seconds": 1200
+      },
+      "fingerprints": {
+        "combined": "2130ca48295660f770e7d2bcc108451a3c9016eb0e817ce50e1162549b5c17e8",
+        "config": "fa3491c752df0041d38795f3e2fb7bc7d836813e1a7ae7b263ef470bd14267a5",
+        "content": "f5d1d2002d2687e9bff2da09431ab6a7491879efb736c699b45449c90c93bac2",
+        "runner": "9ca0dc087a2bc3aea25cb9fa55cc89084a019fa45334587dc0b964551a4de7d0"
+      },
+      "loaded_skills": [],
+      "skill": "write-skill"
+    }
+  },
+  "runner": "compliance",
+  "schema_version": 1
+}

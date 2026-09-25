@@ -1,0 +1,300 @@
+{
+  "records": {
+    "bro-shorter/compresses-keeps-facts": {
+      "case_id": "compresses-keeps-facts",
+      "config": {
+        "judge_model": "mimo-v2.6-flash",
+        "judge_provider": "opencode-go",
+        "model": "glm-5.3-flash",
+        "pi_version": "0.85.1",
+        "profile_runtime_fingerprint": "a48d40b277108f64d2b3c4f11f2183fd0187b622d608bebc483ab4a2cf3aefc2",
+        "provider": "opencode-go",
+        "repetitions": 5,
+        "timeout_seconds": 1200
+      },
+      "fingerprints": {
+        "combined": "a2c7e0950a927024fffeb78b25ebf52447f0921770e34291e610b2f70c6e5ec7",
+        "config": "89c8f5e3b8221550f6e43867384c086b544296998964833804266150e1c3f94b",
+        "content": "e6ea6bc5d8c2833892c5fd11b45fd922f732311d560de6d2cbee01aae072aa95",
+        "runner": "9ca0dc087a2bc3aea25cb9fa55cc89084a019fa45334587dc0b964551a4de7d0"
+      },
+      "loaded_skills": [],
+      "skill": "bro-shorter"
+    },
+    "bro-what/re-explains-not-re-answers": {
+      "case_id": "re-explains-not-re-answers",
+      "config": {
+        "judge_model": "mimo-v2.6-flash",
+        "judge_provider": "opencode-go",
+        "model": "glm-5.3-flash",
+        "pi_version": "0.85.1",
+        "profile_runtime_fingerprint": "a48d40b277108f64d2b3c4f11f2183fd0187b622d608bebc483ab4a2cf3aefc2",
+        "provider": "opencode-go",
+        "repetitions": 5,
+        "timeout_seconds": 1200
+      },
+      "fingerprints": {
+        "combined": "906de865f1da430a9183ea0e49fa26da0243933edd58d6b2747082fe4ddcf28f",
+        "config": "89c8f5e3b8221550f6e43867384c086b544296998964833804266150e1c3f94b",
+        "content": "43046be177fa19b683fdf4afc9b93bcb541faf6aff4d879261e8a98741233760",
+        "runner": "9ca0dc087a2bc3aea25cb9fa55cc89084a019fa45334587dc0b964551a4de7d0"
+      },
+      "loaded_skills": [],
+      "skill": "bro-what"
+    },
+    "deslop/cuts-slop-keeps-behavior": {
+      "case_id": "cuts-slop-keeps-behavior",
+      "config": {
+        "judge_model": "mimo-v2.6-flash",
+        "judge_provider": "opencode-go",
+        "model": "glm-5.3-flash",
+        "pi_version": "0.85.1",
+        "profile_runtime_fingerprint": "a48d40b277108f64d2b3c4f11f2183fd0187b622d608bebc483ab4a2cf3aefc2",
+        "provider": "opencode-go",
+        "repetitions": 5,
+        "timeout_seconds": 1200
+      },
+      "fingerprints": {
+        "combined": "3a9953ec630a754f7fe71715bf5a5da50ea6ca821bd346b987cae46f3961caaf",
+        "config": "89c8f5e3b8221550f6e43867384c086b544296998964833804266150e1c3f94b",
+        "content": "2e95f56fab5be9b7271bb01d6b4d155f493a39e5b9c5ff8a4ff2e26ef4afdaeb",
+        "runner": "9ca0dc087a2bc3aea25cb9fa55cc89084a019fa45334587dc0b964551a4de7d0"
+      },
+      "loaded_skills": [],
+      "skill": "deslop"
+    },
+    "harness-configs/dry-run-before-link": {
+      "case_id": "dry-run-before-link",
+      "config": {
+        "judge_model": "mimo-v2.6-flash",
+        "judge_provider": "opencode-go",
+        "model": "glm-5.3-flash",
+        "pi_version": "0.85.1",
+        "profile_runtime_fingerprint": "a48d40b277108f64d2b3c4f11f2183fd0187b622d608bebc483ab4a2cf3aefc2",
+        "provider": "opencode-go",
+        "repetitions": 5,
+        "timeout_seconds": 1200
+      },
+      "fingerprints": {
+        "combined": "8606355525059053dc4f0bd47cf6e2084707a4d4f9b98f8b330cb0d93aa9778b",
+        "config": "89c8f5e3b8221550f6e43867384c086b544296998964833804266150e1c3f94b",
+        "content": "85cd9496a06d2c35f2c7bbe5ff129a1636b49c63e34d6a9e4a00658be12886f5",
+        "runner": "9ca0dc087a2bc3aea25cb9fa55cc89084a019fa45334587dc0b964551a4de7d0"
+      },
+      "loaded_skills": [],
+      "skill": "harness-configs"
+    },
+    "harness-configs/preserves-local-config": {
+      "case_id": "preserves-local-config",
+      "config": {
+        "judge_model": "mimo-v2.6-flash",
+        "judge_provider": "opencode-go",
+        "model": "glm-5.3-flash",
+        "pi_version": "0.85.1",
+        "profile_runtime_fingerprint": "a48d40b277108f64d2b3c4f11f2183fd0187b622d608bebc483ab4a2cf3aefc2",
+        "provider": "opencode-go",
+        "repetitions": 5,
+        "timeout_seconds": 1200
+      },
+      "fingerprints": {
+        "combined": "0ad9446a05b226fe12e54246a974032b022d2c667d83f25fc7221e75be961a4b",
+        "config": "89c8f5e3b8221550f6e43867384c086b544296998964833804266150e1c3f94b",
+        "content": "d324a57f3793f09cfaad87e36de710c4bb46b2128ee035e20966362a178227d9",
+        "runner": "9ca0dc087a2bc3aea25cb9fa55cc89084a019fa45334587dc0b964551a4de7d0"
+      },
+      "loaded_skills": [],
+      "skill": "harness-configs"
+    },
+    "log-decision/decision-log-append-only": {
+      "case_id": "decision-log-append-only",
+      "config": {
+        "judge_model": "mimo-v2.6-flash",
+        "judge_provider": "opencode-go",
+        "model": "glm-5.3-flash",
+        "pi_version": "0.85.1",
+        "profile_runtime_fingerprint": "a48d40b277108f64d2b3c4f11f2183fd0187b622d608bebc483ab4a2cf3aefc2",
+        "provider": "opencode-go",
+        "repetitions": 5,
+        "timeout_seconds": 1200
+      },
+      "fingerprints": {
+        "combined": "2bf931669a15fa257bfa8a9307157495b308dd9450abd69087ca3adcce43bcc6",
+        "config": "89c8f5e3b8221550f6e43867384c086b544296998964833804266150e1c3f94b",
+        "content": "a526044790a9ce1173b85b7ef7bdf0e5306eebce0483b8de0461c0401e414cfd",
+        "runner": "9ca0dc087a2bc3aea25cb9fa55cc89084a019fa45334587dc0b964551a4de7d0"
+      },
+      "loaded_skills": [],
+      "skill": "log-decision"
+    },
+    "log-decision/reverses-existing-decision": {
+      "case_id": "reverses-existing-decision",
+      "config": {
+        "judge_model": "mimo-v2.6-flash",
+        "judge_provider": "opencode-go",
+        "model": "glm-5.3-flash",
+        "pi_version": "0.85.1",
+        "profile_runtime_fingerprint": "a48d40b277108f64d2b3c4f11f2183fd0187b622d608bebc483ab4a2cf3aefc2",
+        "provider": "opencode-go",
+        "repetitions": 5,
+        "timeout_seconds": 1200
+      },
+      "fingerprints": {
+        "combined": "52dfe0f808c7f964e5f385b98857e761cf8cc7d671d000e77a9b21cbcbccc266",
+        "config": "89c8f5e3b8221550f6e43867384c086b544296998964833804266150e1c3f94b",
+        "content": "6657a7026c969600d24e18d12c947bf08c5f2b66dc12d81bab09a1a04dd937e6",
+        "runner": "9ca0dc087a2bc3aea25cb9fa55cc89084a019fa45334587dc0b964551a4de7d0"
+      },
+      "loaded_skills": [],
+      "skill": "log-decision"
+    },
+    "profile-pipeline/profiles-provided-fixture": {
+      "case_id": "profiles-provided-fixture",
+      "config": {
+        "judge_model": "mimo-v2.6-flash",
+        "judge_provider": "opencode-go",
+        "model": "glm-5.3-flash",
+        "pi_version": "0.85.1",
+        "profile_runtime_fingerprint": "a48d40b277108f64d2b3c4f11f2183fd0187b622d608bebc483ab4a2cf3aefc2",
+        "provider": "opencode-go",
+        "repetitions": 5,
+        "timeout_seconds": 1200
+      },
+      "fingerprints": {
+        "combined": "f9a24cd8bd2aadfc5d9ed9cfde91fe8bf361ec037913359b7b286be02c4141cc",
+        "config": "89c8f5e3b8221550f6e43867384c086b544296998964833804266150e1c3f94b",
+        "content": "34904c81470292674a6ced889f47a496499021f017863f617e03bba51022f384",
+        "runner": "9ca0dc087a2bc3aea25cb9fa55cc89084a019fa45334587dc0b964551a4de7d0"
+      },
+      "loaded_skills": [],
+      "skill": "profile-pipeline"
+    },
+    "profile-pipeline/refuses-unmeasured-bottleneck": {
+      "case_id": "refuses-unmeasured-bottleneck",
+      "config": {
+        "judge_model": "mimo-v2.6-flash",
+        "judge_provider": "opencode-go",
+        "model": "glm-5.3-flash",
+        "pi_version": "0.85.1",
+        "profile_runtime_fingerprint": "a48d40b277108f64d2b3c4f11f2183fd0187b622d608bebc483ab4a2cf3aefc2",
+        "provider": "opencode-go",
+        "repetitions": 5,
+        "timeout_seconds": 1200
+      },
+      "fingerprints": {
+        "combined": "5565c1bb0214bb4d26e811865c7ea710b168e047b22dd44a6add2c1988f64020",
+        "config": "89c8f5e3b8221550f6e43867384c086b544296998964833804266150e1c3f94b",
+        "content": "7dc8f9bf79a2ef8c6f9f3c59eda4e8bc75313f99955924a8669befdc456adae6",
+        "runner": "9ca0dc087a2bc3aea25cb9fa55cc89084a019fa45334587dc0b964551a4de7d0"
+      },
+      "loaded_skills": [],
+      "skill": "profile-pipeline"
+    },
+    "sync-docs/flags-unresolved-conflict": {
+      "case_id": "flags-unresolved-conflict",
+      "config": {
+        "judge_model": "mimo-v2.6-flash",
+        "judge_provider": "opencode-go",
+        "model": "glm-5.3-flash",
+        "pi_version": "0.85.1",
+        "profile_runtime_fingerprint": "a48d40b277108f64d2b3c4f11f2183fd0187b622d608bebc483ab4a2cf3aefc2",
+        "provider": "opencode-go",
+        "repetitions": 5,
+        "timeout_seconds": 1200
+      },
+      "fingerprints": {
+        "combined": "2565d3b3314cc29a46808527ba91449ad8f64c2f78fdb9ad8c0465810c03d83a",
+        "config": "89c8f5e3b8221550f6e43867384c086b544296998964833804266150e1c3f94b",
+        "content": "c5e06edc3967729a72a355117cffd86ab83711a0a05a8593090371a6163d54ce",
+        "runner": "9ca0dc087a2bc3aea25cb9fa55cc89084a019fa45334587dc0b964551a4de7d0"
+      },
+      "loaded_skills": [],
+      "skill": "sync-docs"
+    },
+    "sync-docs/prune-not-append": {
+      "case_id": "prune-not-append",
+      "config": {
+        "judge_model": "mimo-v2.6-flash",
+        "judge_provider": "opencode-go",
+        "model": "glm-5.3-flash",
+        "pi_version": "0.85.1",
+        "profile_runtime_fingerprint": "a48d40b277108f64d2b3c4f11f2183fd0187b622d608bebc483ab4a2cf3aefc2",
+        "provider": "opencode-go",
+        "repetitions": 5,
+        "timeout_seconds": 1200
+      },
+      "fingerprints": {
+        "combined": "60f0a5a74b56cb21915a1fae326af6bf0c7537a438f41ecaa77678a1d4ed342d",
+        "config": "89c8f5e3b8221550f6e43867384c086b544296998964833804266150e1c3f94b",
+        "content": "86ad160590b4fa9ac3c6d97a2c449a54b138e8017f7b88336188687885008299",
+        "runner": "9ca0dc087a2bc3aea25cb9fa55cc89084a019fa45334587dc0b964551a4de7d0"
+      },
+      "loaded_skills": [],
+      "skill": "sync-docs"
+    },
+    "validate-results/corrects-wrong-derived-claim": {
+      "case_id": "corrects-wrong-derived-claim",
+      "config": {
+        "judge_model": "mimo-v2.6-flash",
+        "judge_provider": "opencode-go",
+        "model": "glm-5.3-flash",
+        "pi_version": "0.85.1",
+        "profile_runtime_fingerprint": "a48d40b277108f64d2b3c4f11f2183fd0187b622d608bebc483ab4a2cf3aefc2",
+        "provider": "opencode-go",
+        "repetitions": 5,
+        "timeout_seconds": 1200
+      },
+      "fingerprints": {
+        "combined": "a61b1eea176e9974a697e989be0b816c11a5aec7012c8e248e49010d9343aef7",
+        "config": "89c8f5e3b8221550f6e43867384c086b544296998964833804266150e1c3f94b",
+        "content": "037b8af21613e503574ab3db1702e2703b5de57bdc46ef44d932687932214f60",
+        "runner": "9ca0dc087a2bc3aea25cb9fa55cc89084a019fa45334587dc0b964551a4de7d0"
+      },
+      "loaded_skills": [],
+      "skill": "validate-results"
+    },
+    "validate-results/figures-reconciled": {
+      "case_id": "figures-reconciled",
+      "config": {
+        "judge_model": "mimo-v2.6-flash",
+        "judge_provider": "opencode-go",
+        "model": "glm-5.3-flash",
+        "pi_version": "0.85.1",
+        "profile_runtime_fingerprint": "a48d40b277108f64d2b3c4f11f2183fd0187b622d608bebc483ab4a2cf3aefc2",
+        "provider": "opencode-go",
+        "repetitions": 5,
+        "timeout_seconds": 1200
+      },
+      "fingerprints": {
+        "combined": "540eb31ebcaf026c524995452a85b1a222bd16c11587d1da17c966cd06cd5fc5",
+        "config": "89c8f5e3b8221550f6e43867384c086b544296998964833804266150e1c3f94b",
+        "content": "ad9c55dd9d71f23afee635b568a6b99e970562b07ab708bbf405664dd4e8b6ae",
+        "runner": "9ca0dc087a2bc3aea25cb9fa55cc89084a019fa45334587dc0b964551a4de7d0"
+      },
+      "loaded_skills": [],
+      "skill": "validate-results"
+    },
+    "write-skill/new-skill-follows-conventions": {
+      "case_id": "new-skill-follows-conventions",
+      "config": {
+        "judge_model": "mimo-v2.6-flash",
+        "judge_provider": "opencode-go",
+        "model": "glm-5.3-flash",
+        "pi_version": "0.85.1",
+        "profile_runtime_fingerprint": "a48d40b277108f64d2b3c4f11f2183fd0187b622d608bebc483ab4a2cf3aefc2",
+        "provider": "opencode-go",
+        "repetitions": 5,
+        "timeout_seconds": 1200
+      },
+      "fingerprints": {
+        "combined": "165e1c40b86d0ec7a92f964d1d8ed15f735f1977a6cf745a6254c83fa06c8e63",
+        "config": "89c8f5e3b8221550f6e43867384c086b544296998964833804266150e1c3f94b",
+        "content": "f5d1d2002d2687e9bff2da09431ab6a7491879efb736c699b45449c90c93bac2",
+        "runner": "9ca0dc087a2bc3aea25cb9fa55cc89084a019fa45334587dc0b964551a4de7d0"
+      },
+      "loaded_skills": [],
+      "skill": "write-skill"
+    }
+  },
+  "runner": "compliance",
+  "schema_version": 1
+}

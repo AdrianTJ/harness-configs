@@ -1,0 +1,49 @@
+{
+  "date": "2026-09-24T23:28:44.940048+00:00",
+  "provider": "opencode-go",
+  "model": "muse-spark-1.3-contributor",
+  "pi_version": "0.85.1",
+  "profile_runtime_fingerprint": "a48d40b277108f64d2b3c4f11f2183fd0187b622d608bebc483ab4a2cf3aefc2",
+  "plan": [
+    [
+      "deslop",
+      null,
+      5
+    ],
+    [
+      "harness-configs",
+      null,
+      5
+    ],
+    [
+      "log-decision",
+      null,
+      5
+    ],
+    [
+      "profile-pipeline",
+      null,
+      5
+    ],
+    [
+      "sync-docs",
+      null,
+      5
+    ],
+    [
+      "validate-results",
+      null,
+      5
+    ],
+    [
+      "write-skill",
+      null,
+      5
+    ]
+  ],
+  "calls": 120,
+  "fingerprint_schema_version": 1,
+  "fingerprints": "fingerprints.json",
+  "repo": "ebc370b558887283d2308a7531778a51080d45a5",
+  "repo_dirty": false
+}

@@ -1,0 +1,194 @@
+{
+  "deslop/fires-on-bloated-helper": {
+    "reps": 5,
+    "expect_activation": true,
+    "trigger_rate": 0.2,
+    "control_rate": 0.0,
+    "lift": 0.2,
+    "linked_skill_read_rate": 0.0,
+    "control_skill_read_rate": 0.0,
+    "skill_miss_rate": 1.0,
+    "false_positive_rate": 0.0,
+    "fingerprint_miss_rate": 0.8,
+    "fingerprint_false_positive_rate": 0.0,
+    "observed_models": [
+      "muse-spark-1.3-contributor"
+    ]
+  },
+  "harness-configs/fires-on-new-machine": {
+    "reps": 5,
+    "expect_activation": true,
+    "trigger_rate": 0.2,
+    "control_rate": 0.4,
+    "lift": -0.2,
+    "linked_skill_read_rate": 1.0,
+    "control_skill_read_rate": 1.0,
+    "skill_miss_rate": 0.0,
+    "false_positive_rate": 0.0,
+    "fingerprint_miss_rate": 0.8,
+    "fingerprint_false_positive_rate": 0.0,
+    "observed_models": [
+      "muse-spark-1.3-contributor"
+    ]
+  },
+  "harness-configs/ignores-release-note": {
+    "reps": 5,
+    "expect_activation": false,
+    "trigger_rate": 0.0,
+    "control_rate": 0.0,
+    "lift": 0.0,
+    "linked_skill_read_rate": 0.0,
+    "control_skill_read_rate": 0.0,
+    "skill_miss_rate": 0.0,
+    "false_positive_rate": 0.0,
+    "fingerprint_miss_rate": 0.0,
+    "fingerprint_false_positive_rate": 0.0,
+    "observed_models": [
+      "muse-spark-1.3-contributor"
+    ]
+  },
+  "log-decision/fires-on-killed-migration": {
+    "reps": 5,
+    "expect_activation": true,
+    "trigger_rate": 1.0,
+    "control_rate": 0.6,
+    "lift": 0.4,
+    "linked_skill_read_rate": 1.0,
+    "control_skill_read_rate": 1.0,
+    "skill_miss_rate": 0.0,
+    "false_positive_rate": 0.0,
+    "fingerprint_miss_rate": 0.0,
+    "fingerprint_false_positive_rate": 0.0,
+    "observed_models": [
+      "muse-spark-1.3-contributor"
+    ]
+  },
+  "log-decision/ignores-unrelated-question": {
+    "reps": 5,
+    "expect_activation": false,
+    "trigger_rate": 0.0,
+    "control_rate": 0.0,
+    "lift": 0.0,
+    "linked_skill_read_rate": 0.2,
+    "control_skill_read_rate": 0.2,
+    "skill_miss_rate": 0.0,
+    "false_positive_rate": 0.2,
+    "fingerprint_miss_rate": 0.0,
+    "fingerprint_false_positive_rate": 0.0,
+    "observed_models": [
+      "muse-spark-1.3-contributor"
+    ]
+  },
+  "profile-pipeline/fires-on-slow-logs": {
+    "reps": 5,
+    "expect_activation": true,
+    "trigger_rate": 0.8,
+    "control_rate": 0.6,
+    "lift": 0.20000000000000007,
+    "linked_skill_read_rate": 1.0,
+    "control_skill_read_rate": 0.6,
+    "skill_miss_rate": 0.0,
+    "false_positive_rate": 0.0,
+    "fingerprint_miss_rate": 0.19999999999999996,
+    "fingerprint_false_positive_rate": 0.0,
+    "observed_models": [
+      "muse-spark-1.3-contributor"
+    ]
+  },
+  "profile-pipeline/ignores-fast-pipeline": {
+    "reps": 5,
+    "expect_activation": false,
+    "trigger_rate": 0.0,
+    "control_rate": 0.0,
+    "lift": 0.0,
+    "linked_skill_read_rate": 0.0,
+    "control_skill_read_rate": 0.0,
+    "skill_miss_rate": 0.0,
+    "false_positive_rate": 0.0,
+    "fingerprint_miss_rate": 0.0,
+    "fingerprint_false_positive_rate": 0.0,
+    "observed_models": [
+      "muse-spark-1.3-contributor"
+    ]
+  },
+  "sync-docs/fires-on-drifted-readme": {
+    "reps": 5,
+    "expect_activation": true,
+    "trigger_rate": 0.4,
+    "control_rate": 0.2,
+    "lift": 0.2,
+    "linked_skill_read_rate": 1.0,
+    "control_skill_read_rate": 0.4,
+    "skill_miss_rate": 0.0,
+    "false_positive_rate": 0.0,
+    "fingerprint_miss_rate": 0.6,
+    "fingerprint_false_positive_rate": 0.0,
+    "observed_models": [
+      "muse-spark-1.3-contributor"
+    ]
+  },
+  "sync-docs/ignores-writing-request": {
+    "reps": 5,
+    "expect_activation": false,
+    "trigger_rate": 0.0,
+    "control_rate": 0.0,
+    "lift": 0.0,
+    "linked_skill_read_rate": 0.0,
+    "control_skill_read_rate": 0.0,
+    "skill_miss_rate": 0.0,
+    "false_positive_rate": 0.0,
+    "fingerprint_miss_rate": 0.0,
+    "fingerprint_false_positive_rate": 0.0,
+    "observed_models": [
+      "muse-spark-1.3-contributor"
+    ]
+  },
+  "validate-results/fires-on-board-numbers": {
+    "reps": 5,
+    "expect_activation": true,
+    "trigger_rate": 0.8,
+    "control_rate": 0.0,
+    "lift": 0.8,
+    "linked_skill_read_rate": 1.0,
+    "control_skill_read_rate": 0.2,
+    "skill_miss_rate": 0.0,
+    "false_positive_rate": 0.0,
+    "fingerprint_miss_rate": 0.19999999999999996,
+    "fingerprint_false_positive_rate": 0.0,
+    "observed_models": [
+      "muse-spark-1.3-contributor"
+    ]
+  },
+  "validate-results/ignores-prose-edit": {
+    "reps": 5,
+    "expect_activation": false,
+    "trigger_rate": 0.0,
+    "control_rate": 0.0,
+    "lift": 0.0,
+    "linked_skill_read_rate": 0.4,
+    "control_skill_read_rate": 0.0,
+    "skill_miss_rate": 0.0,
+    "false_positive_rate": 0.4,
+    "fingerprint_miss_rate": 0.0,
+    "fingerprint_false_positive_rate": 0.0,
+    "observed_models": [
+      "muse-spark-1.3-contributor"
+    ]
+  },
+  "write-skill/fires-on-repeat-explanations": {
+    "reps": 5,
+    "expect_activation": true,
+    "trigger_rate": 1.0,
+    "control_rate": 0.2,
+    "lift": 0.8,
+    "linked_skill_read_rate": 1.0,
+    "control_skill_read_rate": 0.0,
+    "skill_miss_rate": 0.0,
+    "false_positive_rate": 0.0,
+    "fingerprint_miss_rate": 0.0,
+    "fingerprint_false_positive_rate": 0.0,
+    "observed_models": [
+      "muse-spark-1.3-contributor"
+    ]
+  }
+}

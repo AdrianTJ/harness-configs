@@ -1,0 +1,234 @@
+{
+  "records": {
+    "deslop/fires-on-bloated-helper": {
+      "case_id": "fires-on-bloated-helper",
+      "config": {
+        "model": "glm-5.3-flash",
+        "pi_version": "0.85.1",
+        "profile_runtime_fingerprint": "a48d40b277108f64d2b3c4f11f2183fd0187b622d608bebc483ab4a2cf3aefc2",
+        "provider": "opencode-go",
+        "repetitions": 5,
+        "timeout_seconds": 1200
+      },
+      "fingerprints": {
+        "combined": "fd09a49903b988fe6695d8793b6f2dcbaecd98fd2e85da53a69130037015ba07",
+        "config": "ddc7f51c9d5908df60988f136169b8266bcd31d497d5a164829541503e52fcb0",
+        "content": "7764bbb8a38a548f9899762c00e99a817c05b8a8c893c67324826ea4cf3427f0",
+        "runner": "66b25416bb1c32366b1096bab91a0f2f46c1cf70c1344630cc6e17b97126fdf9"
+      },
+      "loaded_skills": [],
+      "skill": "deslop"
+    },
+    "harness-configs/fires-on-new-machine": {
+      "case_id": "fires-on-new-machine",
+      "config": {
+        "model": "glm-5.3-flash",
+        "pi_version": "0.85.1",
+        "profile_runtime_fingerprint": "a48d40b277108f64d2b3c4f11f2183fd0187b622d608bebc483ab4a2cf3aefc2",
+        "provider": "opencode-go",
+        "repetitions": 5,
+        "timeout_seconds": 1200
+      },
+      "fingerprints": {
+        "combined": "c0f61b1384637a20215502c4c62cb14d52c09f32a45154b516a81f1f9cdf91eb",
+        "config": "ddc7f51c9d5908df60988f136169b8266bcd31d497d5a164829541503e52fcb0",
+        "content": "d7ec215dfb02942306a480b17ac756ab04e2c4d24182e061299c28003fcde20c",
+        "runner": "66b25416bb1c32366b1096bab91a0f2f46c1cf70c1344630cc6e17b97126fdf9"
+      },
+      "loaded_skills": [],
+      "skill": "harness-configs"
+    },
+    "harness-configs/ignores-release-note": {
+      "case_id": "ignores-release-note",
+      "config": {
+        "model": "glm-5.3-flash",
+        "pi_version": "0.85.1",
+        "profile_runtime_fingerprint": "a48d40b277108f64d2b3c4f11f2183fd0187b622d608bebc483ab4a2cf3aefc2",
+        "provider": "opencode-go",
+        "repetitions": 5,
+        "timeout_seconds": 1200
+      },
+      "fingerprints": {
+        "combined": "b2882f4bb7050a1ff82a88ee1bdd3ebe4f91732c55d0b16ab6e92f71454fd629",
+        "config": "ddc7f51c9d5908df60988f136169b8266bcd31d497d5a164829541503e52fcb0",
+        "content": "d17fa95ea7b4f809023021af0c09049a3b244055ce94a251fde6f06fefcc2ee2",
+        "runner": "66b25416bb1c32366b1096bab91a0f2f46c1cf70c1344630cc6e17b97126fdf9"
+      },
+      "loaded_skills": [],
+      "skill": "harness-configs"
+    },
+    "log-decision/fires-on-killed-migration": {
+      "case_id": "fires-on-killed-migration",
+      "config": {
+        "model": "glm-5.3-flash",
+        "pi_version": "0.85.1",
+        "profile_runtime_fingerprint": "a48d40b277108f64d2b3c4f11f2183fd0187b622d608bebc483ab4a2cf3aefc2",
+        "provider": "opencode-go",
+        "repetitions": 5,
+        "timeout_seconds": 1200
+      },
+      "fingerprints": {
+        "combined": "04b424e2d4b81b4a0a1cf58a620633e4bf8f232425e330b584991d3df3aab88b",
+        "config": "ddc7f51c9d5908df60988f136169b8266bcd31d497d5a164829541503e52fcb0",
+        "content": "ef00567bfdd615427e89d117b22823524ef229e454335229864af6523fa962de",
+        "runner": "66b25416bb1c32366b1096bab91a0f2f46c1cf70c1344630cc6e17b97126fdf9"
+      },
+      "loaded_skills": [],
+      "skill": "log-decision"
+    },
+    "log-decision/ignores-unrelated-question": {
+      "case_id": "ignores-unrelated-question",
+      "config": {
+        "model": "glm-5.3-flash",
+        "pi_version": "0.85.1",
+        "profile_runtime_fingerprint": "a48d40b277108f64d2b3c4f11f2183fd0187b622d608bebc483ab4a2cf3aefc2",
+        "provider": "opencode-go",
+        "repetitions": 5,
+        "timeout_seconds": 1200
+      },
+      "fingerprints": {
+        "combined": "8c38edaa2038c2f242c8c1ff7d63a75d308dc4d085f55078604f1bc478486679",
+        "config": "ddc7f51c9d5908df60988f136169b8266bcd31d497d5a164829541503e52fcb0",
+        "content": "dac4f728bead2eab326a6b92c27ddd4d14169a7b12ef26a75a923086e6bb3504",
+        "runner": "66b25416bb1c32366b1096bab91a0f2f46c1cf70c1344630cc6e17b97126fdf9"
+      },
+      "loaded_skills": [],
+      "skill": "log-decision"
+    },
+    "profile-pipeline/fires-on-slow-logs": {
+      "case_id": "fires-on-slow-logs",
+      "config": {
+        "model": "glm-5.3-flash",
+        "pi_version": "0.85.1",
+        "profile_runtime_fingerprint": "a48d40b277108f64d2b3c4f11f2183fd0187b622d608bebc483ab4a2cf3aefc2",
+        "provider": "opencode-go",
+        "repetitions": 5,
+        "timeout_seconds": 1200
+      },
+      "fingerprints": {
+        "combined": "c51ba1c1f6917b8baa07831708d2a8b224263c67850aeeb149f0b3add1a6449f",
+        "config": "ddc7f51c9d5908df60988f136169b8266bcd31d497d5a164829541503e52fcb0",
+        "content": "c771c1cdab43a6292c44d7c9dc2b1180652201165e4f77b47622d4122246fb6e",
+        "runner": "66b25416bb1c32366b1096bab91a0f2f46c1cf70c1344630cc6e17b97126fdf9"
+      },
+      "loaded_skills": [],
+      "skill": "profile-pipeline"
+    },
+    "profile-pipeline/ignores-fast-pipeline": {
+      "case_id": "ignores-fast-pipeline",
+      "config": {
+        "model": "glm-5.3-flash",
+        "pi_version": "0.85.1",
+        "profile_runtime_fingerprint": "a48d40b277108f64d2b3c4f11f2183fd0187b622d608bebc483ab4a2cf3aefc2",
+        "provider": "opencode-go",
+        "repetitions": 5,
+        "timeout_seconds": 1200
+      },
+      "fingerprints": {
+        "combined": "b1d688bcb6d5330d27757da8ab625e0366b44bbd4bb8423838d8053a05a51415",
+        "config": "ddc7f51c9d5908df60988f136169b8266bcd31d497d5a164829541503e52fcb0",
+        "content": "732b1730ca71ec1c48fdf71e9334612bd0f5b7b46a731fa07165c2b409f5f6d0",
+        "runner": "66b25416bb1c32366b1096bab91a0f2f46c1cf70c1344630cc6e17b97126fdf9"
+      },
+      "loaded_skills": [],
+      "skill": "profile-pipeline"
+    },
+    "sync-docs/fires-on-drifted-readme": {
+      "case_id": "fires-on-drifted-readme",
+      "config": {
+        "model": "glm-5.3-flash",
+        "pi_version": "0.85.1",
+        "profile_runtime_fingerprint": "a48d40b277108f64d2b3c4f11f2183fd0187b622d608bebc483ab4a2cf3aefc2",
+        "provider": "opencode-go",
+        "repetitions": 5,
+        "timeout_seconds": 1200
+      },
+      "fingerprints": {
+        "combined": "529e3da698ed0359f0f8dc7d90858b44afb76f347c5782d83eec9775a61abe70",
+        "config": "ddc7f51c9d5908df60988f136169b8266bcd31d497d5a164829541503e52fcb0",
+        "content": "b475207928b2bed4080467513f5963e40d5f55a5af083fb2f872fefb4ff7735f",
+        "runner": "66b25416bb1c32366b1096bab91a0f2f46c1cf70c1344630cc6e17b97126fdf9"
+      },
+      "loaded_skills": [],
+      "skill": "sync-docs"
+    },
+    "sync-docs/ignores-writing-request": {
+      "case_id": "ignores-writing-request",
+      "config": {
+        "model": "glm-5.3-flash",
+        "pi_version": "0.85.1",
+        "profile_runtime_fingerprint": "a48d40b277108f64d2b3c4f11f2183fd0187b622d608bebc483ab4a2cf3aefc2",
+        "provider": "opencode-go",
+        "repetitions": 5,
+        "timeout_seconds": 1200
+      },
+      "fingerprints": {
+        "combined": "3bdd251f5ad1d686c2d710637d76f5455b13abf079106dfe3ea4e3b6f4b6554b",
+        "config": "ddc7f51c9d5908df60988f136169b8266bcd31d497d5a164829541503e52fcb0",
+        "content": "e5b3c24d914395880b4dea3f3921870c25c8e5b5ccf3da0a57b84728de77a291",
+        "runner": "66b25416bb1c32366b1096bab91a0f2f46c1cf70c1344630cc6e17b97126fdf9"
+      },
+      "loaded_skills": [],
+      "skill": "sync-docs"
+    },
+    "validate-results/fires-on-board-numbers": {
+      "case_id": "fires-on-board-numbers",
+      "config": {
+        "model": "glm-5.3-flash",
+        "pi_version": "0.85.1",
+        "profile_runtime_fingerprint": "a48d40b277108f64d2b3c4f11f2183fd0187b622d608bebc483ab4a2cf3aefc2",
+        "provider": "opencode-go",
+        "repetitions": 5,
+        "timeout_seconds": 1200
+      },
+      "fingerprints": {
+        "combined": "df815a4f5b0295e77e4c8b489946aac3a8757f4a72707c160017b48fd07351d4",
+        "config": "ddc7f51c9d5908df60988f136169b8266bcd31d497d5a164829541503e52fcb0",
+        "content": "11d2e87c0ae2961d537fa7faedffd7460ae8b8f7ea919e39c1c61d663eff2d75",
+        "runner": "66b25416bb1c32366b1096bab91a0f2f46c1cf70c1344630cc6e17b97126fdf9"
+      },
+      "loaded_skills": [],
+      "skill": "validate-results"
+    },
+    "validate-results/ignores-prose-edit": {
+      "case_id": "ignores-prose-edit",
+      "config": {
+        "model": "glm-5.3-flash",
+        "pi_version": "0.85.1",
+        "profile_runtime_fingerprint": "a48d40b277108f64d2b3c4f11f2183fd0187b622d608bebc483ab4a2cf3aefc2",
+        "provider": "opencode-go",
+        "repetitions": 5,
+        "timeout_seconds": 1200
+      },
+      "fingerprints": {
+        "combined": "04f31e7e8a66e976ec19aac467bd2c903d4c462d5326c0120d31f8a5e13ad66f",
+        "config": "ddc7f51c9d5908df60988f136169b8266bcd31d497d5a164829541503e52fcb0",
+        "content": "807484746252496674020e37db730ade11d1688e6b92a531286fe742d5e5c127",
+        "runner": "66b25416bb1c32366b1096bab91a0f2f46c1cf70c1344630cc6e17b97126fdf9"
+      },
+      "loaded_skills": [],
+      "skill": "validate-results"
+    },
+    "write-skill/fires-on-repeat-explanations": {
+      "case_id": "fires-on-repeat-explanations",
+      "config": {
+        "model": "glm-5.3-flash",
+        "pi_version": "0.85.1",
+        "profile_runtime_fingerprint": "a48d40b277108f64d2b3c4f11f2183fd0187b622d608bebc483ab4a2cf3aefc2",
+        "provider": "opencode-go",
+        "repetitions": 5,
+        "timeout_seconds": 1200
+      },
+      "fingerprints": {
+        "combined": "bea49ba8d2065c91764c7b354d0d7184e7a23f4b736bbeede247b0dc4e2d518e",
+        "config": "ddc7f51c9d5908df60988f136169b8266bcd31d497d5a164829541503e52fcb0",
+        "content": "2e44de6b7e86e8740b6b7c474d2cbff3ce12c30b2a6a0bd0943f619b02a0aac2",
+        "runner": "66b25416bb1c32366b1096bab91a0f2f46c1cf70c1344630cc6e17b97126fdf9"
+      },
+      "loaded_skills": [],
+      "skill": "write-skill"
+    }
+  },
+  "runner": "trigger",
+  "schema_version": 1
+}

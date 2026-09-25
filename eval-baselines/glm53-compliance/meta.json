@@ -1,0 +1,86 @@
+{
+  "date": "2026-09-24T23:28:58.926615+00:00",
+  "provider": "opencode-go",
+  "model": "glm-5.3-flash",
+  "judge_provider": "opencode-go",
+  "judge_model": "mimo-v2.6-flash",
+  "pi_version": "0.85.1",
+  "profile_runtime_fingerprint": "a48d40b277108f64d2b3c4f11f2183fd0187b622d608bebc483ab4a2cf3aefc2",
+  "plan": [
+    [
+      "bro-shorter",
+      "compresses-keeps-facts",
+      5
+    ],
+    [
+      "bro-what",
+      "re-explains-not-re-answers",
+      5
+    ],
+    [
+      "deslop",
+      "cuts-slop-keeps-behavior",
+      5
+    ],
+    [
+      "harness-configs",
+      "dry-run-before-link",
+      5
+    ],
+    [
+      "harness-configs",
+      "preserves-local-config",
+      5
+    ],
+    [
+      "log-decision",
+      "decision-log-append-only",
+      5
+    ],
+    [
+      "log-decision",
+      "reverses-existing-decision",
+      5
+    ],
+    [
+      "profile-pipeline",
+      "refuses-unmeasured-bottleneck",
+      5
+    ],
+    [
+      "profile-pipeline",
+      "profiles-provided-fixture",
+      5
+    ],
+    [
+      "sync-docs",
+      "prune-not-append",
+      5
+    ],
+    [
+      "sync-docs",
+      "flags-unresolved-conflict",
+      5
+    ],
+    [
+      "validate-results",
+      "figures-reconciled",
+      5
+    ],
+    [
+      "validate-results",
+      "corrects-wrong-derived-claim",
+      5
+    ],
+    [
+      "write-skill",
+      "new-skill-follows-conventions",
+      5
+    ]
+  ],
+  "calls": 237,
+  "fingerprint_schema_version": 1,
+  "fingerprints": "fingerprints.json",
+  "repo": "ebc370b558887283d2308a7531778a51080d45a5",
+  "repo_dirty": false
+}
