@@ -113,16 +113,33 @@ class RunPiRetryTests(unittest.TestCase):
         patcher = mock.patch.object(pi_eval_client.time, "sleep", self.sleeps.append)
         patcher.start()
         self.addCleanup(patcher.stop)
+        # A miniature arm: the snapshot must copy only this, never the repo.
+        self.tempdir = tempfile.TemporaryDirectory()
+        self.addCleanup(self.tempdir.cleanup)
+        self.arm = Path(self.tempdir.name) / "arm"
+        self.workdir = self.arm / "work"
+        self.home = self.arm / "home"
+        self.profile = self.arm / "profiles" / "eval"
+        for directory in (self.workdir, self.home, self.profile):
+            directory.mkdir(parents=True, exist_ok=True)
+        (self.workdir / "fixture.txt").write_text("staged fixture\n")
+        self.env = {
+            "HOME": str(self.home),
+            "PI_CODING_AGENT_DIR": str(self.profile),
+            "PATH": os.environ.get("PATH", ""),
+        }
 
     @staticmethod
     def _completed(returncode=0, stdout="", stderr=""):
         return mock.Mock(returncode=returncode, stdout=stdout, stderr=stderr)
 
-    def _run(self, outcomes, args=None):
+    def _run(self, outcomes, args=None, on_call=None):
         calls = []
 
         def fake_run(command, **kwargs):
             calls.append(command)
+            if on_call is not None:
+                on_call(len(calls))
             return outcomes[len(calls) - 1]
 
         with mock.patch.object(pi_eval_client.subprocess, "run", fake_run):
@@ -130,8 +147,8 @@ class RunPiRetryTests(unittest.TestCase):
                 "test-provider",
                 "test-model",
                 args or ["prompt"],
-                Path("."),
-                dict(os.environ),
+                self.workdir,
+                self.env,
                 timeout=10,
             )
         return result, calls
@@ -172,7 +189,7 @@ class RunPiRetryTests(unittest.TestCase):
 
         with mock.patch.object(pi_eval_client.subprocess, "run", fake_run):
             with self.assertRaisesRegex(RuntimeError, "timed out"):
-                run_pi("p", "m", ["prompt"], Path("."), dict(os.environ), timeout=10)
+                run_pi("p", "m", ["prompt"], self.workdir, self.env, timeout=10)
         self.assertEqual(self.sleeps, [])
 
     def test_persistent_transient_failure_raises_after_max_attempts(self):
@@ -189,6 +206,76 @@ class RunPiRetryTests(unittest.TestCase):
         with self.assertRaisesRegex(RuntimeError, "pi exited 2"):
             self._run([broken])
         self.assertEqual(self.sleeps, [])
+
+    def test_retry_starts_from_pristine_workspace_and_env(self):
+        """Attempt 1's writes must not survive into the scored attempt 2.
+
+        Regression guard for round-glm53: a discarded attempt created
+        docs/decision-log.md, attempt 2 read it as pre-existing state, and the
+        judge scored that contamination as real behavior.
+        """
+        seen_by_attempt = {}
+
+        def attempt_writes(call_number):
+            # Record what the attempt first sees (post-restore state for attempt 2),
+            # then only attempt 1 dirties the arm — attempt 2 is the scored run.
+            seen_by_attempt[call_number] = sorted(p.name for p in self.workdir.iterdir())
+            if call_number == 1:
+                (self.workdir / "docs").mkdir(exist_ok=True)
+                (self.workdir / "docs" / "decision-log.md").write_text(
+                    "written by attempt 1\n"
+                )
+                (self.home / "stray.txt").write_text("home pollution 1\n")
+                (self.profile / "stray.txt").write_text("profile pollution 1\n")
+
+        upstream_400 = self._completed(
+            returncode=1,
+            stderr="400: Upstream request failed: transient",
+        )
+        result, calls = self._run(
+            [upstream_400, self._completed(stdout=GOOD_EVENT)],
+            on_call=attempt_writes,
+        )
+        self.assertEqual(len(calls), 2)
+        self.assertEqual(result.attempts, 2)
+        # Attempt 2 must open on the staged state: fixture only, no log, no strays.
+        self.assertEqual(
+            seen_by_attempt[2],
+            ["fixture.txt"],
+            f"attempt 2 inherited attempt 1's workspace: {seen_by_attempt[2]}",
+        )
+        self.assertFalse((self.home / "stray.txt").exists())
+        self.assertFalse((self.profile / "stray.txt").exists())
+        # And the final on-disk state is the staged state (snapshot closed cleanly).
+        self.assertEqual(sorted(p.name for p in self.workdir.iterdir()), ["fixture.txt"])
+
+    def test_snapshot_tracks_skill_directories(self):
+        """--skill dirs are staged outside cwd and must reset with the arm."""
+        skill_dir = self.arm / "loaded-skills" / "sample"
+        skill_dir.mkdir(parents=True)
+        (skill_dir / "SKILL.md").write_text("# staged\n")
+        seen = {}
+
+        def attempt_edits_skill(call_number):
+            # Record what attempt N first saw, then dirty it like a model would —
+            # attempt 1's mutation must be gone by the time attempt 2 opens.
+            seen[call_number] = (skill_dir / "SKILL.md").read_text()
+            if call_number == 1:
+                (skill_dir / "SKILL.md").write_text("mutated in attempt 1\n")
+
+        upstream_400 = self._completed(returncode=1, stderr="400: transient up dead")
+        result, _ = self._run(
+            [upstream_400, self._completed(stdout=GOOD_EVENT)],
+            args=["--no-skills", "--skill", str(skill_dir), "prompt"],
+            on_call=attempt_edits_skill,
+        )
+        self.assertEqual(result.attempts, 2)
+        self.assertEqual(seen[1], "# staged\n")
+        self.assertEqual(
+            seen[2],
+            "# staged\n",
+            "attempt 2 was scored against a skill file mutated by attempt 1",
+        )
 
 
 if __name__ == "__main__":

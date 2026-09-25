@@ -6,7 +6,9 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import shutil
 import subprocess
+import tempfile
 import time
 from dataclasses import dataclass, replace
 from pathlib import Path
@@ -67,6 +69,7 @@ class PiRunResult:
             "provider": self.provider,
             "model": self.model,
             "usage": self.usage,
+            "attempts": self.attempts,
             "tool_calls": counts,
             "files_read": self.files_read,
             "files_modified": self.files_modified,
@@ -265,6 +268,64 @@ def is_transient(message: str) -> bool:
     return any(marker in lowered for marker in TRANSIENT_MARKERS)
 
 
+class ArmSnapshot:
+    """Filesystem snapshot of one arm, taken before attempt 1 of run_pi.
+
+    A transient provider failure can strike after the model has already used
+    tools, and a retry then re-runs against the same workspace: attempt 1's
+    unrecorded writes would silently become part of attempt 2's evidence
+    (observed in round-glm53 as controls that "already had" the file the model
+    was asked to create). Before every retry the snapshot restores the arm to
+    its staged state, so each attempt is scored on identical inputs.
+
+    Tracked paths are cwd, HOME, the pi profile, XDG roots, and any --skill
+    directories passed on the command line. Child paths are dropped from the
+    list because restoring the parent restores them.
+    """
+
+    ENV_KEYS = (
+        "HOME",
+        "PI_CODING_AGENT_DIR",
+        "XDG_CACHE_HOME",
+        "XDG_CONFIG_HOME",
+        "XDG_STATE_HOME",
+    )
+
+    def __init__(self, cwd: Path, env: Mapping[str, str], args: list[str]):
+        candidates = [Path(cwd)]
+        candidates += [Path(env[key]) for key in self.ENV_KEYS if env.get(key)]
+        candidates += [
+            Path(args[index + 1])
+            for index, arg in enumerate(args[:-1])
+            if arg == "--skill"
+        ]
+        kept: list[Path] = []
+        for path in sorted({p.absolute() for p in candidates}, key=lambda p: len(p.parts)):
+            if not any(path == parent or path.is_relative_to(parent) for parent in kept):
+                kept.append(path)
+        self.root = Path(tempfile.mkdtemp(prefix="pi-attempt-snapshot-"))
+        self.paths = kept
+        self.existed = {path: os.path.lexists(path) for path in kept}
+        for index, path in enumerate(kept):
+            if self.existed[path]:
+                shutil.copytree(path, self.root / str(index), symlinks=True)
+
+    def restore(self) -> None:
+        """Reset every tracked path to its pre-attempt-1 state."""
+        for index, path in enumerate(self.paths):
+            if os.path.lexists(path):
+                if path.is_dir() and not path.is_symlink():
+                    shutil.rmtree(path)
+                else:
+                    path.unlink()
+            if self.existed[path]:
+                path.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copytree(self.root / str(index), path, symlinks=True)
+
+    def close(self) -> None:
+        shutil.rmtree(self.root, ignore_errors=True)
+
+
 def run_pi(
     provider: str,
     model: str,
@@ -275,9 +336,11 @@ def run_pi(
 ) -> PiRunResult:
     """Run pi once per attempt, retrying transient upstream failures with backoff.
 
-    Non-transient failures (timeouts, local exits, malformed streams) raise
-    immediately; a provider 400/429/5xx that survives RETRY_ATTEMPTS raises too,
-    so real failures still surface as run errors instead of vanishing.
+    Every retry restores the arm to its pre-attempt-1 state first (ArmSnapshot),
+    so a retry can never inherit work from a discarded attempt. Non-transient
+    failures (timeouts, local exits, malformed streams) raise immediately; a
+    provider 400/429/5xx that survives RETRY_ATTEMPTS raises too, so real
+    failures still surface as run errors instead of vanishing.
     """
     command = [
         "pi",
@@ -290,42 +353,49 @@ def run_pi(
         model,
         *args,
     ]
+    snapshot = ArmSnapshot(Path(cwd), env, args)
     attempt = 0
-    while True:
-        attempt += 1
-        try:
-            completed = subprocess.run(
-                command,
-                capture_output=True,
-                text=True,
-                timeout=timeout,
-                cwd=cwd,
-                env=dict(env),
-            )
-        except subprocess.TimeoutExpired as exc:
-            raise RuntimeError(f"pi call timed out after {timeout}s") from exc
-        if completed.returncode != 0:
-            detail = (completed.stderr or completed.stdout).strip()[-500:]
-            failure = RuntimeError(f"pi exited {completed.returncode}: {detail}")
-            if attempt < RETRY_ATTEMPTS and is_transient(detail):
+    try:
+        while True:
+            attempt += 1
+            try:
+                completed = subprocess.run(
+                    command,
+                    capture_output=True,
+                    text=True,
+                    timeout=timeout,
+                    cwd=cwd,
+                    env=dict(env),
+                )
+            except subprocess.TimeoutExpired as exc:
+                raise RuntimeError(f"pi call timed out after {timeout}s") from exc
+            if completed.returncode != 0:
+                detail = (completed.stderr or completed.stdout).strip()[-500:]
+                failure = RuntimeError(f"pi exited {completed.returncode}: {detail}")
+                if attempt < RETRY_ATTEMPTS and is_transient(detail):
+                    snapshot.restore()
+                    time.sleep(RETRY_BASE_DELAY_SECONDS * attempt)
+                    continue
+                raise failure
+            try:
+                result = parse_pi_events(completed.stdout)
+            except RuntimeError as exc:
+                if attempt < RETRY_ATTEMPTS and is_transient(str(exc)):
+                    snapshot.restore()
+                    time.sleep(RETRY_BASE_DELAY_SECONDS * attempt)
+                    continue
+                raise
+            if (
+                result.fatal_error
+                and attempt < RETRY_ATTEMPTS
+                and is_transient(result.fatal_error)
+            ):
+                snapshot.restore()
                 time.sleep(RETRY_BASE_DELAY_SECONDS * attempt)
                 continue
-            raise failure
-        try:
-            result = parse_pi_events(completed.stdout)
-        except RuntimeError as exc:
-            if attempt < RETRY_ATTEMPTS and is_transient(str(exc)):
-                time.sleep(RETRY_BASE_DELAY_SECONDS * attempt)
-                continue
-            raise
-        if (
-            result.fatal_error
-            and attempt < RETRY_ATTEMPTS
-            and is_transient(result.fatal_error)
-        ):
-            time.sleep(RETRY_BASE_DELAY_SECONDS * attempt)
-            continue
-        return replace(result, attempts=attempt)
+            return replace(result, attempts=attempt)
+    finally:
+        snapshot.close()
 
 
 def _file_sha256(path: Path) -> str:
