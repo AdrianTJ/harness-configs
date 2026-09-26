@@ -84,12 +84,17 @@ diff ~/.pi/agent/settings.json.bak-* ~/.pi/agent/settings.json
 
 Linking gets the config files in place. These finish the job:
 
-**pi** — packages are declared in `pi/settings.json` under `packages`, and pi
-installs missing ones on startup. Confirm:
+**pi** — packages are declared in `pi/settings.json` under `packages`. Confirm:
 
 ```sh
 pi list          # should show the seven declared packages
-pi update --extensions
+```
+
+If `pi list` shows fewer than `settings.json` declares, install each missing spec explicitly: `pi update --extensions` only reconciles packages already downloaded and silently skips ones declared but never fetched (DEC-001).
+
+```sh
+pi install <spec>        # idempotent — safe to re-run for an already-declared spec
+pi update --extensions   # then update as usual
 ```
 
 Auth is separate and never tracked: `/login` inside pi, or a provider API key.

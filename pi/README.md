@@ -25,9 +25,11 @@ commits it for all of them.
 ```sh
 pi install npm:some-extension   # adds to packages[] and downloads
 pi list                         # what's declared
-pi update --extensions          # update all packages, reconcile pinned git refs
+pi update --extensions          # update downloaded packages, reconcile pinned git refs
 pi remove npm:some-extension    # drop it
 ```
+
+`pi update --extensions` never fetches a declared-but-never-downloaded spec, even though it reports "Updated packages" — on a fresh machine, run `pi install` for each spec in `settings.json` first (DEC-001).
 
 The downloaded code lands in `~/.pi/agent/npm/` and `~/.pi/agent/git/`, which are
 deliberately **not** linked or tracked. Only the
