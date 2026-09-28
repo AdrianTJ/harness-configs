@@ -32,20 +32,20 @@ check_npm() { # name, pinned-version
 }
 
 echo "== git pins =="
-check_git "pro-workflow (deslop upstream)" https://github.com/rohitg00/pro-workflow HEAD 7f7209d
+check_git "pro-workflow (deslop upstream)" https://github.com/rohitg00/pro-workflow HEAD 9a4939d
 check_git "engineering-discipline (deslop upstream)" https://github.com/tmdgusya/engineering-discipline HEAD 137dead
 check_git "bro-skills" https://github.com/eukosh/bro-skills refs/heads/main 08d2e07
-check_git "superpowers (brainstorming upstream)" https://github.com/obra/superpowers HEAD b36e0829
-check_git "pi-profiles (profile-badge upstream)" https://github.com/AdrianTJ/pi-profiles HEAD df7dbc0
+check_git "superpowers (brainstorming upstream)" https://github.com/obra/superpowers HEAD 8ca22dba
+check_git "pi-profiles (profile-badge upstream)" https://github.com/AdrianTJ/pi-profiles HEAD 7b1d59f
 
 echo "== npm pins (pi packages) =="
-check_npm "@dietrichgebert/ponytail" 4.9.0
-check_npm "pi-subagents" 0.67.0
-check_npm "@bacnh85/pi-fff" 0.8.0
+check_npm "@dietrichgebert/ponytail" 4.10.0
+check_npm "pi-subagents" 0.73.1
+check_npm "@bacnh85/pi-fff" 0.8.4
 check_npm "@jqwn/pi-ask-user-question" 0.2.0
-check_npm "@narumitw/pi-btw" 0.58.1
+check_npm "@narumitw/pi-btw" 0.61.1
 check_npm "pi-tasks" 0.2.7
-check_npm "pi-web-access" 0.30.0
+check_npm "pi-web-access" 0.33.0
 
 echo
 if (( stale > 0 )); then
