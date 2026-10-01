@@ -29,7 +29,7 @@ rather than remembered. For GitHub sources that is the full commit SHA
 | Skill | Status | Upstream | resolved_commit | Checked | License |
 |---|---|---|---|---|---|
 | `unslop` | reference | [MohamedAbdallah-14/unslop](https://github.com/MohamedAbdallah-14/unslop) `skills/unslop/SKILL.md` | grabbed on demand | — | MIT |
-| `deslop` | adapted | [rohitg00/pro-workflow](https://github.com/rohitg00/pro-workflow) `deslop`; [tmdgusya/engineering-discipline](https://github.com/tmdgusya/engineering-discipline) `clean-ai-slop` | `9a4939d…`, `137dead…` | 2026-09-28, 2026-07-03 | none declared |
+| `deslop` | adapted | [rohitg00/pro-workflow](https://github.com/rohitg00/pro-workflow) `deslop`; [tmdgusya/engineering-discipline](https://github.com/tmdgusya/engineering-discipline) `clean-ai-slop` | `86d5f27…`, `137dead…` | 2026-09-28, 2026-07-03 | none declared |
 | `bro-what` | vendored | [eukosh/bro-skills](https://github.com/eukosh/bro-skills) `skills/bro-what/SKILL.md` | `08d2e07…` | 2026-08-30 | MIT |
 | `bro-shorter` | vendored | [eukosh/bro-skills](https://github.com/eukosh/bro-skills) `skills/bro-shorter/SKILL.md` | `08d2e07…` | 2026-08-30 | MIT |
 | `ponytail` | reference | npm [`@dietrichgebert/ponytail`](https://www.npmjs.com/package/@dietrichgebert/ponytail) (GitHub: [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail)) | `4.10.0` | — | MIT |
@@ -75,7 +75,7 @@ Neither upstream declares a license — the adaptation is original enough to
 stand alone, but re-distribution of verbatim upstream text is unlicensed.
 
 ```sh
-git ls-remote https://github.com/rohitg00/pro-workflow HEAD        # resolved_commit 9a4939d
+git ls-remote https://github.com/rohitg00/pro-workflow HEAD        # resolved_commit 86d5f27
 git ls-remote https://github.com/tmdgusya/engineering-discipline HEAD  # resolved_commit 137dead
 # New commits? Review the upstream diffs, re-apply anything worth keeping, commit.
 ```
@@ -136,12 +136,12 @@ Sweep of every package declared in `pi/settings.json` `packages[]` (latest 2026-
 | Package | Version | Ships | Source |
 |---|---|---|---|
 | `npm:@dietrichgebert/ponytail` | 4.10.0 | 6 skills (`ponytail`, `-audit`, `-debt`, `-gain`, `-help`, `-review`), pi extension, opencode plugin | [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail) |
-| `npm:pi-subagents` | 0.73.1 | extension | [nicobailon/pi-subagents](https://github.com/nicobailon/pi-subagents) |
+| `npm:pi-subagents` | 0.74.0 | extension | [nicobailon/pi-subagents](https://github.com/nicobailon/pi-subagents) |
 | `npm:@bacnh85/pi-fff` | 0.8.4 | extension | [bacnh85/pi-extensions](https://github.com/bacnh85/pi-extensions) |
 | `npm:@jqwn/pi-ask-user-question` | 0.2.0 | extension | [jqwn/pi-ask-user-question](https://github.com/jqwn/pi-ask-user-question) |
 | `npm:@narumitw/pi-btw` | 0.61.1 | extension | [narumiruna/pi-extensions](https://github.com/narumiruna/pi-extensions) |
 | `npm:pi-tasks` | 0.2.7 | extension | [nczz/pi-tasks](https://github.com/nczz/pi-tasks) |
-| `npm:pi-web-access` | 0.33.0 | extension | [nicobailon/pi-web-access](https://github.com/nicobailon/pi-web-access) |
+| `npm:pi-web-access` | 0.35.0 | extension | [nicobailon/pi-web-access](https://github.com/nicobailon/pi-web-access) |
 
 Check per package: `npm view <name> version`. Bump by editing `pi/settings.json`;
 pi installs the new version on startup.
@@ -184,7 +184,7 @@ What the revert gives up: lite's three-tool token economy — irrelevant next to
 a package that cannot talk to DeepSeek at all.
 
 ```sh
-npm view pi-subagents version   # current upstream, compare against 0.73.1
+npm view pi-subagents version   # current upstream, compare against 0.74.0
 # Bump by editing pi/settings.json; pi installs the new version on startup.
 ```
 
