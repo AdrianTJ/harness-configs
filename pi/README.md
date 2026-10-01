@@ -93,8 +93,8 @@ If an external tool ever writes an extension of its own into
 `~/.pi/agent/extensions/`, it lands there as a real untracked file — capture it
 by moving it here and re-linking, or remove it if the tool isn't wanted.
 
-Files an app itself manages and regenerates (currently herdr's and Orca's state
-extensions) are a third category: leave them in place, untracked. Committing
+Files an app itself manages and regenerates (state extensions written by tools
+you install) are a third category: leave them in place, untracked. Committing
 them would mean committing the app's updates as they land.
 
 ## Not linked
