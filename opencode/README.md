@@ -21,7 +21,7 @@ under `command/` here.
 
 ## Not linked
 
-Sessions, auth, and app-managed plugin files (currently herdr's state plugin
-under `plugins/`) are opencode's own and stay untracked — same rule as pi's
+Sessions, auth, and app-managed plugin files written by tools you install
+(under `plugins/`) are opencode's own and stay untracked — same rule as pi's
 and omp's app-managed extensions. The plugin *declaration* lives in
 `opencode.json`; the installed bytes stay local.

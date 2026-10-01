@@ -72,26 +72,19 @@ here and merge-linked so it deploys with the rest of the config. It needs
 `jq`; without it the script exits 0 and the guardrail fails open, so keep
 jq installed.
 
-The `SessionStart` hook reports the session to the herdr app. Only the settings
-line is tracked here; the script itself (`~/.claude/hooks/herdr-agent-state.sh`)
-is herdr-managed, regenerates on reinstall, and is never linked or committed.
-It exits silently when herdr isn't running, so the line is harmless on machines
-without it.
+### Tool-injected hooks stay out
 
-The command is written in `$HOME` form so it works on any machine. herdr's
-installer writes an absolute path — if a reinstall rewrites the line that way,
-re-apply the portable form when the diff shows up.
+Terminal apps and agent managers (the ones you try out, not your primary tools)
+rewrite `~/.claude/settings.json` on launch to add their own hooks and status
+line. Because this repo links that file, the injection shows up as a `git diff`
+here, and once a commit swallowed ~30 KB of it. The only hook tracked is
+`block-dangerous-git.sh`. `scripts/check-settings.py` (part of `check.sh`, so the
+pre-push hook and CI) fails on a hook that calls a script not tracked in
+`hooks/`, on a `statusLine`, on a settings file over 8 KB, and on known app names.
 
-### Orca agent-hooks
-
-The Orca terminal injects its own cross-platform agent hooks into
-`SessionStart`, `PreToolUse`, and `UserPromptSubmit` on launch, including a
-generated PowerShell fallback for Windows. Because this repo links
-`settings.json`, that shows up as an uncommitted `git status` change here.
-Treat it as known app-managed drift: leave it uncommitted, don't revert it from
-the repo side (that would strip the hooks from the live config), and re-apply
-the herdr and git-guardrails lines by hand if an Orca update ever clobbers
-them.
+If an app rewrites the file, discard its changes with
+`git checkout claude-code/settings.json`; the app re-adds its hooks to the live
+config next launch, which is the app's business, not this repo's.
 
 ## Permissions
 

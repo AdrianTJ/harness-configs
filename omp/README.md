@@ -25,8 +25,7 @@ puppeteer, natives, logs) is app state, never linked.
   `opencode-go/glm-5.3-flash:high` — the `:high` suffix is the thinking level.
 - OMP reads pi's `PI_SMOL_MODEL` / `PI_SLOW_MODEL` / `PI_PLAN_MODEL` env vars
   for its model roles.
-- `~/.omp/agent/extensions/` holds app-managed real files (currently herdr's
-  state extension, plus `orca-*.ts` when the Orca app is installed). These are
-  the app's to rewrite, so they stay untracked by decision — tracking them
+- `~/.omp/agent/extensions/` can hold app-managed real files written by tools
+  you install. These are the app's to rewrite, so they stay untracked by decision — tracking them
   would mean committing the app's updates as they land. Same rule as pi's
   `extensions/` (see `pi/README.md`).

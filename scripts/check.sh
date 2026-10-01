@@ -22,6 +22,9 @@ bash scripts/check-manifest.sh
 echo "== eval harness tests"
 python3 -m unittest discover -s tests -p 'test_*.py'
 
+echo "== tracked settings stay free of app-injected config"
+python3 scripts/check-settings.py
+
 echo "== skills and evals structure"
 python3 scripts/validate-skills.py
 
