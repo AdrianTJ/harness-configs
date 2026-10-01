@@ -36,7 +36,7 @@ check_git "pro-workflow (deslop upstream)" https://github.com/rohitg00/pro-workf
 check_git "engineering-discipline (deslop upstream)" https://github.com/tmdgusya/engineering-discipline HEAD 137dead
 check_git "bro-skills" https://github.com/eukosh/bro-skills refs/heads/main 08d2e07
 check_git "superpowers (brainstorming upstream)" https://github.com/obra/superpowers HEAD 8ca22dba
-check_git "pi-profiles (profile-badge upstream)" https://github.com/AdrianTJ/pi-profiles HEAD 7b1d59f
+check_git "pi-profiles (profile-badge upstream)" https://github.com/AdrianTJ/pi-profiles HEAD fb8b809
 
 echo "== npm pins (pi packages) =="
 check_npm "@dietrichgebert/ponytail" 4.10.0
