@@ -5,7 +5,7 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
-SHELL_FILES=(install.sh scripts/check.sh scripts/check-manifest.sh scripts/check-skill-refs.sh scripts/check-upstream.sh)
+SHELL_FILES=(install.sh scripts/check.sh scripts/check-manifest.sh scripts/check-skill-refs.sh scripts/check-upstream.sh scripts/test-hooks.sh claude-code/hooks/block-dangerous-git.sh)
 
 command -v shellcheck >/dev/null 2>&1 || { echo "shellcheck is required: brew install shellcheck" >&2; exit 1; }
 command -v python3 >/dev/null 2>&1 || { echo "python3 is required" >&2; exit 1; }
@@ -18,6 +18,9 @@ for f in "${SHELL_FILES[@]}"; do bash -n "$f"; done
 
 echo "== manifest structure"
 bash scripts/check-manifest.sh
+
+echo "== claude-code hook behavior"
+bash scripts/test-hooks.sh
 
 echo "== eval harness tests"
 python3 -m unittest discover -s tests -p 'test_*.py'
