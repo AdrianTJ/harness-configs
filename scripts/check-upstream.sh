@@ -39,13 +39,13 @@ check_git "superpowers (brainstorming upstream)" https://github.com/obra/superpo
 check_git "pi-profiles (profile-badge upstream)" https://github.com/AdrianTJ/pi-profiles HEAD fb8b809
 
 echo "== npm pins (pi packages) =="
-check_npm "@dietrichgebert/ponytail" 4.10.0
-check_npm "pi-subagents" 0.74.0
+check_npm "@dietrichgebert/ponytail" 5.1.0
+check_npm "pi-subagents" 0.76.1
 check_npm "@bacnh85/pi-fff" 0.8.4
 check_npm "@jqwn/pi-ask-user-question" 0.2.0
 check_npm "@narumitw/pi-btw" 0.61.1
 check_npm "pi-tasks" 0.2.7
-check_npm "pi-web-access" 0.35.0
+check_npm "pi-web-access" 0.37.0
 
 echo
 if (( stale > 0 )); then

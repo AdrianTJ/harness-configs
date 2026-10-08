@@ -32,7 +32,7 @@ rather than remembered. For GitHub sources that is the full commit SHA
 | `deslop` | adapted | [rohitg00/pro-workflow](https://github.com/rohitg00/pro-workflow) `deslop`; [tmdgusya/engineering-discipline](https://github.com/tmdgusya/engineering-discipline) `clean-ai-slop` | `86d5f27…`, `137dead…` | 2026-09-28, 2026-07-03 | none declared |
 | `bro-what` | vendored | [eukosh/bro-skills](https://github.com/eukosh/bro-skills) `skills/bro-what/SKILL.md` | `08d2e07…` | 2026-08-30 | MIT |
 | `bro-shorter` | vendored | [eukosh/bro-skills](https://github.com/eukosh/bro-skills) `skills/bro-shorter/SKILL.md` | `08d2e07…` | 2026-08-30 | MIT |
-| `ponytail` | reference | npm [`@dietrichgebert/ponytail`](https://www.npmjs.com/package/@dietrichgebert/ponytail) (GitHub: [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail)) | `4.10.0` | — | MIT |
+| `ponytail` | reference | npm [`@dietrichgebert/ponytail`](https://www.npmjs.com/package/@dietrichgebert/ponytail) (GitHub: [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail)) | `5.1.0` | — | MIT |
 | `brainstorming` | adapted | [obra/superpowers](https://github.com/obra/superpowers) `skills/brainstorming/SKILL.md` | `8ca22dba…` | 2026-09-28 | MIT |
 | `harness-configs` | local | none — authored for this repo | — | — | — |
 | `researcher` | local | none — authored for this repo (`pi/agents/`, no upstream) | — | — | — |
@@ -131,17 +131,17 @@ git ls-remote https://github.com/obra/superpowers HEAD   # resolved_commit 8ca22
 
 ## pi package skills
 
-Sweep of every package declared in `pi/settings.json` `packages[]` (latest 2026-09-28), and what it ships. Skills reach pi from exactly one of them (ponytail); the rest are extensions only. All are `reference` — the declaration is tracked in `pi/settings.json`, the bytes are re-fetched per machine.
+Sweep of every package declared in `pi/settings.json` `packages[]` (latest 2026-10-08), and what it ships. Skills reach pi from exactly one of them (ponytail); the rest are extensions only. All are `reference` — the declaration is tracked in `pi/settings.json`, the bytes are re-fetched per machine.
 
 | Package | Version | Ships | Source |
 |---|---|---|---|
-| `npm:@dietrichgebert/ponytail` | 4.10.0 | 6 skills (`ponytail`, `-audit`, `-debt`, `-gain`, `-help`, `-review`), pi extension, opencode plugin | [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail) |
-| `npm:pi-subagents` | 0.74.0 | extension | [nicobailon/pi-subagents](https://github.com/nicobailon/pi-subagents) |
+| `npm:@dietrichgebert/ponytail` | 5.1.0 | 6 skills (`ponytail`, `-audit`, `-debt`, `-gain`, `-help`, `-review`), pi extension, opencode plugin | [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail) |
+| `npm:pi-subagents` | 0.76.1 | extension | [nicobailon/pi-subagents](https://github.com/nicobailon/pi-subagents) |
 | `npm:@bacnh85/pi-fff` | 0.8.4 | extension | [bacnh85/pi-extensions](https://github.com/bacnh85/pi-extensions) |
 | `npm:@jqwn/pi-ask-user-question` | 0.2.0 | extension | [jqwn/pi-ask-user-question](https://github.com/jqwn/pi-ask-user-question) |
 | `npm:@narumitw/pi-btw` | 0.61.1 | extension | [narumiruna/pi-extensions](https://github.com/narumiruna/pi-extensions) |
 | `npm:pi-tasks` | 0.2.7 | extension | [nczz/pi-tasks](https://github.com/nczz/pi-tasks) |
-| `npm:pi-web-access` | 0.35.0 | extension | [nicobailon/pi-web-access](https://github.com/nicobailon/pi-web-access) |
+| `npm:pi-web-access` | 0.37.0 | extension | [nicobailon/pi-web-access](https://github.com/nicobailon/pi-web-access) |
 
 Check per package: `npm view <name> version`. Bump by editing `pi/settings.json`;
 pi installs the new version on startup.
@@ -162,7 +162,7 @@ two places here:
   form from the package README's OpenCode section)
 
 ```sh
-npm view @dietrichgebert/ponytail version   # current upstream, compare against 4.10.0
+npm view @dietrichgebert/ponytail version   # current upstream, compare against 5.1.0
 # Bump by editing pi/settings.json (and opencode/opencode.json when present);
 # pi installs the new version on startup. No files are copied into this repo.
 ```
@@ -184,7 +184,7 @@ What the revert gives up: lite's three-tool token economy — irrelevant next to
 a package that cannot talk to DeepSeek at all.
 
 ```sh
-npm view pi-subagents version   # current upstream, compare against 0.74.0
+npm view pi-subagents version   # current upstream, compare against 0.76.1
 # Bump by editing pi/settings.json; pi installs the new version on startup.
 ```
 
