@@ -33,10 +33,10 @@ rather than remembered. For GitHub sources that is the full commit SHA
 | `bro-what` | vendored | [eukosh/bro-skills](https://github.com/eukosh/bro-skills) `skills/bro-what/SKILL.md` | `08d2e07…` | 2026-08-30 | MIT |
 | `bro-shorter` | vendored | [eukosh/bro-skills](https://github.com/eukosh/bro-skills) `skills/bro-shorter/SKILL.md` | `08d2e07…` | 2026-08-30 | MIT |
 | `ponytail` | reference | npm [`@dietrichgebert/ponytail`](https://www.npmjs.com/package/@dietrichgebert/ponytail) (GitHub: [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail)) | `5.1.0` | — | MIT |
-| `brainstorming` | adapted | [obra/superpowers](https://github.com/obra/superpowers) `skills/brainstorming/SKILL.md` | `8ca22dba…` | 2026-09-28 | MIT |
+| `brainstorming` | adapted | [obra/superpowers](https://github.com/obra/superpowers) `skills/brainstorming/SKILL.md` | `bb92a77…` | 2026-10-14 | MIT |
 | `harness-configs` | local | none — authored for this repo | — | — | — |
 | `researcher` | local | none — authored for this repo (`pi/agents/`, no upstream) | — | — | — |
-| `profile-badge` | vendored | [AdrianTJ/pi-profiles](https://github.com/AdrianTJ/pi-profiles) `extensions/profile-badge.ts` | `fb8b809…` | 2026-09-28 | Apache-2.0 |
+| `profile-badge` | vendored | [AdrianTJ/pi-profiles](https://github.com/AdrianTJ/pi-profiles) `extensions/profile-badge.ts` | `ec4dc88…` | 2026-10-14 | Apache-2.0 |
 | `write-skill` | local | originally agentic_engineering; canonical home here | — | 2026-09-08 | — |
 | `skill-creator` | reference | [anthropics/skills](https://github.com/anthropics/skills) `skills/skill-creator/SKILL.md` | via `npx skills` | — | Apache-2.0 |
 | `validate-results` | local | originally agentic_engineering; canonical home here | — | 2026-09-09 | — |
@@ -117,31 +117,38 @@ auto-triggers. Lives in four wrappers with one shared adapted body:
 - `opencode/command/brainstorming.md` (`description`, `$ARGUMENTS`)
 - `codex/prompts/brainstorming.md` (frontmatter-free; codex prompt format unverified)
 
+Re-ported to the upstream v7.0.0 rebuild (bb92a77, 2026-10-14): the old
+three-path structure (spike/bounded/architectural with per-path
+checklists) is gone; the upstream dialect is now conversational — skip
+option up front, one question per message, playback in 200-300 word
+chunks, then size the work (quick task / small change / project).
 Adaptation vs upstream: visual-companion section cut (needs plugin
-assets), writing-plans references replaced with the project's normal
-planning workflow, spec path `docs/superpowers/specs/` → `docs/specs/`.
+assets and a companion server), writing-plans references replaced with
+the project's normal planning workflow, spec path
+`docs/superpowers/specs/` → `docs/specs/`, builder-check dispatch
+generalized to any subagent tool with the upstream in-reader fallback.
 The sibling skills the source name-checks (`superpowers:test-driven-development`,
 `superpowers:verification-before-completion`) are intentionally absent —
 mattpocock `tdd` covers that ground.
 
 ```sh
-git ls-remote https://github.com/obra/superpowers HEAD   # resolved_commit 8ca22dba
+git ls-remote https://github.com/obra/superpowers HEAD   # resolved_commit bb92a77
 # New commits? Diff upstream skills/brainstorming/SKILL.md against a wrapper, re-apply the adaptation to all four, update pin + footers.
 ```
 
 ## pi package skills
 
-Sweep of every package declared in `pi/settings.json` `packages[]` (latest 2026-10-08), and what it ships. Skills reach pi from exactly one of them (ponytail); the rest are extensions only. All are `reference` — the declaration is tracked in `pi/settings.json`, the bytes are re-fetched per machine.
+Sweep of every package declared in `pi/settings.json` `packages[]` (latest 2026-10-14), and what it ships. Skills reach pi from exactly one of them (ponytail); the rest are extensions only. All are `reference` — the declaration is tracked in `pi/settings.json`, the bytes are re-fetched per machine.
 
 | Package | Version | Ships | Source |
 |---|---|---|---|
-| `npm:@dietrichgebert/ponytail` | 5.1.0 | 6 skills (`ponytail`, `-audit`, `-debt`, `-gain`, `-help`, `-review`), pi extension, opencode plugin | [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail) |
-| `npm:pi-subagents` | 0.76.1 | extension | [nicobailon/pi-subagents](https://github.com/nicobailon/pi-subagents) |
-| `npm:@bacnh85/pi-fff` | 0.8.4 | extension | [bacnh85/pi-extensions](https://github.com/bacnh85/pi-extensions) |
+| `npm:@dietrichgebert/ponytail` | 5.2.0 | 6 skills (`ponytail`, `-audit`, `-debt`, `-gain`, `-help`, `-review`), pi extension, opencode plugin | [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail) |
+| `npm:pi-subagents` | 0.78.0 | extension | [nicobailon/pi-subagents](https://github.com/nicobailon/pi-subagents) |
+| `npm:@bacnh85/pi-fff` | 0.9.0 | extension | [bacnh85/pi-extensions](https://github.com/bacnh85/pi-extensions) |
 | `npm:@jqwn/pi-ask-user-question` | 0.2.0 | extension | [jqwn/pi-ask-user-question](https://github.com/jqwn/pi-ask-user-question) |
 | `npm:@narumitw/pi-btw` | 0.61.1 | extension | [narumiruna/pi-extensions](https://github.com/narumiruna/pi-extensions) |
-| `npm:pi-tasks` | 0.2.7 | extension | [nczz/pi-tasks](https://github.com/nczz/pi-tasks) |
-| `npm:pi-web-access` | 0.37.0 | extension | [nicobailon/pi-web-access](https://github.com/nicobailon/pi-web-access) |
+| `npm:pi-tasks` | 0.2.8 | extension | [nczz/pi-tasks](https://github.com/nczz/pi-tasks) |
+| `npm:pi-web-access` | 0.40.0 | extension | [nicobailon/pi-web-access](https://github.com/nicobailon/pi-web-access) |
 
 Check per package: `npm view <name> version`. Bump by editing `pi/settings.json`;
 pi installs the new version on startup.
@@ -162,7 +169,7 @@ two places here:
   form from the package README's OpenCode section)
 
 ```sh
-npm view @dietrichgebert/ponytail version   # current upstream, compare against 5.1.0
+npm view @dietrichgebert/ponytail version   # current upstream, compare against 5.2.0
 # Bump by editing pi/settings.json (and opencode/opencode.json when present);
 # pi installs the new version on startup. No files are copied into this repo.
 ```
@@ -184,7 +191,7 @@ What the revert gives up: lite's three-tool token economy — irrelevant next to
 a package that cannot talk to DeepSeek at all.
 
 ```sh
-npm view pi-subagents version   # current upstream, compare against 0.76.1
+npm view pi-subagents version   # current upstream, compare against 0.78.0
 # Bump by editing pi/settings.json; pi installs the new version on startup.
 ```
 
@@ -238,7 +245,7 @@ Footer extension showing the active pi-profile name. Vendored verbatim from
 via the wrapper and stays quiet otherwise.
 
 ```sh
-git ls-remote https://github.com/AdrianTJ/pi-profiles HEAD   # resolved_commit fb8b809
+git ls-remote https://github.com/AdrianTJ/pi-profiles HEAD   # resolved_commit ec4dc88
 # New commits? Diff upstream extensions/profile-badge.ts against pi/extensions/profile-badge.ts, re-copy, update pin + footer.
 ```
 

@@ -35,8 +35,8 @@ echo "== git pins =="
 check_git "pro-workflow (deslop upstream)" https://github.com/rohitg00/pro-workflow HEAD 86d5f27
 check_git "engineering-discipline (deslop upstream)" https://github.com/tmdgusya/engineering-discipline HEAD 137dead
 check_git "bro-skills" https://github.com/eukosh/bro-skills refs/heads/main 08d2e07
-check_git "superpowers (brainstorming upstream)" https://github.com/obra/superpowers HEAD 8ca22dba
-check_git "pi-profiles (profile-badge upstream)" https://github.com/AdrianTJ/pi-profiles HEAD fb8b809
+check_git "superpowers (brainstorming upstream)" https://github.com/obra/superpowers HEAD bb92a77
+check_git "pi-profiles (profile-badge upstream)" https://github.com/AdrianTJ/pi-profiles HEAD ec4dc88
 
 echo "== npm pins (pi packages) =="
 check_npm "@dietrichgebert/ponytail" 5.1.0
