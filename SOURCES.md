@@ -36,7 +36,7 @@ rather than remembered. For GitHub sources that is the full commit SHA
 | `brainstorming` | adapted | [obra/superpowers](https://github.com/obra/superpowers) `skills/brainstorming/SKILL.md` | `bb92a77…` | 2026-10-14 | MIT |
 | `harness-configs` | local | none — authored for this repo | — | — | — |
 | `researcher` | local | none — authored for this repo (`pi/agents/`, no upstream) | — | — | — |
-| `profile-badge` | vendored | [AdrianTJ/pi-profiles](https://github.com/AdrianTJ/pi-profiles) `extensions/profile-badge.ts` | `ec4dc88…` | 2026-10-14 | Apache-2.0 |
+| `profile-badge` | vendored | [AdrianTJ/pi-profiles](https://github.com/AdrianTJ/pi-profiles) `extensions/profile-badge.ts` | `74c8716…` | 2026-10-24 | Apache-2.0 |
 | `write-skill` | local | originally agentic_engineering; canonical home here | — | 2026-09-08 | — |
 | `skill-creator` | reference | [anthropics/skills](https://github.com/anthropics/skills) `skills/skill-creator/SKILL.md` | via `npx skills` | — | Apache-2.0 |
 | `validate-results` | local | originally agentic_engineering; canonical home here | — | 2026-09-09 | — |
