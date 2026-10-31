@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Keep tool-injected config out of the tracked harness settings.
 
-Terminal apps and agent managers (Orca, herdr, cmux, ...) rewrite the settings
+Terminal apps and agent managers (Orca, herdr, cmux, Paseo, ...) rewrite the settings
 files this repo symlinks, so their hooks land in `git diff` here. Two rules catch
 that without naming any app:
 
@@ -20,7 +20,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 MAX_SETTINGS_BYTES = 8192
-APP_NAMES = re.compile(r"orca|herdr|cmux", re.IGNORECASE)
+APP_NAMES = re.compile(r"orca|herdr|cmux|paseo", re.IGNORECASE)
 HOOK_REF = re.compile(r"\.claude/hooks/([A-Za-z0-9_.-]+)")
 SETTINGS = ["claude-code/settings.json", "pi/settings.json", "opencode/opencode.json"]
 SCANNED_DIRS = ["pi/extensions", "omp/extensions", "opencode/plugin"]
