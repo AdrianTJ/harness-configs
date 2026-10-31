@@ -1,7 +1,7 @@
 ---
 name: researcher
 description: Research a technical question via web and docs, returning cited evidence. Use proactively when the answer needs current, external, or comparative facts before deciding or implementing.
-tools: [read, grep, find, ls, bash, web_search, fetch]
+tools: read, grep, find, ls, bash, web_search, fetch_content
 model: inherit
 thinking: low
 max_turns: 20
