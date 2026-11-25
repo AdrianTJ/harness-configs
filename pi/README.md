@@ -4,100 +4,49 @@ Config root: `~/.pi/agent/` (project-level equivalent: `.pi/` in a repo).
 
 | Repo path | Links to | What it is |
 |---|---|---|
-| `settings.json` | `~/.pi/agent/settings.json` | All settings, including the `packages` list below. |
-| `keybindings.json` | `~/.pi/agent/keybindings.json` | Key overrides. |
-| `nolo.json` | `~/.pi/agent/nolo.json` | Approval-gate defaults (scope-writes guard, yolo shortcut). Inert unless pi-nolo is installed (marathon only). |
-| `APPEND_SYSTEM.md` | `~/.pi/agent/APPEND_SYSTEM.md` | Appended to the system prompt. (`SYSTEM.md` *replaces* it — use with care.) |
-| `extensions/` | `~/.pi/agent/extensions/` | Locally-authored extensions, auto-discovered as `*.ts` or `*/index.ts`. |
-| `themes/` | `~/.pi/agent/themes/` | Custom themes, hot-reloaded. |
-| `skills/` | `~/.pi/agent/skills/` | pi-only skills. Portable ones go in `shared/skills/`. |
-| `prompts/` | `~/.pi/agent/prompts/` | pi-only prompt templates. Portable ones go in `shared/prompts/`. |
+| `settings.json` | `~/.pi/agent/settings.json` | Model, thinking level, theme, and the `packages` list. |
+| `agents/` | `~/.pi/agent/agents/` | Subagent definitions for pi-subagents (`researcher`). |
 
-`AGENTS.md` is linked from `shared/AGENTS.md`, not stored here.
+`AGENTS.md` is linked from `shared/AGENTS.md`, and shared skills are merged into `~/.pi/agent/skills/`.
+
+The default model is Anthropic's `claude-haiku-5-5` with thinking `high`, so pi needs an Anthropic login (`/login`) or `ANTHROPIC_API_KEY` on each machine.
 
 ## Packages are declared, not vendored
 
-pi has a native mechanism for this, so there's no separate ledger file: the
-`packages` array in `settings.json` *is* the list, and `pi install` writes to it.
-Since `settings.json` is tracked here, installing a package on one machine
-commits it for all of them.
+The `packages` array in `settings.json` is the list, and `pi install` writes to it. Since `settings.json` is tracked, installing a package on one machine commits it for all of them.
 
 ```sh
 pi install npm:some-extension   # adds to packages[] and downloads
 pi list                         # what's declared
-pi update --extensions          # update downloaded packages, reconcile pinned git refs
+pi update --extensions          # update downloaded packages
 pi remove npm:some-extension    # drop it
 ```
 
-`pi update --extensions` never fetches a declared-but-never-downloaded spec, even though it reports "Updated packages" — on a fresh machine, run `pi install` for each spec in `settings.json` first (DEC-001).
+`pi update --extensions` never fetches a declared-but-never-downloaded spec, even though it reports "Updated packages". On a fresh machine, run `pi install` for each spec in `settings.json` first; re-running it on an already-declared spec is safe.
 
-The downloaded code lands in `~/.pi/agent/npm/` and `~/.pi/agent/git/`, which are
-deliberately **not** linked or tracked. Only the
-declaration is version-controlled; the bytes are re-fetched per machine.
-
-Specs accept `npm:pkg`, `npm:@scope/pkg@1.2.3`, `git:github.com/user/repo@v1`, and
-absolute local paths. A spec carrying an explicit version is pinned and skipped by
-`pi update`, so these are intentionally left unpinned — this ecosystem moves fast
-(pi-btw shipped v0.52 within days of writing) and pinning would silently freeze
-them. Pin any package you need to hold still.
+The downloaded code lands in `~/.pi/agent/npm/` and `~/.pi/agent/git/`, which are not linked or tracked. Specs are left unpinned so `pi update` keeps them current; add a version (`npm:pkg@1.2.3`) to hold one still.
 
 ## The installed set
 
 | Package | What it gives you |
 |---|---|
-| `npm:@bacnh85/pi-fff` | FFF-powered fuzzy file and content search. |
-| `npm:@jqwn/pi-ask-user-question` | `ask_user_question` — multi-question TUI dialogs with options, descriptions, and previews, so the model asks instead of guessing. |
-| `npm:@narumitw/pi-btw` | `/btw` side-question thread, answered in an ephemeral UI without polluting the main conversation. |
-| `npm:@dietrichgebert/ponytail` | "Lazy senior dev" mode — YAGNI ladder, stdlib-first, shortest diff. Ships an extension *and* skills. |
-| `npm:pi-subagents` | Sub-agent delegation — foreground/background runs, steering, continuation, worktrees, intercom/supervisor channel. Most-used subagent package for pi. |
-| `npm:pi-tasks` | Evidence-gated task plans that survive compaction and crashes, resumable via `/task-resume`. |
-| `npm:pi-web-access` | Web search, page fetch, and extraction. Keyless by default (Exa MCP + DuckDuckGo fallback); optional keys for Brave/Tavily/Kagi/etc. Also: YouTube/video understanding, GitHub URLs cloned locally instead of scraped. Most-installed web-search extension for pi. |
+| `npm:@bacnh85/pi-fff` | Fuzzy file and content search. |
+| `npm:@jqwn/pi-ask-user-question` | `ask_user_question` dialogs, so the model asks instead of guessing. |
+| `npm:@narumitw/pi-btw` | `/btw` side-question thread that stays out of the main conversation. |
+| `npm:pi-subagents` | Subagent delegation: foreground and background runs, worktrees. |
+| `npm:pi-tasks` | Task plans that survive compaction and crashes, resumable via `/task-resume`. |
+| `npm:pi-web-access` | Web search and page fetch. Keyless by default; optional provider keys go in `~/.pi/agent/web-search.json`, never in `settings.json`. |
 
-Which of these ship skills (ponytail does; the rest are extensions only) is
-recorded in `SOURCES.md` under "pi package skills" — check
-there before assuming a package's skills are accounted for.
-
-Two are worth knowing more about:
-
-**ponytail is cross-harness.** The same npm package carries a `pi` manifest key
-(extension + skills) and an `.opencode/` plugin. So when you set up opencode, it's
-the same package declared a second way — not a second tool to learn.
-
-**pi-web-access needs no key.** Search works out of the box through Exa MCP
-(keyless) with a DuckDuckGo fallback; Codex-auth reuse applies when signed in
-via `/login` codex. Optional keys for other providers (Brave, Tavily, Kagi,
-...) go in `~/.pi/agent/web-search.json` — machine-local, never tracked, and
-keys belong there or in the environment, never in `settings.json`.
-
-**pi-nolo is marathon-only, on purpose.** pi-nolo (no-yolo approval gating) re-registers the builtin `edit` and `bash` tools from Pi's own definitions, which strips SoL-Pi Action Fusion's `then_run` parameter from the schema the model receives when both are loaded (see `../SOURCES.md` for the 2026-09-11 incident). It is deliberately not part of this base set, nor of the daily profile: it ships only in the `marathon` profile, where it gates edits on unattended runs. Its `nolo.json` config is linked here because the extension reads `~/.pi/agent/nolo.json` regardless of the active profile. Do not add `npm:pi-nolo` to this `packages` list.
+`agents/researcher.md` loads pi-web-access into its child sessions by path, so keep that package if you keep the researcher.
 
 ## First run on a new machine
 
 ```sh
-./install.sh --harness pi   # link settings.json and friends
-pi                          # installs missing packages from packages[]
-/login                      # or set a provider API key
+./install.sh --harness pi   # link settings.json, AGENTS.md, agents, skills
+pi install <spec>           # for each package pi list is missing
+pi                          # then /login
 ```
-
-Auth is *not* handled here by design: pi writes credentials to
-`~/.pi/agent/auth.json` at `0600`, which is neither linked nor tracked.
-
-## Local extensions vs packages
-
-`extensions/` is for extensions you write yourself — pi auto-discovers `*.ts` and
-`*/index.ts` there, and since the directory is linked, the source is tracked. Use
-it for glue too small or too personal to publish. Anything from npm or git belongs
-in `packages` instead.
-
-If an external tool ever writes an extension of its own into
-`~/.pi/agent/extensions/`, it lands there as a real untracked file — capture it
-by moving it here and re-linking, or remove it if the tool isn't wanted.
-
-Files an app itself manages and regenerates (state extensions written by tools
-you install) are a third category: leave them in place, untracked. Committing
-them would mean committing the app's updates as they land.
 
 ## Not linked
 
-`sessions/`, `trust.json`, `auth.json`, `models.json` (which can carry custom
-provider keys), and the `npm/` and `git/` package trees are pi's own state.
+`sessions/`, `trust.json`, `auth.json`, `models.json`, `extensions/`, and the `npm/` and `git/` package trees are pi's own state. Apps that install pi extensions (Orca, herdr) write into `~/.pi/agent/extensions/`; leave those untracked.

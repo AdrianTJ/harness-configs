@@ -1,14 +1,13 @@
 {
   "lastChangelogVersion": "1.4.0",
   "theme": "light/dark",
-  "defaultProvider": "opencode-go",
-  "defaultModel": "glm-5.3-flash",
+  "defaultProvider": "anthropic",
+  "defaultModel": "claude-haiku-5-5",
   "defaultThinkingLevel": "high",
   "packages": [
     "npm:@bacnh85/pi-fff",
     "npm:@jqwn/pi-ask-user-question",
     "npm:@narumitw/pi-btw",
-    "npm:@dietrichgebert/ponytail",
     "npm:pi-subagents",
     "npm:pi-tasks",
     "npm:pi-web-access"
