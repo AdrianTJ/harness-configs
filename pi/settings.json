@@ -1,15 +1,15 @@
 {
-  "lastChangelogVersion": "1.4.0",
+  "lastChangelogVersion": "1.6.0",
   "theme": "light/dark",
-  "defaultProvider": "anthropic",
+  "defaultProvider": "opencode-go",
   "defaultModel": "claude-haiku-5-5",
   "defaultThinkingLevel": "high",
   "packages": [
-    "npm:@bacnh85/pi-fff",
-    "npm:@jqwn/pi-ask-user-question",
-    "npm:@narumitw/pi-btw",
     "npm:pi-subagents",
-    "npm:pi-tasks",
-    "npm:pi-web-access"
+    "npm:pi-web-access",
+    "npm:@ff-labs/pi-fff",
+    "npm:pi-ask-user-question",
+    "npm:pi-btw",
+    "npm:pi-tasks"
   ]
 }

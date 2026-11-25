@@ -9,7 +9,7 @@ Config root: `~/.pi/agent/` (project-level equivalent: `.pi/` in a repo).
 
 `AGENTS.md` is linked from `shared/AGENTS.md`, and shared skills are merged into `~/.pi/agent/skills/`.
 
-The default model is Anthropic's `claude-haiku-5-5` with thinking `high`, so pi needs an Anthropic login (`/login`) or `ANTHROPIC_API_KEY` on each machine.
+The default model is `claude-haiku-5-5` with thinking `high`, served through the `opencode-go` provider, so pi needs an opencode-go login (`/login`) on each machine.
 
 ## Packages are declared, not vendored
 
@@ -30,10 +30,10 @@ The downloaded code lands in `~/.pi/agent/npm/` and `~/.pi/agent/git/`, which ar
 
 | Package | What it gives you |
 |---|---|
-| `npm:@bacnh85/pi-fff` | Fuzzy file and content search. |
-| `npm:@jqwn/pi-ask-user-question` | `ask_user_question` dialogs, so the model asks instead of guessing. |
-| `npm:@narumitw/pi-btw` | `/btw` side-question thread that stays out of the main conversation. |
 | `npm:pi-subagents` | Subagent delegation: foreground and background runs, worktrees. |
+| `npm:@ff-labs/pi-fff` | Fuzzy file and content search (`fffind`, `ffgrep`). |
+| `npm:pi-ask-user-question` | `ask_user_question` dialogs, so the model asks instead of guessing. |
+| `npm:pi-btw` | `/btw` side-question thread that stays out of the main conversation. |
 | `npm:pi-tasks` | Task plans that survive compaction and crashes, resumable via `/task-resume`. |
 | `npm:pi-web-access` | Web search and page fetch. Keyless by default; optional provider keys go in `~/.pi/agent/web-search.json`, never in `settings.json`. |
 
