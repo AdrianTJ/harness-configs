@@ -17,9 +17,8 @@ the same output. Everything below serves that.
    ([anthropics/skills](https://github.com/anthropics/skills) — `docx`, `pdf`,
    `pptx`, `xlsx`, `skill-creator` and more). Prefer referencing theirs over
    writing your own when the job is genuinely the same; compose, don't duplicate.
-   This repo's policy: upstream skills that need no adaptation stay out of git
-   and install via `npx skills add` (see `SOURCES.md`); only adapted or local
-   skills get vendored here.
+   This repo's policy: upstream skills stay out of git and install via
+   `npx skills add`; only skills written here live in this repo.
 2. **Draft the content.** If `skill-creator` is available (it installs into
    `~/.agents/skills/` via `npx skills add anthropics/skills --skill
    skill-creator`), use its interview → draft → benchmark process — it is better
@@ -28,9 +27,7 @@ the same output. Everything below serves that.
 3. **Place it and name it.** One directory per skill, containing `SKILL.md`. The
    spec requires the frontmatter **`name` to match the directory name exactly**:
    1–64 characters, lowercase alphanumerics separated by single hyphens.
-   In this repo: `shared/skills/<name>/` for anything two or more harnesses read
-   verbatim, a harness folder (`pi/skills/`, `claude-code/skills/`) for
-   harness-only skills. `merge` entries in `links.conf` pick up new directories
+   In this repo: `shared/skills/<name>/`. `merge` entries in `links.conf` pick up new directories
    automatically — verify with `./install.sh --dry-run`, then `./install.sh`.
 4. **Write the description as the trigger.** It is the *only* thing an agent sees
    when deciding to load the skill, so it must say what the skill does AND when
@@ -48,13 +45,9 @@ the same output. Everything below serves that.
 7. **Verify anything you claim.** Run every command you document before shipping
    it. This is the step people skip and the one that catches real bugs.
    Writing a recipe and believing it is not the same as running it.
-8. **Add evals.** At least one per skill, as `evals/evals.json` beside the
-   `SKILL.md`: a realistic request written as a user would say it (without
-   naming the skill, or the eval only proves the model can follow an instruction
-   you already gave it), plus assertions describing what a good response does.
-9. **Ledger it.** Every skill gets a row in `SOURCES.md` (upstream, pin,
-   license) and, if vendored or adapted, a footer below noting the source.
-   No ledger row, no merge — same rule as a symlink without a `links.conf` line.
+8. **Test it by hand.** Give a realistic request, written as a user would say
+   it and without naming the skill, and check the agent loads the skill and
+   follows the steps.
 
 ## Prune
 
@@ -64,9 +57,8 @@ it. One source of truth per fact: project-wide rules belong in the project's own
 
 ## Output
 
-A spec-conforming `SKILL.md` (plus any `references/`/`scripts/`), at least one
-eval in `evals/evals.json`, and a `SOURCES.md` row — symlinked into place and
-verified with `./install.sh --status`.
+A spec-conforming `SKILL.md` (plus any `references/`/`scripts/`), symlinked
+into place and verified with `./install.sh --status`.
 
 ---
 

@@ -1,14 +1,13 @@
 ---
 name: harness-configs
-description: Install, sync, update, or repair the user's agent harness configs (pi, omp, Claude Code, codex, opencode) from their harness-configs repo. Use when asked to set up harness configuration on a machine, deploy or re-link configs, add a config file to the repo, check whether configs are correctly linked, or undo the linking. Also use when a harness config file appears to be a symlink and the user wants to change it.
+description: Install, sync, update, or repair the user's agent harness configs (pi, Claude Code, codex) from their harness-configs repo. Use when asked to set up harness configuration on a machine, deploy or re-link configs, add a config file to the repo, check whether configs are correctly linked, or undo the linking. Also use when a harness config file appears to be a symlink and the user wants to change it.
 ---
 
 # harness-configs
 
 The user keeps every harness's configuration in one git repo and symlinks it into
 each harness's real config directory. Config files under `~/.pi/agent/`,
-`~/.omp/agent/`, `~/.claude/`, `~/.codex/`, and `~/.config/opencode/` are
-therefore **symlinks into that repo** — editing them edits the repo, and the
+`~/.claude/`, and `~/.codex/` are therefore **symlinks into that repo** — editing them edits the repo, and the
 change should be committed.
 
 ## Find the repo
@@ -41,7 +40,7 @@ The short version, for orientation only:
 ./install.sh --unlink      # remove only symlinks pointing into the repo
 ```
 
-## Two things that are easy to get wrong
+## Things that are easy to get wrong
 
 **Changing a harness config means editing the repo and committing.** A change
 made only in `~/.claude/` either edits the repo through the symlink (commit it)
@@ -52,11 +51,9 @@ next install. Check with `ls -l` whether you're looking at a symlink.
 symlink; `install.sh` does nothing that isn't declared there. A new file in a
 harness folder does nothing until its manifest line exists.
 
-**A skill from outside this repo needs a source entry.** `SOURCES.md` at the
-repo root is the ledger of upstream sources, pinned revisions, and refresh
-procedures for every vendored or referenced skill. Check it (and the skill's
-attribution footer) before updating a skill, and add an entry when vendoring a
-new one.
+**Upstream skills are not vendored.** Skills that need no adaptation are
+installed per machine with `npx skills add`; only skills written for this repo
+live in `shared/skills/`.
 
 Never commit credentials. `auth.json`, `models.json`, `.credentials.json`,
 `settings.local.json`, and session files are deliberately unlinked and gitignored.
